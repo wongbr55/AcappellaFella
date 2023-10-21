@@ -1,0 +1,32 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class GameState {
+}
+class SingerChooseInteractor {
+    -SingerChooseOutputBoundary singerChooseOutputBoundary
+    -SingerChooseDataAccessInterface singerChooseDataAccessInterface
+}
+interface SingerChooseInputBoundary {
+}
+interface SingerChooseOutputBoundary {
+}
+interface SingerChooseDataAccessInterface {
+}
+class APIAccessObject {
+}
+class SingerChooseInputData {
+}
+class SingerChooseOutputData {
+}
+SingerChooseInteractor --* GameState
+SingerChooseInteractor --|> SingerChooseInputBoundary
+APIAccessObject --|> SingerChooseDataAccessInterface
+SingerChooseInteractor --* SingerChooseOutputBoundary
+SingerChooseInteractor --* SingerChooseDataAccessInterface
+SingerChooseInputBoundary --* SingerChooseInputData
+SingerChooseOutputBoundary --* SingerChooseOutputData
+
+@enduml
