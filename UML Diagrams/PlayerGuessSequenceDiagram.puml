@@ -1,0 +1,6 @@
+@startuml
+
+-> PlayerGuessInteractor: checkGuess(PlayerGuessInputData)
+PlayerGuessInteractor -> PlayerGuessOutputBoundary: returnGuess(PlayerGuessOutputData)
+
+@enduml
