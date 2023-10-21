@@ -4,23 +4,43 @@ top to bottom direction
 skinparam linetype ortho
 
 class GameState {
+    -String currentSongTitle
+    -String currentSongArtist
 }
 class SingerChooseInteractor {
     -SingerChooseOutputBoundary singerChooseOutputBoundary
     -SingerChooseDataAccessInterface singerChooseDataAccessInterface
+    +void execute(SingerChooseInputData singerChooseInputData)
 }
 interface SingerChooseInputBoundary {
+    +{abstract} void execute(SingerChooseInputData singerChooseInputData)
 }
 interface SingerChooseOutputBoundary {
+    +{abstract} void prepareSuccessView(SingerChooseOutputData singerChooseOutputData)
+    +{abstract} void prepareFailView(String error)
 }
 interface SingerChooseDataAccessInterface {
+    +{abstract} String retrieveLyrics(String songTitle, String songArtist)
 }
 class APIAccessObject {
+    -{abstract} API Token, etc.
+    +String retrieveLyrics(String songTitle, String songArtist)
 }
 class SingerChooseInputData {
+    -String songTitle
+    -String songArtist
+    +String getSongTitle()
+    +void setSongTitle(String songTitle)
+    +String getSongArtist()
+    +void setSongArtist(String songArtist)
 }
 class SingerChooseOutputData {
+    +String songLyrics
+    +String error
+    +String getSongLyrics()
+    +String getError()
 }
+
 SingerChooseInteractor --* GameState
 SingerChooseInteractor --|> SingerChooseInputBoundary
 APIAccessObject --|> SingerChooseDataAccessInterface
