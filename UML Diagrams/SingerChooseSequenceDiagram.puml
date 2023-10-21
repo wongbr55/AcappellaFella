@@ -1,0 +1,7 @@
+@startuml
+-> SingerChooseInteractor: execute(SingerChooseInputData)
+SingerChooseInteractor -> SingerChooseDataAccessInterface: retrieveLyrics(String song, String artist)
+SingerChooseDataAccessInterface --> SingerChooseInteractor: String lyrics
+SingerChooseInteractor -> SingerChooseOutputBoundary: prepareSuccessView(SingerChooseOutputData)
+SingerChooseInteractor -> SingerChooseOutputBoundary: prepareFailView(String error)
+@enduml
