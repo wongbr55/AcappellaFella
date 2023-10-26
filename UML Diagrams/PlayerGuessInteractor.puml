@@ -1,0 +1,42 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class GameState {
+    -ArrayList<Person> players
+    -Person singer
+    -ArrayList<Song> songs
+    -String currentSong
+
+}
+class PlayerGuessInteractor {
+    -PlayerGuessOutputBoundary playerGuessOutputBoundary
+    +void checkGuess(PlayerGuessInputData playerGuessInputData)
+}
+interface PlayerGuessInputBoundary {
+    +{abstract} void checkGuess(PlayerGuessInputData playerGuessInputData)
+}
+interface PlayerGuessOutputBoundary {
+    +{abstract} void returnGuess(PlayerGuessOutputData playerGuessOutputData)
+}
+
+class PlayerGuessInputData {
+    -String playerAnswer
+    +void setGuess(String playerAnswer)
+}
+
+class PlayerGuessOutputData {
+    +Boolean guessAttempt
+    +String tryAgain
+    +Boolean GuessAttempt(String playerAnswer)
+    +String getTryAgain()
+
+}
+
+PlayerGuessInteractor --* GameState
+PlayerGuessInteractor --|> PlayerGuessInputBoundary
+PlayerGuessInteractor --* PlayerGuessOutputBoundary
+PlayerGuessInputBoundary --* PlayerGuessInputData
+PlayerGuessOutputBoundary --* PlayerGuessOutputData
+@enduml
