@@ -23,9 +23,9 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttons = new JPanel();
-        create = new JButton(HomeViewModel.CREATE_LABEL);
+        create = new JButton(HomeViewModel.CREATE_BUTTON);
         buttons.add(create);
-        join = new JButton(HomeViewModel.JOIN_LABEL);
+        join = new JButton(HomeViewModel.JOIN_BUTTON);
         buttons.add(join);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
