@@ -4,6 +4,7 @@ import java.util.List;
 
 public class GameState {
     private static GameState instance;
+    private String id;
     private Song song;
     private List<Player> players;
     public static GameState getInstance() {
@@ -18,4 +19,11 @@ public class GameState {
     public void setSong(Song song) {
         this.song = song;
     }
+    public String getId() {
+        return this.id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

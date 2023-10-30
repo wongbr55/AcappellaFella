@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class SingerChooseView  extends JPanel implements ActionListener, PropertyChangeListener {
+public class SingerChooseView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "singer choose";
     public final SingerChooseViewModel singerChooseViewModel;
     private final SingerChooseController singerChooseController;

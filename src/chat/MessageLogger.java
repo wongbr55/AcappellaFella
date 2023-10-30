@@ -1,0 +1,70 @@
+package chat;
+import entity.GameState;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.EnumSet;
+
+public class MessageLogger extends ListenerAdapter {
+    final GameState gameState = GameState.getInstance();
+
+    public static void main(String[] args) {
+        String token = "MTE2ODYxMTY2MTEwNDU1MDA0OQ.GwCCJe.kbqaHqtbL5P1msbh7uiddbaSc5gi_VyKWN3ihg";
+
+        EnumSet<GatewayIntent> intents = EnumSet.of(
+                // Enables MessageReceivedEvent for guild (also known as servers)
+                GatewayIntent.GUILD_MESSAGES,
+                // Enables access to message.getContentRaw()
+                GatewayIntent.MESSAGE_CONTENT
+        );
+        try
+        {
+            // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
+            // and only enable the provided set of intents. All other intents are disabled, so you won't receive events for those.
+            JDA jda = JDABuilder.createLight(token, intents)
+                    // On this builder, you are adding all your event listeners and session configuration
+                    .addEventListeners(new MessageLogger())
+                    // Once you're done configuring your jda instance, call build to start and login the bot.
+                    .build();
+
+            // Here you can now start using the jda instance before its fully loaded,
+            // this can be useful for stuff like creating background services or similar.
+
+            // The queue(...) means that we are making a REST request to the discord API server!
+            // Usually, this is done asynchronously on another thread which handles scheduling and rate-limits.
+            // The (ping -> ...) is called a lambda expression, if you're unfamiliar with this syntax it is HIGHLY recommended to look it up!
+            jda.getRestPing().queue(ping ->
+                    // shows ping in milliseconds
+                    System.out.println("Logged in with ping: " + ping)
+            );
+
+            // If you want to access the cache, you can use awaitReady() to block the main thread until the jda instance is fully loaded
+            jda.awaitReady();
+
+            // Now we can access the fully loaded cache and show some statistics or do other cache dependent things
+            System.out.println("Guilds: " + jda.getGuildCache().size());
+        }
+        catch (InterruptedException e)
+        {
+            // Thrown if the awaitReady() call is interrupted
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        MessageChannelUnion channel = event.getChannel();
+        Message message = event.getMessage();
+
+        if (channel.getId().equals(gameState.getId())) {
+            System.out.println(message.getContentRaw());
+        }
+    }
+}

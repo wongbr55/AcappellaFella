@@ -5,6 +5,7 @@ import entity.GameState;
 public class SingerChooseInteractor implements SingerChooseInputBoundary {
     final SingerChooseDataAccessInterface singerChooseDAO;
     final SingerChooseOutputBoundary singerChoosePresenter;
+    final GameState gameState = GameState.getInstance();
 
     public SingerChooseInteractor(SingerChooseDataAccessInterface singerChooseDAO, SingerChooseOutputBoundary singerChoosePresenter) {
         this.singerChooseDAO = singerChooseDAO;
@@ -14,7 +15,6 @@ public class SingerChooseInteractor implements SingerChooseInputBoundary {
     @Override
     public void execute(SingerChooseInputData singerChooseInputData) {
         // Get the current game state and change the song
-        GameState gameState = GameState.getInstance();
         gameState.setSong(singerChooseInputData.getSong());
         // prepare success view
         SingerChooseOutputData singerChooseOutputData = new SingerChooseOutputData();
