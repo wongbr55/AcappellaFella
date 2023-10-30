@@ -38,6 +38,40 @@ public class SingerChooseView  extends JPanel implements ActionListener, Propert
         song3 = new JButton(state.getSong3().toString());
         buttons.add(song3);
 
+        song1.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    if (evt.getSource().equals(song1)) {
+                        SingerChooseState currentState = singerChooseViewModel.getState();
+
+                        singerChooseController.execute(currentState.getSong1());
+                    }
+                }
+            }
+        );
+        song2.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(song2)) {
+                            SingerChooseState currentState = singerChooseViewModel.getState();
+
+                            singerChooseController.execute(currentState.getSong2());
+                        }
+                    }
+                }
+        );
+        song3.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(song3)) {
+                            SingerChooseState currentState = singerChooseViewModel.getState();
+
+                            singerChooseController.execute(currentState.getSong3());
+                        }
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(buttons);

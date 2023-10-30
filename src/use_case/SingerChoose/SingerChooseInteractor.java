@@ -1,5 +1,7 @@
 package use_case.SingerChoose;
 
+import entity.GameState;
+
 public class SingerChooseInteractor implements SingerChooseInputBoundary {
     final SingerChooseDataAccessInterface singerChooseDAO;
     final SingerChooseOutputBoundary singerChoosePresenter;
@@ -10,7 +12,12 @@ public class SingerChooseInteractor implements SingerChooseInputBoundary {
     }
 
     @Override
-    public void execute(SingerChooseInputData singerChooseInputdata) {
-
+    public void execute(SingerChooseInputData singerChooseInputData) {
+        // Get the current game state and change the song
+        GameState gameState = GameState.getInstance();
+        gameState.setSong(singerChooseInputData.getSong());
+        // prepare success view
+        SingerChooseOutputData singerChooseOutputData = new SingerChooseOutputData();
+        singerChoosePresenter.prepareSuccessView(singerChooseOutputData);
     }
 }

@@ -1,8 +1,8 @@
 package interface_adapter.SingerChoose;
 
+import entity.Song;
 import use_case.SingerChoose.SingerChooseInputBoundary;
 import use_case.SingerChoose.SingerChooseInputData;
-import use_case.SingerChoose.SingerChooseInteractor;
 
 public class SingerChooseController {
     final SingerChooseInputBoundary singerChooseInteractor;
@@ -11,7 +11,8 @@ public class SingerChooseController {
         this.singerChooseInteractor = singerChooseInteractor;
     }
 
-    public void execute(SingerChooseInputData singerChooseInputData) {
+    public void execute(Song song) {
+        SingerChooseInputData singerChooseInputData = new SingerChooseInputData(song);
         singerChooseInteractor.execute(singerChooseInputData);
     }
 }
