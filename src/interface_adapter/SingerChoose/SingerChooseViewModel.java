@@ -5,6 +5,7 @@ import interface_adapter.ViewModel;
 import java.beans.PropertyChangeListener;
 
 public class SingerChooseViewModel extends ViewModel {
+    public static final String TITLE_LABEL = "Choose a song!";
     private SingerChooseState state = new SingerChooseState();
 
     public SingerChooseViewModel() {
@@ -19,5 +20,13 @@ public class SingerChooseViewModel extends ViewModel {
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 
+    }
+
+    public SingerChooseState getState() {
+        return state;
+    }
+
+    public void setState(SingerChooseState state) {
+        this.state = state;
     }
 }
