@@ -31,11 +31,11 @@ public class SingerChooseView  extends JPanel implements ActionListener, Propert
 
         JPanel buttons = new JPanel();
         SingerChooseState state = singerChooseViewModel.getState();
-        song1 = new JButton(state.getSong1());
+        song1 = new JButton(state.getSong1().toString());
         buttons.add(song1);
-        song2 = new JButton(state.getSong2());
+        song2 = new JButton(state.getSong2().toString());
         buttons.add(song2);
-        song3 = new JButton(state.getSong3());
+        song3 = new JButton(state.getSong3().toString());
         buttons.add(song3);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
