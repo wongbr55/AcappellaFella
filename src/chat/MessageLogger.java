@@ -15,7 +15,7 @@ import java.util.EnumSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MessageLogger extends ListenerAdapter {
-    final private String TOKEN = "MTE2ODYxMTY2MTEwNDU1MDA0OQ.GwCCJe.kbqaHqtbL5P1msbh7uiddbaSc5gi_VyKWN3ihg";
+    final private String TOKEN = System.getenv("DISCORD_TOKEN");
     final private String GUILD_ID = "1168619453492236421";
     final private EnumSet<GatewayIntent> intents = EnumSet.of(
             // Enables MessageReceivedEvent for guild (also known as servers)

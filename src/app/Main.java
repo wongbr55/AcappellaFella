@@ -1,6 +1,9 @@
 package app;
 
 import data_access.APIDataAccessObject;
+import data_access.InMemoryGameStateGameStateDataAccessObject;
+import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
+import data_access.InMemoryPlayerDataAccessObject;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
 import view.SingerChooseView;
@@ -30,9 +33,14 @@ public class Main {
 
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
-        APIDataAccessObject DAO = new APIDataAccessObject();
 
-        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, DAO);
+        // DAOs
+        InMemoryGameStateGameStateDataAccessObject GameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
+        InMemoryMessageMessageHistoryHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageMessageHistoryHistoryDataAccessObject();
+        InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
+
+        // Views
+        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, GameStateDAO);
 
         views.add(singerChooseView, singerChooseView.viewName);
 
