@@ -13,7 +13,7 @@ public class ChatViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public ChatViewModel() {
-        super("MessageLogger");
+        super("message_logger");
     }
 
     @Override

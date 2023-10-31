@@ -10,7 +10,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class ChatView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "MessageLogger";
+    public final String viewName = "message_logger";
     public ChatViewModel chatViewModel;
     private final JTextField messageInputField;
     private final JTextArea pastMessages;
