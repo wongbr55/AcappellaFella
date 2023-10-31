@@ -5,9 +5,11 @@ import data_access.InMemoryGameStateGameStateDataAccessObject;
 import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
 import entity.Song;
+import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
+import view.ChatView;
 import view.SingerChooseView;
 import view.ViewManager;
 
@@ -35,6 +37,7 @@ public class Main {
 
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
+        ChatViewModel chatViewModel = new ChatViewModel();
 
         /*
          todo remove later
@@ -57,10 +60,12 @@ public class Main {
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, GameStateDAO);
+        ChatView chatView =  ChatUseCaseFactory.create(chatViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
+        views.add(chatView, chatView.viewName);
 
-        viewManagerModel.setActiveView(singerChooseView.viewName);
+        viewManagerModel.setActiveView(chatView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

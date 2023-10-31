@@ -1,6 +1,6 @@
 package interface_adapter.SendMessage;
 
-import chat.MessageLogger;
+import MessageLogger.MessageLogger;
 import entity.MessageHistory;
 import use_case.SendMessage.SendMessageOutputBoundary;
 import use_case.SendMessage.SendMessageOutputData;

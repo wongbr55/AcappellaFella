@@ -1,6 +1,5 @@
 package interface_adapter.ReceiveMessage;
 
-import chat.MessageLogger;
 import entity.MessageHistory;
 import use_case.ReceiveMessage.ReceiveMessageOutputBoundary;
 import use_case.ReceiveMessage.ReceiveMessageOutputData;

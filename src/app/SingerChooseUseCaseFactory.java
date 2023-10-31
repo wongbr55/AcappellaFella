@@ -20,18 +20,12 @@ public class SingerChooseUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SingerChooseViewModel singerChooseViewModel,
             SingerChooseGameStateDataAccessInterface DAO) {
-        try {
-            SingerChooseController singerChooseController = createSingerChooseUseCase(viewManagerModel, singerChooseViewModel, DAO);
-            return new SingerChooseView(singerChooseViewModel, singerChooseController);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not open user data file.");
-        }
-
-        return null;
+        SingerChooseController singerChooseController = createSingerChooseUseCase(viewManagerModel, singerChooseViewModel, DAO);
+        return new SingerChooseView(singerChooseViewModel, singerChooseController);
     }
     private static SingerChooseController createSingerChooseUseCase(ViewManagerModel viewManagerModel,
                                                                   SingerChooseViewModel singerChooseViewModel,
-                                                                  SingerChooseGameStateDataAccessInterface DAO) throws IOException {
+                                                                  SingerChooseGameStateDataAccessInterface DAO) {
 
         // Notice how we pass this method's parameters to the Presenter.
         SingerChooseOutputBoundary singerChooseOutputBoundary = new SingerChoosePresenter(viewManagerModel, singerChooseViewModel);
