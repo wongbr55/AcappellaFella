@@ -4,6 +4,8 @@ import data_access.APIDataAccessObject;
 import data_access.InMemoryGameStateGameStateDataAccessObject;
 import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
+import entity.Song;
+import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
 import view.SingerChooseView;
@@ -33,6 +35,20 @@ public class Main {
 
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
+
+        /*
+         todo remove later
+         temp init for singerChooseViewModel
+         needs to go in the RunGame use case somewhere
+        */
+        SingerChooseState singerChooseState = singerChooseViewModel.getState();
+        Song song1 = new Song("Queen", "Don't Stop Me now");
+        Song song2 = new Song("Queen", "Bohemian Rhapsody");
+        Song song3 = new Song("Queen", "Another One Bites The Dust");
+        singerChooseState.setSong1(song1);
+        singerChooseState.setSong2(song2);
+        singerChooseState.setSong3(song3);
+        singerChooseViewModel.setState(singerChooseState);
 
         // DAOs
         InMemoryGameStateGameStateDataAccessObject GameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
