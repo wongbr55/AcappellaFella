@@ -7,12 +7,6 @@ public class GameState {
     private String id;
     private Song song;
     private List<Player> players;
-    public static GameState getInstance() {
-        if (instance == null) {
-            instance = new GameState();
-        }
-        return instance;
-    }
     public Song getSong() {
         return this.song;
     }

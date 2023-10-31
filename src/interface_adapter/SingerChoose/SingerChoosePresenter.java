@@ -15,11 +15,11 @@ public class SingerChoosePresenter implements SingerChooseOutputBoundary {
 
     @Override
     public void prepareSuccessView(SingerChooseOutputData singerChooseOutputData) {
-
+        // todo
     }
 
     @Override
     public void prepareFailView(String error) {
-
+        // todo
     }
 }

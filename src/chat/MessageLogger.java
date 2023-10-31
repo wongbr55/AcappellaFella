@@ -2,8 +2,9 @@ package chat;
 import entity.GameState;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -11,29 +12,37 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MessageLogger extends ListenerAdapter {
-    final GameState gameState = GameState.getInstance();
+    final private String TOKEN = "MTE2ODYxMTY2MTEwNDU1MDA0OQ.GwCCJe.kbqaHqtbL5P1msbh7uiddbaSc5gi_VyKWN3ihg";
+    final private String GUILD_ID = "1168619453492236421";
+    final private EnumSet<GatewayIntent> intents = EnumSet.of(
+            // Enables MessageReceivedEvent for guild (also known as servers)
+            GatewayIntent.GUILD_MESSAGES,
+            // Enables access to message.getContentRaw()
+            GatewayIntent.MESSAGE_CONTENT
+    );
+    private JDA jda;
+    private Guild guild;
+    private TextChannel channel;
 
     public static void main(String[] args) {
-        String token = "MTE2ODYxMTY2MTEwNDU1MDA0OQ.GwCCJe.kbqaHqtbL5P1msbh7uiddbaSc5gi_VyKWN3ihg";
+        MessageLogger logger = new MessageLogger();
+    }
 
-        EnumSet<GatewayIntent> intents = EnumSet.of(
-                // Enables MessageReceivedEvent for guild (also known as servers)
-                GatewayIntent.GUILD_MESSAGES,
-                // Enables access to message.getContentRaw()
-                GatewayIntent.MESSAGE_CONTENT
-        );
+    public MessageLogger() {
         try
         {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
             // and only enable the provided set of intents. All other intents are disabled, so you won't receive events for those.
-            JDA jda = JDABuilder.createLight(token, intents)
+            this.jda = JDABuilder.createLight(TOKEN, intents)
                     // On this builder, you are adding all your event listeners and session configuration
                     .addEventListeners(new MessageLogger())
                     // Once you're done configuring your jda instance, call build to start and login the bot.
                     .build();
-
+            // get main guild
+            guild = this.jda.getGuildById(GUILD_ID);
             // Here you can now start using the jda instance before its fully loaded,
             // this can be useful for stuff like creating background services or similar.
 
@@ -63,8 +72,25 @@ public class MessageLogger extends ListenerAdapter {
         MessageChannelUnion channel = event.getChannel();
         Message message = event.getMessage();
 
-        if (channel.getId().equals(gameState.getId())) {
+        if (channel.getId().equals(channel.getId())) {
             System.out.println(message.getContentRaw());
         }
+    }
+
+    public void sendMessage(String content) {
+        channel.sendMessage(content).queue();
+    }
+
+    public String createChannel(String name) {
+        // literally no idea what this does lol
+        AtomicReference<String> res = new AtomicReference<>("");
+        guild.createTextChannel(name).queue(channel -> {
+            res.set(channel.getId());
+        });
+        return res.get();
+    }
+
+    public void setChannel(String id) {
+        channel = guild.getTextChannelById(id);
     }
 }

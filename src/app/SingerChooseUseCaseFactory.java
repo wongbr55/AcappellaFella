@@ -4,7 +4,7 @@ import interface_adapter.SingerChoose.SingerChooseController;
 import interface_adapter.SingerChoose.SingerChoosePresenter;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
-import use_case.SingerChoose.SingerChooseDataAccessInterface;
+import use_case.SingerChoose.SingerChooseGameStateDataAccessInterface;
 import use_case.SingerChoose.SingerChooseInputBoundary;
 import use_case.SingerChoose.SingerChooseInteractor;
 import use_case.SingerChoose.SingerChooseOutputBoundary;
@@ -19,7 +19,7 @@ public class SingerChooseUseCaseFactory {
     public static SingerChooseView create(
             ViewManagerModel viewManagerModel,
             SingerChooseViewModel singerChooseViewModel,
-            SingerChooseDataAccessInterface DAO) {
+            SingerChooseGameStateDataAccessInterface DAO) {
         try {
             SingerChooseController singerChooseController = createSingerChooseUseCase(viewManagerModel, singerChooseViewModel, DAO);
             return new SingerChooseView(singerChooseViewModel, singerChooseController);
@@ -31,7 +31,7 @@ public class SingerChooseUseCaseFactory {
     }
     private static SingerChooseController createSingerChooseUseCase(ViewManagerModel viewManagerModel,
                                                                   SingerChooseViewModel singerChooseViewModel,
-                                                                  SingerChooseDataAccessInterface DAO) throws IOException {
+                                                                  SingerChooseGameStateDataAccessInterface DAO) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
         SingerChooseOutputBoundary singerChooseOutputBoundary = new SingerChoosePresenter(viewManagerModel, singerChooseViewModel);
