@@ -4,11 +4,14 @@ import data_access.APIDataAccessObject;
 import data_access.InMemoryGameStateGameStateDataAccessObject;
 import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
+import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
+import logger.MessageLogger;
 import view.ChatView;
 import view.SingerChooseView;
 import view.ViewManager;
@@ -35,9 +38,20 @@ public class Main {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
+        // Message logger model
+        SendMessageLoggerModel sendMessageLoggerModel = new SendMessageLoggerModel();
+
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
+
+        // DAOs
+        InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
+        InMemoryMessageMessageHistoryHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageMessageHistoryHistoryDataAccessObject();
+        InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
+
+        // Message logger
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(sendMessageLoggerModel);
 
         /*
          todo remove later
@@ -53,14 +67,17 @@ public class Main {
         singerChooseState.setSong3(song3);
         singerChooseViewModel.setState(singerChooseState);
 
-        // DAOs
-        InMemoryGameStateGameStateDataAccessObject GameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
-        InMemoryMessageMessageHistoryHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageMessageHistoryHistoryDataAccessObject();
-        InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
+        // todo remove later
+        messageLogger.setChannel("1168619453492236424");
+
+        // todo remove later
+        Player me = new Player();
+        me.setName("eric");
+        gameStateDAO.getGameState().setMainPlayer(me);
 
         // Views
-        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, GameStateDAO);
-        ChatView chatView =  ChatUseCaseFactory.create(chatViewModel);
+        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(chatView, chatView.viewName);

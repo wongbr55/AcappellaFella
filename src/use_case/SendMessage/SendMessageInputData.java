@@ -3,13 +3,13 @@ package use_case.SendMessage;
 import entity.Message;
 
 public class SendMessageInputData {
-    final private Message message;
+    final private String message;
 
-    public SendMessageInputData(Message message) {
+    public SendMessageInputData(String message) {
         this.message = message;
     }
 
-    public Message getMessage() {
+    public String getMessage() {
         return message;
     }
 }

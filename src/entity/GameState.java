@@ -7,6 +7,7 @@ public class GameState {
     private String id;
     private Song song;
     private List<Player> players;
+    private Player mainPlayer;
     public Song getSong() {
         return this.song;
     }
@@ -20,4 +21,11 @@ public class GameState {
         this.id = id;
     }
 
+    public Player getMainPlayer() {
+        return mainPlayer;
+    }
+
+    public void setMainPlayer(Player mainPlayer) {
+        this.mainPlayer = mainPlayer;
+    }
 }

@@ -1,4 +1,6 @@
-package message_logger;
+package logger;
+import interface_adapter.SendMessage.SendMessageLoggerModel;
+import interface_adapter.SendMessage.SendMessageState;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -10,10 +12,15 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.EnumSet;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MessageLogger extends ListenerAdapter {
+public class MessageLogger extends ListenerAdapter implements PropertyChangeListener {
+    SendMessageLoggerModel sendMessageLoggerModel;
     final private String TOKEN = System.getenv("DISCORD_TOKEN");
     final private String GUILD_ID = "1168619453492236421";
     final private EnumSet<GatewayIntent> intents = EnumSet.of(
@@ -25,12 +32,11 @@ public class MessageLogger extends ListenerAdapter {
     private JDA jda;
     private Guild guild;
     private TextChannel channel;
+    public MessageLogger() {}
 
-    public static void main(String[] args) {
-        MessageLogger logger = new MessageLogger();
-    }
-
-    public MessageLogger() {
+    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel) {
+        this.sendMessageLoggerModel = sendMessageLoggerModel;
+        sendMessageLoggerModel.addPropertyChangeListener(this);
         try
         {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
@@ -40,8 +46,7 @@ public class MessageLogger extends ListenerAdapter {
                     .addEventListeners(new MessageLogger())
                     // Once you're done configuring your jda instance, call build to start and login the bot.
                     .build();
-            // get main guild
-            guild = this.jda.getGuildById(GUILD_ID);
+
             // Here you can now start using the jda instance before its fully loaded,
             // this can be useful for stuff like creating background services or similar.
 
@@ -55,6 +60,9 @@ public class MessageLogger extends ListenerAdapter {
 
             // If you want to access the cache, you can use awaitReady() to block the main thread until the jda instance is fully loaded
             jda.awaitReady();
+
+            // Get main guild
+            guild = this.jda.getGuildById(GUILD_ID);
 
             // Now we can access the fully loaded cache and show some statistics or do other cache dependent things
             System.out.println("Guilds: " + jda.getGuildCache().size());
@@ -76,7 +84,7 @@ public class MessageLogger extends ListenerAdapter {
         }
     }
 
-    public void sendMessage(String content) {
+    private void sendMessage(String content) {
         channel.sendMessage(content).queue();
     }
 
@@ -91,5 +99,13 @@ public class MessageLogger extends ListenerAdapter {
 
     public void setChannel(String id) {
         channel = guild.getTextChannelById(id);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getNewValue() instanceof SendMessageState) {
+            SendMessageState state = (SendMessageState) evt.getNewValue();
+            sendMessage(state.getLastMessage());
+        }
     }
 }

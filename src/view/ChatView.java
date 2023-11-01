@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.Chat.ChatState;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.SendMessage.SendMessageController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,14 +11,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class ChatView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "message_logger";
+    public final String viewName = "logger";
     public ChatViewModel chatViewModel;
+    private final SendMessageController sendMessageController;
     private final JTextField messageInputField;
     private final JTextArea pastMessages;
     private final JButton send;
 
-    public ChatView(ChatViewModel chatViewModel) {
+    public ChatView(ChatViewModel chatViewModel, SendMessageController sendMessageController) {
         this.chatViewModel = chatViewModel;
+        this.sendMessageController = sendMessageController;
         chatViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(ChatViewModel.TITLE_LABEL);
@@ -93,7 +96,7 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
                 public void actionPerformed(ActionEvent evt) {
                     if (evt.getSource().equals(send)) {
                         ChatState currentState = chatViewModel.getState();
-                        // sendMessage.execute();
+                        sendMessageController.execute(currentState.getContent());
                         // clear the messageField after sending the message
                         currentState.setContent("");
                         chatViewModel.setState(currentState);

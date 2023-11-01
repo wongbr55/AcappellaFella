@@ -6,11 +6,8 @@ import entity.MessageHistory;
 public class SendMessageOutputData {
     private Message message;
 
-    private MessageHistory messageHistory;
-
-    public SendMessageOutputData(Message message, MessageHistory messageHistory) {
+    public SendMessageOutputData(Message message) {
         this.message = message;
-        this.messageHistory = messageHistory;
     }
 
     public Message getMessage() {
@@ -19,13 +16,5 @@ public class SendMessageOutputData {
 
     public void setMessage(Message message) {
         this.message = message;
-    }
-
-    public MessageHistory getMessageHistory() {
-        return messageHistory;
-    }
-
-    public void setMessageHistory(MessageHistory messageHistory) {
-        this.messageHistory = messageHistory;
     }
 }

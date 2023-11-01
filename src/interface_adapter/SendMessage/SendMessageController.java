@@ -12,7 +12,7 @@ public class SendMessageController {
         this.sendMessageInteractor = sendMessageInteractor;
     }
 
-    public void execute(Message message) {
+    public void execute(String message) {
         SendMessageInputData sendMessageInputData = new SendMessageInputData(message);
         sendMessageInteractor.execute(sendMessageInputData);
     }

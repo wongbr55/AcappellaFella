@@ -2,23 +2,24 @@ package use_case.SendMessage;
 
 import entity.Message;
 import entity.MessageHistory;
+import entity.Player;
 
 public class SendMessageInteractor implements SendMessageInputBoundary {
-    final SendMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;
+    final SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject;
     final SendMessageOutputBoundary sendMessagePresenter;
 
-    public SendMessageInteractor(SendMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, SendMessageOutputBoundary sendMessagePresenter) {
-        this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
+    public SendMessageInteractor(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject,
+                                 SendMessageOutputBoundary sendMessagePresenter) {
+        this.mainPlayerDataAccessObject = mainPlayerDataAccessObject;
         this.sendMessagePresenter = sendMessagePresenter;
     }
 
     @Override
     public void execute(SendMessageInputData sendMessageInputData) {
-        MessageHistory messageHistory = messageHistoryDataAccessObject.getMessageHistory();
-        Message message = sendMessageInputData.getMessage();
-        // add message to message history
-        messageHistory.addMessage(message);
-        SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(message, messageHistory);
+        Player author = mainPlayerDataAccessObject.getMainPlayer();
+        String content = sendMessageInputData.getMessage();
+        Message message = new Message(author, content);
+        SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(message);
         sendMessagePresenter.prepareSuccessView(sendMessageOutputData);
     }
 }

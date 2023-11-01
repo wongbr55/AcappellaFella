@@ -16,10 +16,9 @@ import java.io.IOException;
 public class SingerChooseUseCaseFactory {
     private SingerChooseUseCaseFactory() {}
 
-    public static SingerChooseView create(
-            ViewManagerModel viewManagerModel,
-            SingerChooseViewModel singerChooseViewModel,
-            SingerChooseGameStateDataAccessInterface DAO) {
+    public static SingerChooseView create(ViewManagerModel viewManagerModel,
+                                          SingerChooseViewModel singerChooseViewModel,
+                                          SingerChooseGameStateDataAccessInterface DAO) {
         SingerChooseController singerChooseController = createSingerChooseUseCase(viewManagerModel, singerChooseViewModel, DAO);
         return new SingerChooseView(singerChooseViewModel, singerChooseController);
     }
