@@ -38,12 +38,6 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
         // Add the JTextArea to a JScrollPane for scrolling
         JScrollPane scrollMessages = new JScrollPane(pastMessages);
 
-        // todo remove later
-        // Display some example past messages
-        pastMessages.append("User 1: Hello!\n");
-        pastMessages.append("User 2: Hi there!\n");
-        pastMessages.append("User 1: How are you?\n");
-
         JPanel messageField = new JPanel();
         messageField.add(messageInputField);
         messageField.add(send);
