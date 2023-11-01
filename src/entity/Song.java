@@ -1,8 +1,13 @@
 package entity;
 
 public class Song {
-    private String title = "";
-    private String artist = "";
+    private String title;
+    private String artist;
+
+    public Song(String artist, String title) {
+        this.artist = artist;
+        this.title = title;
+    }
 
     @Override
     public String toString() {

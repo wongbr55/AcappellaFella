@@ -1,8 +1,18 @@
 package app;
 
 import data_access.APIDataAccessObject;
+import data_access.InMemoryGameStateGameStateDataAccessObject;
+import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
+import data_access.InMemoryPlayerDataAccessObject;
+import entity.Player;
+import entity.Song;
+import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.SendMessage.SendMessageLoggerModel;
+import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
+import logger.MessageLogger;
+import view.ChatView;
 import view.SingerChooseView;
 import view.ViewManager;
 
@@ -28,15 +38,53 @@ public class Main {
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
 
+        // Message logger model
+        SendMessageLoggerModel sendMessageLoggerModel = new SendMessageLoggerModel();
+
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
-        APIDataAccessObject DAO = new APIDataAccessObject();
+        ChatViewModel chatViewModel = new ChatViewModel();
 
-        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, DAO);
+        // DAOs
+        InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
+        InMemoryMessageMessageHistoryHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageMessageHistoryHistoryDataAccessObject();
+        InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
+
+        // Message logger
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel);
+
+        /*
+         todo remove later
+         temp init for singerChooseViewModel
+         needs to go in the RunGame use case somewhere
+        */
+        SingerChooseState singerChooseState = singerChooseViewModel.getState();
+        Song song1 = new Song("Queen", "Don't Stop Me now");
+        Song song2 = new Song("Queen", "Bohemian Rhapsody");
+        Song song3 = new Song("Queen", "Another One Bites The Dust");
+        singerChooseState.setSong1(song1);
+        singerChooseState.setSong2(song2);
+        singerChooseState.setSong3(song3);
+        singerChooseViewModel.setState(singerChooseState);
+
+        // todo remove later
+        messageLogger.setChannel("1168619453492236424");
+
+        // todo remove later
+        Player me = new Player();
+        me.setName("eric");
+        gameStateDAO.getGameState().setMainPlayer(me);
+        gameStateDAO.addPlayer(me);
+        playerDAO.save(me);
+
+        // Views
+        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
+        views.add(chatView, chatView.viewName);
 
-        viewManagerModel.setActiveView(singerChooseView.viewName);
+        viewManagerModel.setActiveView(chatView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
