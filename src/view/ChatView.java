@@ -69,6 +69,14 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
             new KeyListener() {
                 @Override
                 public void keyTyped(KeyEvent e) {
+                    if (e.getKeyChar() == '\n') {
+                        ChatState currentState = chatViewModel.getState();
+                        sendMessageController.execute(currentState.getTypingContent());
+                        // clear the messageField after sending the message
+                        currentState.setTypingContent("");
+                        chatViewModel.setState(currentState);
+                        messageInputField.setText("");
+                    }
                 }
 
                 @Override
