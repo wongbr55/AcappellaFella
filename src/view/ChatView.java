@@ -59,13 +59,13 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
             @Override
             public void focusGained(FocusEvent e) {
                 ChatState currentState = chatViewModel.getState();
-                messageInputField.setText(currentState.getContent());
+                messageInputField.setText(currentState.getTypingContent());
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 ChatState currentState = chatViewModel.getState();
-                if (currentState.getContent().isEmpty()) {
+                if (currentState.getTypingContent().isEmpty()) {
                     messageInputField.setText(ChatViewModel.TYPE_LABEL);
                 }
             }
@@ -85,7 +85,7 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
                 @Override
                 public void keyReleased(KeyEvent e) {
                     ChatState currentState = chatViewModel.getState();
-                    currentState.setContent(messageInputField.getText());
+                    currentState.setTypingContent(messageInputField.getText());
                     chatViewModel.setState(currentState);
                 }
             }
@@ -96,9 +96,9 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
                 public void actionPerformed(ActionEvent evt) {
                     if (evt.getSource().equals(send)) {
                         ChatState currentState = chatViewModel.getState();
-                        sendMessageController.execute(currentState.getContent());
+                        sendMessageController.execute(currentState.getTypingContent());
                         // clear the messageField after sending the message
-                        currentState.setContent("");
+                        currentState.setTypingContent("");
                         chatViewModel.setState(currentState);
                         messageInputField.setText(ChatViewModel.TYPE_LABEL);
                     }
@@ -116,6 +116,9 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if (evt.getNewValue() instanceof ChatState) {
+            ChatState state = (ChatState) evt.getNewValue();
+            pastMessages.setText(state.getMessageHistory());
+        }
     }
 }

@@ -1,4 +1,5 @@
 package logger;
+import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessageState;
 import net.dv8tion.jda.api.JDA;
@@ -12,15 +13,14 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.EnumSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MessageLogger extends ListenerAdapter implements PropertyChangeListener {
-    SendMessageLoggerModel sendMessageLoggerModel;
+    private SendMessageLoggerModel sendMessageLoggerModel;
+    private ReceiveMessageController receiveMessageController;
     final private String TOKEN = System.getenv("DISCORD_TOKEN");
     final private String GUILD_ID = "1168619453492236421";
     final private EnumSet<GatewayIntent> intents = EnumSet.of(
@@ -32,18 +32,20 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private JDA jda;
     private Guild guild;
     private TextChannel channel;
-    public MessageLogger() {}
-
-    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel) {
+    private MessageLogger(ReceiveMessageController receiveMessageController) {
+        this.receiveMessageController = receiveMessageController;
+    }
+    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, ReceiveMessageController receiveMessageController) {
         this.sendMessageLoggerModel = sendMessageLoggerModel;
         sendMessageLoggerModel.addPropertyChangeListener(this);
+
         try
         {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
             // and only enable the provided set of intents. All other intents are disabled, so you won't receive events for those.
             this.jda = JDABuilder.createLight(TOKEN, intents)
                     // On this builder, you are adding all your event listeners and session configuration
-                    .addEventListeners(new MessageLogger())
+                    .addEventListeners(new MessageLogger(receiveMessageController))
                     // Once you're done configuring your jda instance, call build to start and login the bot.
                     .build();
 
@@ -80,7 +82,8 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         Message message = event.getMessage();
 
         if (channel.getId().equals(channel.getId())) {
-            System.out.println(message.getContentRaw());
+            // System.out.println(message.getContentRaw());
+            receiveMessageController.execute(message.getContentRaw());
         }
     }
 

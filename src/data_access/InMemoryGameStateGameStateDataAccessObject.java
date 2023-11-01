@@ -16,4 +16,7 @@ public class InMemoryGameStateGameStateDataAccessObject implements SingerChooseG
     public Player getMainPlayer() {
         return gameState.getMainPlayer();
     }
+    public void addPlayer(Player player) {
+        gameState.addPlayer(player);
+    }
 }

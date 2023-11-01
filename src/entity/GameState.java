@@ -1,12 +1,12 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
-    private static GameState instance;
     private String id;
     private Song song;
-    private List<Player> players;
+    private final List<Player> players = new ArrayList<>();
     private Player mainPlayer;
     public Song getSong() {
         return this.song;
@@ -20,12 +20,13 @@ public class GameState {
     public void setId(String id) {
         this.id = id;
     }
-
     public Player getMainPlayer() {
         return mainPlayer;
     }
-
     public void setMainPlayer(Player mainPlayer) {
         this.mainPlayer = mainPlayer;
+    }
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 }

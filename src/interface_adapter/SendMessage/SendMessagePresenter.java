@@ -13,11 +13,8 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
     @Override
     public void prepareSuccessView(SendMessageOutputData sendMessageOutputData) {
         // send message on discord
-        String content = String.format("%s\n%s",
-                sendMessageOutputData.getMessage().getAuthor().getName(),
-                sendMessageOutputData.getMessage().getContent());
         SendMessageState state = new SendMessageState();
-        state.setLastMessage(content);
+        state.setLastMessage(sendMessageOutputData.getMessage().toString());
         this.sendMessageLoggerModel.setState(state);
         sendMessageLoggerModel.firePropertyChanged();
     }

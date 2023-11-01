@@ -24,7 +24,7 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
 
         // add message to message history
         messageHistory.addMessage(message);
-        ReceiveMessageOutputData receiveMessageOutputData = new ReceiveMessageOutputData(messageHistory);
+        ReceiveMessageOutputData receiveMessageOutputData = new ReceiveMessageOutputData(message);
         receiveMessagePresenter.prepareSuccessView(receiveMessageOutputData);
     }
 }

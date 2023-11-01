@@ -1,21 +1,19 @@
 package use_case.ReceiveMessage;
 
 import entity.Message;
-import entity.MessageHistory;
 
 public class ReceiveMessageOutputData {
+    private Message message = null;
 
-    private MessageHistory messageHistory;
-
-    public ReceiveMessageOutputData(MessageHistory messageHistory) {
-        this.messageHistory = messageHistory;
+    public ReceiveMessageOutputData(Message message) {
+        this.message = message;
     }
 
-    public MessageHistory getMessageHistory() {
-        return messageHistory;
+    public Message getMessage() {
+        return message;
     }
 
-    public void setMessageHistory(MessageHistory messageHistory) {
-        this.messageHistory = messageHistory;
+    public void setMessage(Message message) {
+        this.message = message;
     }
 }

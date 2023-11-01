@@ -9,6 +9,15 @@ public class Message {
         this.content = content;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s\n%s", getAuthor().getName(), getContent());
+    }
+
+    public String toDisplayString() {
+        return String.format("%s: %s", getAuthor().getName(), getContent());
+    }
+
     public Player getAuthor() {
         return author;
     }
