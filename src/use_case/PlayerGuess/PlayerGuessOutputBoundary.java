@@ -1,2 +1,5 @@
-package use_case.PlayerGuess;public interface PlayerGuessOutputBoundary {
+package use_case.PlayerGuess;
+public interface PlayerGuessOutputBoundary {
+
+    public void returnGuess(PlayerGuessOutputData playerGuessOutputData);
 }
