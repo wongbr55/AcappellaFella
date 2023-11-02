@@ -4,5 +4,5 @@ import entity.GameState;
 
 public interface PlayerGuessDataAccessInterface {
 
-    public GameState getGameState();
+    GameState getGameState();
 }

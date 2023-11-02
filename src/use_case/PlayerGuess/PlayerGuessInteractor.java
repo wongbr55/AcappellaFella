@@ -17,7 +17,7 @@ public class PlayerGuessInteractor implements PlayerGuessInputBoundary{
     public void checkGuess(PlayerGuessInputData playerGuessInputData) {
         GameState state = this.playerGuessDataAccessInterface.getGameState();
         String songTitle = state.getSong().getTitle();
-        String guessTitle = playerGuessInputData.song.getTitle();
+        String guessTitle = playerGuessInputData.getSong().getTitle();
         if (songTitle.toLowerCase().equals(guessTitle.toLowerCase())){
             PlayerGuessOutputData playerGuessOutputData = new PlayerGuessOutputData(true);
             this.playerGuessOutputBoundary.returnGuess(playerGuessOutputData);

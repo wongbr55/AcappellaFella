@@ -4,10 +4,14 @@ import entity.Song;
 
 public class PlayerGuessInputData {
 
-    public Song song;
+    private Song song;
 
     public PlayerGuessInputData(Song song){
         this.song = song;
+    }
+
+    public Song getSong(){
+        return this.song;
     }
 
 }
