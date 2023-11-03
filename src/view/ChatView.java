@@ -1,7 +1,9 @@
 package view;
 
+import entity.Song;
 import interface_adapter.Chat.ChatState;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.PlayerGuess.PlayerGuessController;
 import interface_adapter.SendMessage.SendMessageController;
 
 import javax.swing.*;
@@ -14,11 +16,12 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
     public final String viewName = "logger";
     public ChatViewModel chatViewModel;
     private final SendMessageController sendMessageController;
+    private PlayerGuessController playerGuessController;
     private final JTextField messageInputField;
     private final JTextArea pastMessages;
     private final JButton send;
 
-    public ChatView(ChatViewModel chatViewModel, SendMessageController sendMessageController) {
+    public ChatView(ChatViewModel chatViewModel, SendMessageController sendMessageController, PlayerGuessController playerGuessController) {
         this.chatViewModel = chatViewModel;
         this.sendMessageController = sendMessageController;
         chatViewModel.addPropertyChangeListener(this);
@@ -100,6 +103,8 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
                         ChatState currentState = chatViewModel.getState();
                         sendMessageController.execute(currentState.getTypingContent());
                         // clear the messageField after sending the message
+                        Song song = new Song("", currentState.getTypingContent());
+                        playerGuessController.execute(song);
                         currentState.setTypingContent("");
                         chatViewModel.setState(currentState);
                         messageInputField.setText(ChatViewModel.TYPE_LABEL);
