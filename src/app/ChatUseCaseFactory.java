@@ -29,8 +29,7 @@ public class ChatUseCaseFactory {
     private static PlayerGuessController createPlayerGuessController(PlayerGuessViewModel playerGuessViewModel, PlayerGuessDataAccessInterface playerGuessDataAccessInterface){
         PlayerGuessPresenter playerGuessPresenter = new PlayerGuessPresenter(playerGuessViewModel);
         PlayerGuessInteractor playerGuessInteractor = new PlayerGuessInteractor(playerGuessDataAccessInterface, playerGuessPresenter);
-        PlayerGuessController playerGuessController = new PlayerGuessController(playerGuessInteractor);
+        return new PlayerGuessController(playerGuessInteractor);
+}
 
-
-        return playerGuessController;
 }

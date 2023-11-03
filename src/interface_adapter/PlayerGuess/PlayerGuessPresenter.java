@@ -12,6 +12,9 @@ public class PlayerGuessPresenter implements PlayerGuessOutputBoundary {
 
     @Override
     public void returnGuess(PlayerGuessOutputData playerGuessOutputData) {
-
+        if (playerGuessOutputData.checkCorrect()){
+            // todo if it is correct, display correct
+        }
+        // todo otherwise, say it is not
     }
 }
