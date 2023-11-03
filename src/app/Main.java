@@ -7,12 +7,14 @@ import data_access.InMemoryPlayerDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
 import view.ChatView;
+import view.PlayerGuessView;
 import view.SingerChooseView;
 import view.ViewManager;
 
@@ -44,6 +46,7 @@ public class Main {
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
+        PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
 
         // DAOs
         InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
@@ -79,10 +82,12 @@ public class Main {
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO);
+        PlayerGuessView playerGuessView = PlayerGuessUseCaseFactory.createView(chatView);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(chatView, chatView.viewName);
+        views.add(playerGuessView, playerGuessView.viewName);
 
         viewManagerModel.setActiveView(chatView.viewName);
         viewManagerModel.firePropertyChanged();

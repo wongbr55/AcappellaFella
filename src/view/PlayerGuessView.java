@@ -12,20 +12,19 @@ import java.beans.PropertyChangeListener;
 
 public class PlayerGuessView  extends JPanel implements ActionListener, PropertyChangeListener {
 
+    public String viewName = "player guess";
     public PlayerGuessViewModel playerGuessViewModel;
     private PlayerGuessController playerGuessController;
     private ChatView chatView;
 
-    public PlayerGuessView(PlayerGuessViewModel playerGuessViewModel, PlayerGuessController playerGuessController, ChatView chatView) {
-        this.playerGuessViewModel = playerGuessViewModel;
-        this.playerGuessController = playerGuessController;
+    public PlayerGuessView(ChatView chatView) {
         this.chatView = chatView;
 
 //        playerGuessViewModel.addPropertyChangeListener(this);
 //
 //
 
-        JLabel title = new JLabel(playerGuessViewModel.getTitleLabel());
+        JLabel title = new JLabel("Guess!");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel panel = new JPanel();
