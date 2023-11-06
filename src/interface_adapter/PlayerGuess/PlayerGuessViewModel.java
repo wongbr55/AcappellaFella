@@ -5,14 +5,18 @@ import interface_adapter.ViewModel;
 import java.beans.PropertyChangeListener;
 
 public class PlayerGuessViewModel extends ViewModel {
-    public static final String TITLE_LABEL = "Guess the Song!";
 
+    private PlayerGuessState playerGuessState = new PlayerGuessState();
     public PlayerGuessViewModel(){
         super("player guess");
     }
 
-    public String getTitleLabel(){
-        return this.TITLE_LABEL;
+    public void setState(PlayerGuessState playerGuessState){
+        this.playerGuessState = playerGuessState
+    }
+
+    public PlayerGuessState getState(){
+        return this.playerGuessState;
     }
 
     @Override
