@@ -54,7 +54,7 @@ public class Main {
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, playerGuessViewModel, gameStateDAO, viewManagerModel);
 
         /*
          todo remove later
@@ -70,26 +70,38 @@ public class Main {
         singerChooseState.setSong3(song3);
         singerChooseViewModel.setState(singerChooseState);
 
+
+        // todo remove later
+        // set a song for testing
+        gameStateDAO.getGameState().setSong(song1);
+
+
         // todo remove later
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
         Player me = new Player();
-        me.setName("eric");
+        me.setName("Brandon");
         gameStateDAO.getGameState().setMainPlayer(me);
         gameStateDAO.addPlayer(me);
         playerDAO.save(me);
 
+        Player you = new Player();
+        you.setName("eric");
+        gameStateDAO.addPlayer(you);
+        playerDAO.save(you);
+
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO);
-        PlayerGuessView playerGuessView = PlayerGuessUseCaseFactory.createView(chatView);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
+        PlayerGuessView playerGuessView = PlayerGuessUseCaseFactory.createView(chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
-        views.add(chatView, chatView.viewName);
+        // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
+//        views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
 
-        viewManagerModel.setActiveView(chatView.viewName);
+        viewManagerModel.setActiveView(playerGuessView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

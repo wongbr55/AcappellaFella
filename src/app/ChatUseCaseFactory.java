@@ -15,10 +15,9 @@ import view.ChatView;
 
 public class ChatUseCaseFactory {
     private ChatUseCaseFactory() {}
-    public static ChatView create(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, ChatViewModel chatViewModel, SendMessageLoggerModel sendMessageLoggerModel, PlayerGuessViewModel playerGuessViewModel, PlayerGuessDataAccessInterface playerGuessDataAccessInterface, ViewManagerModel viewManagerModel) {
+    public static ChatView create(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, ChatViewModel chatViewModel, SendMessageLoggerModel sendMessageLoggerModel) {
         SendMessageController sendMessageController = createSendMessageUseCase(mainPlayerDataAccessObject, sendMessageLoggerModel);
-        PlayerGuessController playerGuessController = createPlayerGuessController(playerGuessViewModel, playerGuessDataAccessInterface, viewManagerModel);
-        return new ChatView(chatViewModel, sendMessageController, playerGuessController);
+        return new ChatView(chatViewModel, sendMessageController);
     }
     private static SendMessageController createSendMessageUseCase(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, SendMessageLoggerModel sendMessageLoggerModel) {
         SendMessageOutputBoundary sendMessageOutputBoundary = new SendMessagePresenter(sendMessageLoggerModel);
@@ -26,10 +25,6 @@ public class ChatUseCaseFactory {
         return new SendMessageController(sendMessageInputBoundary);
     }
 
-    private static PlayerGuessController createPlayerGuessController(PlayerGuessViewModel playerGuessViewModel, PlayerGuessDataAccessInterface playerGuessDataAccessInterface, ViewManagerModel viewManagerModel){
-        PlayerGuessPresenter playerGuessPresenter = new PlayerGuessPresenter(playerGuessViewModel, viewManagerModel);
-        PlayerGuessInteractor playerGuessInteractor = new PlayerGuessInteractor(playerGuessDataAccessInterface, playerGuessPresenter);
-        return new PlayerGuessController(playerGuessInteractor);
-}
+
 
 }

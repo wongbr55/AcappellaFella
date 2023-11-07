@@ -12,8 +12,8 @@ import view.PlayerGuessView;
 public class PlayerGuessUseCaseFactory {
     private PlayerGuessUseCaseFactory(){}
 
-    public static PlayerGuessView createView(ChatView chatView){
-        return new PlayerGuessView(chatView);
+    public static PlayerGuessView createView(ChatView chatView, PlayerGuessViewModel playerGuessViewModel){
+        return new PlayerGuessView(chatView, playerGuessViewModel);
     }
 
     }

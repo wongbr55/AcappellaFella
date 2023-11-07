@@ -1,17 +1,20 @@
 package use_case.PlayerGuess;
 
-import entity.Song;
-
 public class PlayerGuessInputData {
 
-    private Song song;
+    private final String song;
+    private final String user;
 
-    public PlayerGuessInputData(Song song){
+    public PlayerGuessInputData(String song, String user){
         this.song = song;
+        this.user = user;
     }
 
-    public Song getSong(){
+    public String getSong(){
         return this.song;
+    }
+    public String getUser(){
+        return this.user;
     }
 
 }
