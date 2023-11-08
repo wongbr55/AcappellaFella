@@ -6,7 +6,7 @@ import data_access.InMemoryPlayerDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
-import interface_adapter.PlayerGuess.PlayerGuessViewModel;
+import interface_adapter.CheckGuess.CheckGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
@@ -45,7 +45,7 @@ public class Main {
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
-        PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
+        CheckGuessViewModel checkGuessViewModel = new CheckGuessViewModel();
 
         // DAOs
         InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
@@ -53,7 +53,7 @@ public class Main {
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, playerGuessViewModel, gameStateDAO, viewManagerModel);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, checkGuessViewModel, gameStateDAO, viewManagerModel);
 
         /*
          todo remove later
@@ -93,7 +93,7 @@ public class Main {
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
-        PlayerGuessView playerGuessView = PlayerGuessUseCaseFactory.createView(chatView, playerGuessViewModel);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, checkGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView

@@ -1,29 +1,29 @@
-package interface_adapter.PlayerGuess;
+package interface_adapter.CheckGuess;
 
 import interface_adapter.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class PlayerGuessViewModel extends ViewModel {
+public class CheckGuessViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
-    private PlayerGuessState playerGuessState = new PlayerGuessState();
+    private CheckGuessState checkGuessState = new CheckGuessState();
 
-    public PlayerGuessViewModel() {
+    public CheckGuessViewModel() {
         super("player guess");
     }
 
-    public PlayerGuessState getState() {
-        return this.playerGuessState;
+    public CheckGuessState getState() {
+        return this.checkGuessState;
     }
 
-    public void setState(PlayerGuessState playerGuessState) {
-        this.playerGuessState = playerGuessState;
+    public void setState(CheckGuessState checkGuessState) {
+        this.checkGuessState = checkGuessState;
     }
 
     @Override
     public void firePropertyChanged() {
-        support.firePropertyChange("state", null, this.playerGuessState);
+        support.firePropertyChange("state", null, this.checkGuessState);
     }
 
     @Override

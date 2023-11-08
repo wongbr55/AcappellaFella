@@ -3,17 +3,17 @@ package use_case.ReceiveMessage;
 import entity.Message;
 import entity.MessageHistory;
 import entity.Player;
-import use_case.PlayerGuess.PlayerGuessInputData;
-import use_case.PlayerGuess.PlayerGuessInteractor;
+import use_case.CheckGuess.CheckGuessInputData;
+import use_case.CheckGuess.CheckGuessInteractor;
 
 public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
-    final PlayerGuessInteractor playerGuessInteractor;
+    final CheckGuessInteractor playerGuessInteractor;
 
     public ReceiveMessageInteractor(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
-                                    ReceiveMessageOutputBoundary receiveMessagePresenter, PlayerGuessInteractor playerGuessInteractor) {
+                                    ReceiveMessageOutputBoundary receiveMessagePresenter, CheckGuessInteractor playerGuessInteractor) {
         this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
         this.playerDataAccessObject = playerDataAccessObject;
         this.receiveMessagePresenter = receiveMessagePresenter;
@@ -27,8 +27,8 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         Message message = new Message(player, receiveMessageInputData.getContent());
 
         // call the PlayerGuess use case
-        PlayerGuessInputData playerGuessInputData = new PlayerGuessInputData(receiveMessageInputData.getContent(), player.getName());
-        this.playerGuessInteractor.checkGuess(playerGuessInputData);
+        CheckGuessInputData checkGuessInputData = new CheckGuessInputData(receiveMessageInputData.getContent(), player.getName());
+        this.playerGuessInteractor.checkGuess(checkGuessInputData);
 
 
         // add message to message history

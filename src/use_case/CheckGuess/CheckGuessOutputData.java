@@ -1,9 +1,9 @@
-package use_case.PlayerGuess;
+package use_case.CheckGuess;
 
-public class PlayerGuessOutputData {
+public class CheckGuessOutputData {
     private final boolean guessIsCorrect;
 
-    public PlayerGuessOutputData(boolean guessIsCorrect) {
+    public CheckGuessOutputData(boolean guessIsCorrect) {
         this.guessIsCorrect = guessIsCorrect;
     }
 

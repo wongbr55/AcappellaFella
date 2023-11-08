@@ -1,7 +1,7 @@
 package view;
 
-import interface_adapter.PlayerGuess.PlayerGuessState;
-import interface_adapter.PlayerGuess.PlayerGuessViewModel;
+import interface_adapter.CheckGuess.CheckGuessState;
+import interface_adapter.CheckGuess.CheckGuessViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,14 +13,14 @@ import java.beans.PropertyChangeListener;
 public class PlayerGuessView extends JPanel implements ActionListener, PropertyChangeListener {
     private final JLabel title;
     public String viewName = "player guess";
-    public PlayerGuessViewModel playerGuessViewModel;
+    public CheckGuessViewModel checkGuessViewModel;
 
-    public PlayerGuessView(ChatView chatView, PlayerGuessViewModel playerGuessViewModel) {
-        this.playerGuessViewModel = playerGuessViewModel;
-        playerGuessViewModel.addPropertyChangeListener(this);
-        PlayerGuessState playerGuessState = playerGuessViewModel.getState();
+    public PlayerGuessView(ChatView chatView, CheckGuessViewModel checkGuessViewModel) {
+        this.checkGuessViewModel = checkGuessViewModel;
+        checkGuessViewModel.addPropertyChangeListener(this);
+        CheckGuessState checkGuessState = checkGuessViewModel.getState();
 
-        this.title = new JLabel(playerGuessState.getTitleLabel());
+        this.title = new JLabel(checkGuessState.getTitleLabel());
         this.title.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(this.title);
         this.add(chatView);
@@ -37,6 +37,6 @@ public class PlayerGuessView extends JPanel implements ActionListener, PropertyC
     public void propertyChange(PropertyChangeEvent evt) {
         // set the text to be either yah or nah based off of guess
         // Must call from presenter however
-        this.title.setText(playerGuessViewModel.getState().getTitleLabel());
+        this.title.setText(checkGuessViewModel.getState().getTitleLabel());
     }
 }

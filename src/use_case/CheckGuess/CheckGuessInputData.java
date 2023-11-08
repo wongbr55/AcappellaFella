@@ -1,10 +1,10 @@
-package use_case.PlayerGuess;
+package use_case.CheckGuess;
 
-public class PlayerGuessInputData {
+public class CheckGuessInputData {
     private final String song;
     private final String user;
 
-    public PlayerGuessInputData(String song, String user) {
+    public CheckGuessInputData(String song, String user) {
         this.song = song;
         this.user = user;
     }
