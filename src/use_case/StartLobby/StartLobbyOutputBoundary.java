@@ -1,2 +1,4 @@
-package use_case.StartLobby;public interface StartLobbyOutputBoundary {
+package use_case.StartLobby;
+
+public interface StartLobbyOutputBoundary {
 }

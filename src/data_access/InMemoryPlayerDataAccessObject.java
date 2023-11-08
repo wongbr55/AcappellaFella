@@ -1,6 +1,5 @@
 package data_access;
 
-import entity.GameState;
 import entity.Player;
 import use_case.ReceiveMessage.ReceiveMessagePlayerDataAccessInterface;
 

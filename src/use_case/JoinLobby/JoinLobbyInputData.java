@@ -1,2 +1,4 @@
-package use_case.JoinLobby;public class JoinLobbyInputData {
+package use_case.JoinLobby;
+
+public class JoinLobbyInputData {
 }

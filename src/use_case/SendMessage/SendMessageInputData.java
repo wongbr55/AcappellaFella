@@ -1,7 +1,5 @@
 package use_case.SendMessage;
 
-import entity.Message;
-
 public class SendMessageInputData {
     final private String message;
 

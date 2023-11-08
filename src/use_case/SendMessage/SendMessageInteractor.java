@@ -1,7 +1,6 @@
 package use_case.SendMessage;
 
 import entity.Message;
-import entity.MessageHistory;
 import entity.Player;
 
 public class SendMessageInteractor implements SendMessageInputBoundary {

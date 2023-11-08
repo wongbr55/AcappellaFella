@@ -8,6 +8,7 @@ public class InMemoryMessageHistoryDataAccessObject implements
         SendMessageMessageHistoryDataAccessInterface,
         ReceiveMessageMessageHistoryDataAccessInterface {
     private final MessageHistory messageHistory = new MessageHistory();
+
     @Override
     public MessageHistory getMessageHistory() {
         return messageHistory;

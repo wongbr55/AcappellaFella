@@ -1,9 +1,10 @@
 package interface_adapter.PlayerGuess;
-public class PlayerGuessState {
 
+public class PlayerGuessState {
     private String titleLabel = "Guess the Song!";
 
-    public PlayerGuessState(){}
+    public PlayerGuessState() {
+    }
 
     public String getTitleLabel() {
         return titleLabel;

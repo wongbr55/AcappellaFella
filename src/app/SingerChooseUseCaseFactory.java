@@ -10,11 +10,9 @@ import use_case.SingerChoose.SingerChooseInteractor;
 import use_case.SingerChoose.SingerChooseOutputBoundary;
 import view.SingerChooseView;
 
-import javax.swing.*;
-import java.io.IOException;
-
 public class SingerChooseUseCaseFactory {
-    private SingerChooseUseCaseFactory() {}
+    private SingerChooseUseCaseFactory() {
+    }
 
     public static SingerChooseView create(ViewManagerModel viewManagerModel,
                                           SingerChooseViewModel singerChooseViewModel,
@@ -22,9 +20,10 @@ public class SingerChooseUseCaseFactory {
         SingerChooseController singerChooseController = createSingerChooseUseCase(viewManagerModel, singerChooseViewModel, DAO);
         return new SingerChooseView(singerChooseViewModel, singerChooseController);
     }
+
     private static SingerChooseController createSingerChooseUseCase(ViewManagerModel viewManagerModel,
-                                                                  SingerChooseViewModel singerChooseViewModel,
-                                                                  SingerChooseGameStateDataAccessInterface DAO) {
+                                                                    SingerChooseViewModel singerChooseViewModel,
+                                                                    SingerChooseGameStateDataAccessInterface DAO) {
 
         // Notice how we pass this method's parameters to the Presenter.
         SingerChooseOutputBoundary singerChooseOutputBoundary = new SingerChoosePresenter(viewManagerModel, singerChooseViewModel);

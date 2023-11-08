@@ -1,4 +1,5 @@
 package use_case.SingerChoose;
+
 import entity.Song;
 
 public class SingerChooseInputData {

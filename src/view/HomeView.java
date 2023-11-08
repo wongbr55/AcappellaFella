@@ -1,5 +1,7 @@
 package view;
 
+import interface_adapter.Home.HomeViewModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +19,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
 
     private final JButton join;
 
-    public HomeView(HomeViewModel homeViewModel){
+    public HomeView(HomeViewModel homeViewModel) {
         this.homeViewModel = homeViewModel;
 
         JLabel title = new JLabel(HomeViewModel.TITLE_LABEL);
