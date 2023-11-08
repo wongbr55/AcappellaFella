@@ -1,5 +1,7 @@
 package view;
 
+import interface_adapter.Home.HomeViewModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
