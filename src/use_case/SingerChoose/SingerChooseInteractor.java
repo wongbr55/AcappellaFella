@@ -1,7 +1,5 @@
 package use_case.SingerChoose;
 
-import entity.GameState;
-
 public class SingerChooseInteractor implements SingerChooseInputBoundary {
     final SingerChooseGameStateDataAccessInterface singerChooseGameStateDataAccessObject;
     final SingerChooseOutputBoundary singerChoosePresenter;

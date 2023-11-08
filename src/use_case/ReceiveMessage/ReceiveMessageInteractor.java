@@ -5,7 +5,6 @@ import entity.MessageHistory;
 import entity.Player;
 import use_case.PlayerGuess.PlayerGuessInputData;
 import use_case.PlayerGuess.PlayerGuessInteractor;
-import use_case.SendMessage.SendMessageOutputData;
 
 public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;

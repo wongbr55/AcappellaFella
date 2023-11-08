@@ -11,10 +11,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class PlayerGuessView extends JPanel implements ActionListener, PropertyChangeListener {
-
+    private final JLabel title;
     public String viewName = "player guess";
     public PlayerGuessViewModel playerGuessViewModel;
-    private final JLabel title;
 
     public PlayerGuessView(ChatView chatView, PlayerGuessViewModel playerGuessViewModel) {
         this.playerGuessViewModel = playerGuessViewModel;
@@ -27,7 +26,6 @@ public class PlayerGuessView extends JPanel implements ActionListener, PropertyC
         this.add(chatView);
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
     }
 
     @Override

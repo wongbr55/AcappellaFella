@@ -1,2 +1,4 @@
-package interface_adapter.StartLobby;public class StartLobbyPresenter {
+package interface_adapter.StartLobby;
+
+public class StartLobbyPresenter {
 }

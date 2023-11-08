@@ -97,7 +97,7 @@ public class Main {
 
         views.add(singerChooseView, singerChooseView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
-//        views.add(chatView, chatView.viewName);
+        // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
 
         viewManagerModel.setActiveView(playerGuessView.viewName);

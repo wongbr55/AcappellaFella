@@ -6,19 +6,19 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class PlayerGuessViewModel extends ViewModel {
-
-    private PlayerGuessState playerGuessState = new PlayerGuessState();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
-    public PlayerGuessViewModel(){
+    private PlayerGuessState playerGuessState = new PlayerGuessState();
+
+    public PlayerGuessViewModel() {
         super("player guess");
     }
 
-    public void setState(PlayerGuessState playerGuessState){
-        this.playerGuessState = playerGuessState;
+    public PlayerGuessState getState() {
+        return this.playerGuessState;
     }
 
-    public PlayerGuessState getState(){
-        return this.playerGuessState;
+    public void setState(PlayerGuessState playerGuessState) {
+        this.playerGuessState = playerGuessState;
     }
 
     @Override

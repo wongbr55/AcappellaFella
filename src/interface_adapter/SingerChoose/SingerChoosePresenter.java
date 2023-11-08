@@ -6,7 +6,7 @@ import use_case.SingerChoose.SingerChooseOutputData;
 
 public class SingerChoosePresenter implements SingerChooseOutputBoundary {
     private final SingerChooseViewModel singerChooseViewModel;
-    private ViewManagerModel viewManagerModel;
+    private final ViewManagerModel viewManagerModel;
 
     public SingerChoosePresenter(ViewManagerModel viewManagerModel, SingerChooseViewModel singerChooseViewModel) {
         this.viewManagerModel = viewManagerModel;

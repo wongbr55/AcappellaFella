@@ -1,9 +1,7 @@
 package interface_adapter.ReceiveMessage;
 
-import entity.Message;
 import use_case.ReceiveMessage.ReceiveMessageInputBoundary;
 import use_case.ReceiveMessage.ReceiveMessageInputData;
-import use_case.ReceiveMessage.ReceiveMessageInteractor;
 
 public class ReceiveMessageController {
     final ReceiveMessageInputBoundary receiveMessageInteractor;

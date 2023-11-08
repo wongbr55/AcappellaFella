@@ -1,2 +1,4 @@
-package interface_adapter.JoinLobby;public class JoinLobbyViewModel {
+package interface_adapter.JoinLobby;
+
+public class JoinLobbyViewModel {
 }

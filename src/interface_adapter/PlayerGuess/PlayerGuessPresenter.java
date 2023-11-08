@@ -5,17 +5,17 @@ import use_case.PlayerGuess.PlayerGuessOutputBoundary;
 import use_case.PlayerGuess.PlayerGuessOutputData;
 
 public class PlayerGuessPresenter implements PlayerGuessOutputBoundary {
-
     private final PlayerGuessViewModel playerGuessViewModel;
     private final ViewManagerModel viewManagerModel;
-    public PlayerGuessPresenter(PlayerGuessViewModel playerGuessViewModel, ViewManagerModel viewManagerModel){
+
+    public PlayerGuessPresenter(PlayerGuessViewModel playerGuessViewModel, ViewManagerModel viewManagerModel) {
         this.playerGuessViewModel = playerGuessViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void returnGuess(PlayerGuessOutputData playerGuessOutputData) {
-        if (playerGuessOutputData.checkCorrect()){
+        if (playerGuessOutputData.checkCorrect()) {
             PlayerGuessState state = this.playerGuessViewModel.getState();
             state.setTitleLabel("That is correct!");
             // change the state of the view model and fire a property change
@@ -24,8 +24,7 @@ public class PlayerGuessPresenter implements PlayerGuessOutputBoundary {
 
             this.viewManagerModel.firePropertyChanged();
             this.viewManagerModel.setActiveView(playerGuessViewModel.getViewName());
-
-        }else{
+        } else {
             PlayerGuessState state = this.playerGuessViewModel.getState();
             state.setTitleLabel("Incorrect! Guess again...");
             // change the state of the view model and fire a property change
@@ -36,6 +35,5 @@ public class PlayerGuessPresenter implements PlayerGuessOutputBoundary {
             this.viewManagerModel.setActiveView(playerGuessViewModel.getViewName());
 
         }
-
     }
 }

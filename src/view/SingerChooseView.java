@@ -39,15 +39,15 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
         buttons.add(song3);
 
         song1.addActionListener(
-            new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    if (evt.getSource().equals(song1)) {
-                        SingerChooseState currentState = singerChooseViewModel.getState();
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(song1)) {
+                            SingerChooseState currentState = singerChooseViewModel.getState();
 
-                        singerChooseController.execute(currentState.getSong1());
+                            singerChooseController.execute(currentState.getSong1());
+                        }
                     }
                 }
-            }
         );
         song2.addActionListener(
                 new ActionListener() {

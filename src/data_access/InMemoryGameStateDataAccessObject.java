@@ -8,6 +8,7 @@ import use_case.SingerChoose.SingerChooseGameStateDataAccessInterface;
 
 public class InMemoryGameStateDataAccessObject implements SingerChooseGameStateDataAccessInterface, SendMessageMainPlayerDataAccessInterface, PlayerGuessDataAccessInterface {
     private final GameState gameState = new GameState();
+
     @Override
     public GameState getGameState() {
         return gameState;
@@ -17,6 +18,7 @@ public class InMemoryGameStateDataAccessObject implements SingerChooseGameStateD
     public Player getMainPlayer() {
         return gameState.getMainPlayer();
     }
+
     public void addPlayer(Player player) {
         gameState.addPlayer(player);
     }

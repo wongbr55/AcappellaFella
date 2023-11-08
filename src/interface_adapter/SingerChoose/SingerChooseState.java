@@ -1,4 +1,5 @@
 package interface_adapter.SingerChoose;
+
 import entity.Song;
 
 public class SingerChooseState {

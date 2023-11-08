@@ -1,5 +1,5 @@
 package use_case.PlayerGuess;
-public interface PlayerGuessOutputBoundary {
 
+public interface PlayerGuessOutputBoundary {
     void returnGuess(PlayerGuessOutputData playerGuessOutputData);
 }
