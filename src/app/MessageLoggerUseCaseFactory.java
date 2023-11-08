@@ -25,13 +25,13 @@ public class MessageLoggerUseCaseFactory {
     private static ReceiveMessageController createMessageLoggerUseCase(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject, ChatViewModel chatViewModel,
                                                                        CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ViewManagerModel viewManagerModel) {
         ReceiveMessageOutputBoundary receiveMessageOutputBoundary = new ReceiveMessagePresenter(chatViewModel);
-        CheckGuessInteractor playerGuessInteractor = createPlayerGuessInteractor(checkGuessViewModel, checkGuessDataAccessInterface, viewManagerModel);
-        ReceiveMessageInputBoundary receiveMessageInputBoundary = new ReceiveMessageInteractor(messageHistoryDataAccessObject, playerDataAccessObject, receiveMessageOutputBoundary, playerGuessInteractor);
+        CheckGuessInteractor checkGuessInteractor = createCheckGuessInteractor(checkGuessViewModel, checkGuessDataAccessInterface, chatViewModel);
+        ReceiveMessageInputBoundary receiveMessageInputBoundary = new ReceiveMessageInteractor(messageHistoryDataAccessObject, playerDataAccessObject, receiveMessageOutputBoundary, checkGuessInteractor);
         return new ReceiveMessageController(receiveMessageInputBoundary);
     }
 
-    private static CheckGuessInteractor createPlayerGuessInteractor(CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ViewManagerModel viewManagerModel) {
-        CheckGuessPresenter checkGuessPresenter = new CheckGuessPresenter(checkGuessViewModel, viewManagerModel);
+    private static CheckGuessInteractor createCheckGuessInteractor(CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ChatViewModel chatViewModel) {
+        CheckGuessPresenter checkGuessPresenter = new CheckGuessPresenter(checkGuessViewModel, chatViewModel);
         return new CheckGuessInteractor(checkGuessDataAccessInterface, checkGuessPresenter);
     }
 }

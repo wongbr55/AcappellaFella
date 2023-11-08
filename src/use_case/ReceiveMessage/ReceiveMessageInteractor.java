@@ -25,15 +25,12 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         MessageHistory messageHistory = messageHistoryDataAccessObject.getMessageHistory();
         Player player = playerDataAccessObject.getByName(receiveMessageInputData.getAuthor());
         Message message = new Message(player, receiveMessageInputData.getContent());
-
-        // call the PlayerGuess use case
-        CheckGuessInputData checkGuessInputData = new CheckGuessInputData(receiveMessageInputData.getContent(), player.getName());
-        this.playerGuessInteractor.checkGuess(checkGuessInputData);
-
-
         // add message to message history
         messageHistory.addMessage(message);
         ReceiveMessageOutputData receiveMessageOutputData = new ReceiveMessageOutputData(message);
         receiveMessagePresenter.prepareSuccessView(receiveMessageOutputData);
+
+        CheckGuessInputData checkGuessInputData = new CheckGuessInputData(receiveMessageInputData.getContent(), player.getName());
+        this.playerGuessInteractor.execute(checkGuessInputData);
     }
 }

@@ -8,6 +8,7 @@ public class GameState {
     private String id;
     private Song song;
     private Player mainPlayer;
+    private Player host;
 
     public Song getSong() {
         return this.song;
@@ -35,5 +36,12 @@ public class GameState {
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public Player getHost() {
+        return host;
+    }
+    public void setHost(Player host) {
+        this.host = host;
     }
 }
