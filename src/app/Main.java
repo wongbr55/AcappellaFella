@@ -1,8 +1,7 @@
 package app;
 
-import data_access.APIDataAccessObject;
-import data_access.InMemoryGameStateGameStateDataAccessObject;
-import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
+import data_access.InMemoryGameStateDataAccessObject;
+import data_access.InMemoryMessageHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
 import entity.Player;
 import entity.Song;
@@ -49,8 +48,8 @@ public class Main {
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
 
         // DAOs
-        InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
-        InMemoryMessageMessageHistoryHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageMessageHistoryHistoryDataAccessObject();
+        InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
+        InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
