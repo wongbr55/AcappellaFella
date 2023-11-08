@@ -2,6 +2,8 @@ package interface_adapter.Home;
 
 import interface_adapter.ViewModel;
 
+import java.beans.PropertyChangeListener;
+
 public class HomeViewModel extends ViewModel {
 
     public static final String TITLE_LABEL = "Acapella Fella";
@@ -11,6 +13,13 @@ public class HomeViewModel extends ViewModel {
     public HomeViewModel() {super("home");}
 
 
+    @Override
+    public void firePropertyChanged() {
 
+    }
 
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+
+    }
 }
