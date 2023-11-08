@@ -8,7 +8,7 @@ public class GameState {
     private String id;
     private Song song;
     private Player mainPlayer;
-    private Player host;
+    private Player announcer;
 
     public Song getSong() {
         return this.song;
@@ -38,10 +38,10 @@ public class GameState {
         players.add(player);
     }
 
-    public Player getHost() {
-        return host;
+    public Player getAnnouncer() {
+        return announcer;
     }
-    public void setHost(Player host) {
-        this.host = host;
+    public void setAnnouncer(Player announcer) {
+        this.announcer = announcer;
     }
 }

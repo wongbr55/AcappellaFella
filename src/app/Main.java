@@ -79,12 +79,12 @@ public class Main {
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
-        // this is the host that announces who has gotten guesses correct
-        Player host = new Player();
-        host.setName("Host");
-        gameStateDAO.addPlayer(host);
-        playerDAO.save(host);
-        gameStateDAO.getGameState().setHost(host);
+        // this is the announcer announces who has gotten guesses correct
+        Player announcer = new Player();
+        announcer.setName("Host");
+        gameStateDAO.addPlayer(announcer);
+        playerDAO.save(announcer);
+        gameStateDAO.getGameState().setAnnouncer(announcer);
 
         Player me = new Player();
         me.setName("Brandon");

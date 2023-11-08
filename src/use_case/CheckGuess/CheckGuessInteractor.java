@@ -22,7 +22,7 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
             state.getMainPlayer().setScore(state.getMainPlayer().getScore() + 1);
             // the score system needs to be more complicated, this is left here as a placeholder
             state.getMainPlayer().hasGuessedTrue();
-            Message message = new Message(state.getHost(), state.getMainPlayer().getName() + " has guessed the answer! They now have "
+            Message message = new Message(state.getAnnouncer(), state.getMainPlayer().getName() + " has guessed the answer! They now have "
                     + state.getMainPlayer().getScore() + " point(s)!");
             CheckGuessOutputData checkGuessOutputData = new CheckGuessOutputData(message);
             this.checkGuessOutputBoundary.returnGuess(checkGuessOutputData);
