@@ -34,11 +34,11 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
             SendMessageInputData sendMessageInputData = new SendMessageInputData(message, state.getAnnouncer());
             this.sendMessageInputBoundary.execute(sendMessageInputData);
         }
-        else{
+        // this is so that if you have already guessed the correct answer, then you cannot type it in the chat
+        else if (!songTitle.equalsIgnoreCase(guessTitle) && !state.getMainPlayer().guessStatus() || !songTitle.equalsIgnoreCase(guessTitle) && state.getMainPlayer().guessStatus()){
             String message = checkGuessInputData.getSong();
             SendMessageInputData sendMessageInputData = new SendMessageInputData(message, state.getMainPlayer());
             this.sendMessageInputBoundary.execute(sendMessageInputData);
         }
-
     }
 }
