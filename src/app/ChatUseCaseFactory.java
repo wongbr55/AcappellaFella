@@ -23,7 +23,7 @@ public class ChatUseCaseFactory {
         SendMessageInteractor sendMessageInteractor = createSendMessageInteractor(mainPlayerDataAccessObject, sendMessageLoggerModel);
         CheckGuessController checkGuessController = createCheckGuessController(sendMessageInteractor, checkGuessGameStateDataAccessInterface, checkGuessRoundStateDataAccessInterface);
         SendMessageController sendMessageController = createSendMessageController(sendMessageInteractor);
-        return new ChatView(chatViewModel, sendMessageController, checkGuessController);
+        return new ChatView(chatViewModel, checkGuessController);
     }
 
     private static SendMessageInteractor createSendMessageInteractor(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, SendMessageLoggerModel sendMessageLoggerModel) {
