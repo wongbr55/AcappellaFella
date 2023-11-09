@@ -3,8 +3,6 @@ package use_case.ReceiveMessage;
 import entity.Message;
 import entity.MessageHistory;
 import entity.Player;
-import use_case.CheckGuess.CheckGuessInputData;
-import use_case.CheckGuess.CheckGuessInteractor;
 
 public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;

@@ -1,15 +1,10 @@
 package app;
 
 import interface_adapter.Chat.ChatViewModel;
-import interface_adapter.CheckGuess.CheckGuessPresenter;
-import interface_adapter.CheckGuess.CheckGuessViewModel;
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.ReceiveMessage.ReceiveMessagePresenter;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
-import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
-import use_case.CheckGuess.CheckGuessDataAccessInterface;
-import use_case.CheckGuess.CheckGuessInteractor;
 import use_case.ReceiveMessage.*;
 
 public class MessageLoggerUseCaseFactory {

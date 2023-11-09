@@ -41,6 +41,7 @@ public class GameState {
     public Player getAnnouncer() {
         return announcer;
     }
+
     public void setAnnouncer(Player announcer) {
         this.announcer = announcer;
     }

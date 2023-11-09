@@ -1,6 +1,5 @@
 package use_case.SendMessage;
 
-import entity.GameState;
 import entity.Message;
 import entity.Player;
 

@@ -6,7 +6,7 @@ public class SendMessageInputData {
     final private String message;
     private Player author;
 
-    public SendMessageInputData(String message, Player author){
+    public SendMessageInputData(String message, Player author) {
         this.author = author;
         this.message = message;
     }
@@ -18,7 +18,8 @@ public class SendMessageInputData {
     public String getMessage() {
         return message;
     }
-    public Player getAuthor(){
+
+    public Player getAuthor() {
         return this.author;
     }
 }

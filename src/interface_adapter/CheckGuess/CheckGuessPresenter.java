@@ -9,6 +9,7 @@ import use_case.CheckGuess.CheckGuessOutputData;
 public class CheckGuessPresenter implements CheckGuessOutputBoundary {
     private final CheckGuessViewModel checkGuessViewModel;
     private final ChatViewModel chatViewModel;
+
     public CheckGuessPresenter(CheckGuessViewModel checkGuessViewModel, ChatViewModel chatViewModel) {
         this.checkGuessViewModel = checkGuessViewModel;
         this.chatViewModel = chatViewModel;

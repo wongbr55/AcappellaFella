@@ -22,13 +22,15 @@ public class Player {
         this.score = score;
     }
 
-    public void hasGuessedTrue(){
+    public void hasGuessedTrue() {
         this.guessedCorrect = true;
     }
-    public void resetGuess(){
+
+    public void resetGuess() {
         this.guessedCorrect = false;
     }
-    public boolean guessStatus(){
+
+    public boolean guessStatus() {
         return this.guessedCorrect;
     }
 }

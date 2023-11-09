@@ -3,7 +3,7 @@ package use_case.CheckGuess;
 import entity.Message;
 
 public class CheckGuessOutputData {
-    private Message message;
+    private final Message message;
 
 
     public CheckGuessOutputData(Message message) {
