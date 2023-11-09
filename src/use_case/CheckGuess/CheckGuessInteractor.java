@@ -10,12 +10,10 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
     private final CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface;
     private final CheckGuessRoundStateDataAccessInterface checkGuessRoundStateDataAccessInterface;
     private final SendMessageInputBoundary sendMessageInputBoundary;
-    private final CheckGuessOutputBoundary checkGuessOutputBoundary;
 
-    public CheckGuessInteractor(CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface, CheckGuessRoundStateDataAccessInterface checkGuessRoundStateDataAccessInterface, CheckGuessOutputBoundary checkGuessOutputBoundary, SendMessageInputBoundary sendMessageInputBoundary) {
+    public CheckGuessInteractor(CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface, CheckGuessRoundStateDataAccessInterface checkGuessRoundStateDataAccessInterface, SendMessageInputBoundary sendMessageInputBoundary) {
         this.checkGuessGameStateDataAccessInterface = checkGuessGameStateDataAccessInterface;
         this.checkGuessRoundStateDataAccessInterface = checkGuessRoundStateDataAccessInterface;
-        this.checkGuessOutputBoundary = checkGuessOutputBoundary;
         this.sendMessageInputBoundary = sendMessageInputBoundary;
     }
 
