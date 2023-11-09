@@ -16,7 +16,7 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
     private final SendMessageController sendMessageController;
     private final CheckGuessController checkGuessController;
     private final JTextField messageInputField;
-    private final JTextArea pastMessages;
+    private final JEditorPane pastMessages;
     private final JButton send;
     public ChatViewModel chatViewModel;
 
@@ -32,11 +32,22 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
         messageInputField = new JTextField(ChatViewModel.TYPE_LABEL, 15);
         send = new JButton(ChatViewModel.SEND_BUTTON_LABEL);
         // Create a JTextArea for displaying past messages
-        pastMessages = new JTextArea(20, 15);
+        pastMessages = new JEditorPane();
+        pastMessages.setContentType("text/html");
         pastMessages.setOpaque(false); // Make it transparent
         pastMessages.setEditable(false); // Make it non-editable
-        pastMessages.setLineWrap(true); // Enable word wrap
-        pastMessages.setWrapStyleWord(true); // Wrap text at word boundaries
+
+        // Define fonts
+        Font font1 = new Font("Arial", Font.PLAIN, 4);
+        Font font2 = new Font("Arial", Font.BOLD, 4);
+
+        // todo remove later
+        String htmlContent = "<html><body>" +
+                "<font face=\"" + font1.getFamily() + "\" size=\"" + font1.getSize() + "\">This is in Arial font.</font><br>" +
+                "<font face=\"" + font2.getFamily() + "\" size=\"" + font2.getSize() + "\">This is in <i>Courier New</i> font.</font>" +
+                "</body></html>";
+
+        pastMessages.setText(htmlContent);
 
         // Add the JTextArea to a JScrollPane for scrolling
         JScrollPane scrollMessages = new JScrollPane(pastMessages);

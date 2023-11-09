@@ -1,8 +1,9 @@
 package app;
 
-import data_access.InMemoryGameStateDataAccessObject;
+import data_access.InMemoryGameStateGameStateDataAccessObject;
 import data_access.InMemoryMessageHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
+import data_access.InMemoryRoundStateDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
@@ -48,7 +49,8 @@ public class Main {
         CheckGuessViewModel checkGuessViewModel = new CheckGuessViewModel();
 
         // DAOs
-        InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
+        InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
+        InMemoryRoundStateDataAccessObject roundStateDAO = new InMemoryRoundStateDataAccessObject();
         InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
@@ -73,6 +75,9 @@ public class Main {
         // todo remove later
         // set a song for testing
         gameStateDAO.getGameState().setSong(song1);
+
+        //todo remove later
+        roundStateDAO.addRound();
 
 
         // todo remove later
@@ -99,7 +104,7 @@ public class Main {
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, checkGuessViewModel, gameStateDAO);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, checkGuessViewModel, gameStateDAO, roundStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, checkGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);

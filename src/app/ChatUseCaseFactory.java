@@ -7,8 +7,9 @@ import interface_adapter.CheckGuess.CheckGuessViewModel;
 import interface_adapter.SendMessage.SendMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessagePresenter;
-import use_case.CheckGuess.CheckGuessDataAccessInterface;
+import use_case.CheckGuess.CheckGuessGameStateDataAccessInterface;
 import use_case.CheckGuess.CheckGuessInteractor;
+import use_case.CheckGuess.CheckGuessRoundStateDataAccessInterface;
 import use_case.SendMessage.SendMessageInputBoundary;
 import use_case.SendMessage.SendMessageInteractor;
 import use_case.SendMessage.SendMessageMainPlayerDataAccessInterface;
@@ -20,15 +21,15 @@ public class ChatUseCaseFactory {
     }
 
     public static ChatView create(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, ChatViewModel chatViewModel, SendMessageLoggerModel sendMessageLoggerModel,
-                                  CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface) {
-        SendMessageInteractor sendMessageInteractor = createSendMessageInteractor(mainPlayerDataAccessObject, sendMessageLoggerModel, checkGuessViewModel, checkGuessDataAccessInterface, chatViewModel);
-        CheckGuessController checkGuessController = createCheckGuessController(sendMessageInteractor, checkGuessViewModel, checkGuessDataAccessInterface, chatViewModel);
+                                  CheckGuessViewModel checkGuessViewModel, CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface, CheckGuessRoundStateDataAccessInterface checkGuessRoundStateDataAccessInterface) {
+        SendMessageInteractor sendMessageInteractor = createSendMessageInteractor(mainPlayerDataAccessObject, sendMessageLoggerModel, checkGuessViewModel, checkGuessGameStateDataAccessInterface, chatViewModel);
+        CheckGuessController checkGuessController = createCheckGuessController(sendMessageInteractor, checkGuessViewModel, checkGuessGameStateDataAccessInterface, checkGuessRoundStateDataAccessInterface, chatViewModel);
         SendMessageController sendMessageController = createSendMessageController(sendMessageInteractor);
         return new ChatView(chatViewModel, sendMessageController, checkGuessController);
     }
 
     private static SendMessageInteractor createSendMessageInteractor(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, SendMessageLoggerModel sendMessageLoggerModel,
-                                                                     CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ChatViewModel chatViewModel) {
+                                                                     CheckGuessViewModel checkGuessViewModel, CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface, ChatViewModel chatViewModel) {
         SendMessageOutputBoundary sendMessageOutputBoundary = new SendMessagePresenter(sendMessageLoggerModel);
 
         return new SendMessageInteractor(mainPlayerDataAccessObject, sendMessageOutputBoundary);
@@ -38,9 +39,9 @@ public class ChatUseCaseFactory {
         return new SendMessageController(sendMessageInteractor);
     }
 
-    private static CheckGuessController createCheckGuessController(SendMessageInputBoundary sendMessageInputBoundary, CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ChatViewModel chatViewModel) {
+    private static CheckGuessController createCheckGuessController(SendMessageInputBoundary sendMessageInputBoundary, CheckGuessViewModel checkGuessViewModel, CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface, CheckGuessRoundStateDataAccessInterface checkGuessRoundStateDataAccessInterface, ChatViewModel chatViewModel) {
         CheckGuessPresenter checkGuessPresenter = new CheckGuessPresenter(checkGuessViewModel, chatViewModel);
-        CheckGuessInteractor checkGuessInteractor = new CheckGuessInteractor(checkGuessDataAccessInterface, checkGuessPresenter, sendMessageInputBoundary);
+        CheckGuessInteractor checkGuessInteractor = new CheckGuessInteractor(checkGuessGameStateDataAccessInterface, checkGuessRoundStateDataAccessInterface, checkGuessPresenter, sendMessageInputBoundary);
         return new CheckGuessController(checkGuessInteractor);
     }
 

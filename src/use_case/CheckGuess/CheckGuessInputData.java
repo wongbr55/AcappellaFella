@@ -1,14 +1,14 @@
 package use_case.CheckGuess;
 
 public class CheckGuessInputData {
-    private final String song;
+    private final String guess;
 
     public CheckGuessInputData(String song) {
-        this.song = song;
+        this.guess = song;
     }
 
-    public String getSong() {
-        return this.song;
+    public String getGuess() {
+        return this.guess;
     }
 
 
