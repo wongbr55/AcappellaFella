@@ -6,16 +6,7 @@ import java.util.List;
 public class GameState {
     private final List<Player> players = new ArrayList<>();
     private String id;
-    private Song song;
     private Player mainPlayer;
-
-    public Song getSong() {
-        return this.song;
-    }
-
-    public void setSong(Song song) {
-        this.song = song;
-    }
 
     public String getId() {
         return this.id;
@@ -36,5 +27,4 @@ public class GameState {
     public void addPlayer(Player player) {
         players.add(player);
     }
-
 }

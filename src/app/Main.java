@@ -71,14 +71,11 @@ public class Main {
         singerChooseState.setSong3(song3);
         singerChooseViewModel.setState(singerChooseState);
 
-
         // todo remove later
-        // set a song for testing
-        gameStateDAO.getGameState().setSong(song1);
-
-        //todo remove later
         roundStateDAO.addRound();
 
+        // set a song for testing
+        roundStateDAO.getCurrentRoundState().setSong(song1);
 
         // todo remove later
         messageLogger.setChannel("1168619453492236424");
@@ -96,7 +93,7 @@ public class Main {
         playerDAO.save(you);
 
         // Views
-        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
+        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, checkGuessViewModel, gameStateDAO, roundStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, checkGuessViewModel);
 

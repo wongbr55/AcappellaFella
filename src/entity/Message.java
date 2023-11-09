@@ -24,6 +24,7 @@ public class Message {
     public String toString() {
         return String.format("%s\n%s\n%s", getType(), getAuthor().getName(), getContent());
     }
+
     // todo this definitely violates srp
     public String toDisplayString() {
         return String.format("%s: %s", getAuthor().getName(), getContent());

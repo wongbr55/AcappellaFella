@@ -24,7 +24,7 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
         GameState gameState = checkGuessGameStateDataAccessInterface.getGameState();
         RoundState roundState = checkGuessRoundStateDataAccessInterface.getCurrentRoundState();
 
-        String songTitle = gameState.getSong().getTitle();
+        String songTitle = roundState.getSong().getTitle();
         String guessTitle = checkGuessInputData.getGuess();
 
         Boolean guessStatus = roundState.getGuessStatusByPlayer(gameState.getMainPlayer());
@@ -33,7 +33,6 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
             String message = checkGuessInputData.getGuess();
             SendMessageInputData sendMessageInputData = new SendMessageInputData(message, gameState.getMainPlayer(), Message.MessageType.GUESSED);
             this.sendMessageInputBoundary.execute(sendMessageInputData);
-            return;
         } else if (songTitle.equalsIgnoreCase(guessTitle)) {
             // hide your guess, and then send a system message that everyone can see
             // todo the score system needs to be more complicated, this is left here as a placeholder
