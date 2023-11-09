@@ -2,7 +2,7 @@ package app;
 
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.CheckGuess.CheckGuessController;
-import interface_adapter.CheckGuess.CheckGuessViewModel;
+import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessagePresenter;
@@ -19,7 +19,7 @@ public class ChatUseCaseFactory {
     private ChatUseCaseFactory() {
     }
 
-    public static ChatView create(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, ChatViewModel chatViewModel, SendMessageLoggerModel sendMessageLoggerModel, CheckGuessViewModel checkGuessViewModel, CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface, CheckGuessRoundStateDataAccessInterface checkGuessRoundStateDataAccessInterface) {
+    public static ChatView create(SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject, ChatViewModel chatViewModel, SendMessageLoggerModel sendMessageLoggerModel, PlayerGuessViewModel playerGuessViewModel, CheckGuessGameStateDataAccessInterface checkGuessGameStateDataAccessInterface, CheckGuessRoundStateDataAccessInterface checkGuessRoundStateDataAccessInterface) {
         SendMessageInteractor sendMessageInteractor = createSendMessageInteractor(mainPlayerDataAccessObject, sendMessageLoggerModel);
         CheckGuessController checkGuessController = createCheckGuessController(sendMessageInteractor, checkGuessGameStateDataAccessInterface, checkGuessRoundStateDataAccessInterface);
         SendMessageController sendMessageController = createSendMessageController(sendMessageInteractor);

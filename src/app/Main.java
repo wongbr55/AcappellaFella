@@ -7,7 +7,7 @@ import data_access.InMemoryRoundStateDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
-import interface_adapter.CheckGuess.CheckGuessViewModel;
+import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
@@ -46,7 +46,7 @@ public class Main {
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
-        CheckGuessViewModel checkGuessViewModel = new CheckGuessViewModel();
+        PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
 
         // DAOs
         InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
@@ -94,8 +94,8 @@ public class Main {
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, checkGuessViewModel, gameStateDAO, roundStateDAO);
-        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, checkGuessViewModel);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
