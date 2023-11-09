@@ -1,18 +1,19 @@
 package app;
 
-import data_access.APIDataAccessObject;
-import data_access.InMemoryGameStateGameStateDataAccessObject;
-import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
+import data_access.InMemoryGameStateDataAccessObject;
+import data_access.InMemoryMessageHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.CheckGuess.CheckGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
 import view.ChatView;
+import view.PlayerGuessView;
 import view.SingerChooseView;
 import view.ViewManager;
 
@@ -44,10 +45,11 @@ public class Main {
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
+        CheckGuessViewModel checkGuessViewModel = new CheckGuessViewModel();
 
         // DAOs
-        InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
-        InMemoryMessageMessageHistoryHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageMessageHistoryHistoryDataAccessObject();
+        InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
+        InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
@@ -67,24 +69,45 @@ public class Main {
         singerChooseState.setSong3(song3);
         singerChooseViewModel.setState(singerChooseState);
 
+
+        // todo remove later
+        // set a song for testing
+        gameStateDAO.getGameState().setSong(song1);
+
+
         // todo remove later
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
+        // this is the announcer announces who has gotten guesses correct
+        Player announcer = new Player();
+        announcer.setName("Host");
+        gameStateDAO.addPlayer(announcer);
+        playerDAO.save(announcer);
+        gameStateDAO.getGameState().setAnnouncer(announcer);
+
         Player me = new Player();
-        me.setName("eric");
+        me.setName("Brandon");
         gameStateDAO.getGameState().setMainPlayer(me);
         gameStateDAO.addPlayer(me);
         playerDAO.save(me);
 
+        Player you = new Player();
+        you.setName("eric");
+        gameStateDAO.addPlayer(you);
+        playerDAO.save(you);
+
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, checkGuessViewModel, gameStateDAO);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, checkGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
-        views.add(chatView, chatView.viewName);
+        // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
+        // views.add(chatView, chatView.viewName);
+        views.add(playerGuessView, playerGuessView.viewName);
 
-        viewManagerModel.setActiveView(chatView.viewName);
+        viewManagerModel.setActiveView(playerGuessView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

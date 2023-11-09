@@ -1,2 +1,4 @@
-package view;public class SingerSingView {
+package view;
+
+public class SingerSingView {
 }

@@ -1,2 +1,4 @@
-package interface_adapter.RunGame;public class RunGameState {
+package interface_adapter.RunGame;
+
+public class RunGameState {
 }

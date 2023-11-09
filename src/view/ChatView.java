@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.Chat.ChatState;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.CheckGuess.CheckGuessController;
 import interface_adapter.SendMessage.SendMessageController;
 
 import javax.swing.*;
@@ -12,15 +13,17 @@ import java.beans.PropertyChangeListener;
 
 public class ChatView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "logger";
-    public ChatViewModel chatViewModel;
     private final SendMessageController sendMessageController;
+    private final CheckGuessController checkGuessController;
     private final JTextField messageInputField;
     private final JTextArea pastMessages;
     private final JButton send;
+    public ChatViewModel chatViewModel;
 
-    public ChatView(ChatViewModel chatViewModel, SendMessageController sendMessageController) {
+    public ChatView(ChatViewModel chatViewModel, SendMessageController sendMessageController, CheckGuessController checkGuessController) {
         this.chatViewModel = chatViewModel;
         this.sendMessageController = sendMessageController;
+        this.checkGuessController = checkGuessController;
         chatViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(ChatViewModel.TITLE_LABEL);
@@ -66,51 +69,54 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
         });
 
         messageInputField.addKeyListener(
-            new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    if (e.getKeyChar() == '\n') {
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (e.getKeyChar() == '\n') {
+                            ChatState currentState = chatViewModel.getState();
+                            //sendMessageController.execute(currentState.getTypingContent());
+                            checkGuessController.checkGuess(currentState.getTypingContent());
+                            // clear the messageField after sending the message
+                            currentState.setTypingContent("");
+                            chatViewModel.setState(currentState);
+                            messageInputField.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
                         ChatState currentState = chatViewModel.getState();
-                        sendMessageController.execute(currentState.getTypingContent());
-                        // clear the messageField after sending the message
-                        currentState.setTypingContent("");
+                        currentState.setTypingContent(messageInputField.getText());
                         chatViewModel.setState(currentState);
-                        messageInputField.setText("");
                     }
                 }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    ChatState currentState = chatViewModel.getState();
-                    currentState.setTypingContent(messageInputField.getText());
-                    chatViewModel.setState(currentState);
-                }
-            }
         );
 
         send.addActionListener(
-            new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    if (evt.getSource().equals(send)) {
-                        ChatState currentState = chatViewModel.getState();
-                        sendMessageController.execute(currentState.getTypingContent());
-                        // clear the messageField after sending the message
-                        currentState.setTypingContent("");
-                        chatViewModel.setState(currentState);
-                        messageInputField.setText(ChatViewModel.TYPE_LABEL);
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(send)) {
+                            ChatState currentState = chatViewModel.getState();
+                            checkGuessController.checkGuess(currentState.getTypingContent());
+                            // sendMessageController.execute(currentState.getTypingContent());
+                            // clear the messageField after sending the message
+                            currentState.setTypingContent("");
+                            chatViewModel.setState(currentState);
+                            messageInputField.setText(ChatViewModel.TYPE_LABEL);
+                        }
                     }
                 }
-            }
         );
 
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.add(chat);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -118,8 +124,7 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getNewValue() instanceof ChatState) {
-            ChatState state = (ChatState) evt.getNewValue();
+        if (evt.getNewValue() instanceof ChatState state) {
             pastMessages.setText(state.getMessageHistory());
         }
     }

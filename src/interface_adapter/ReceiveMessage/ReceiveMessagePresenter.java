@@ -1,12 +1,10 @@
 package interface_adapter.ReceiveMessage;
 
 import entity.Message;
-import entity.MessageHistory;
 import interface_adapter.Chat.ChatState;
 import interface_adapter.Chat.ChatViewModel;
 import use_case.ReceiveMessage.ReceiveMessageOutputBoundary;
 import use_case.ReceiveMessage.ReceiveMessageOutputData;
-import view.ChatView;
 
 public class ReceiveMessagePresenter implements ReceiveMessageOutputBoundary {
     private final ChatViewModel chatViewModel;
