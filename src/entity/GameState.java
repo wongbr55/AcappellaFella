@@ -8,7 +8,6 @@ public class GameState {
     private String id;
     private Song song;
     private Player mainPlayer;
-    private Player announcer;
 
     public Song getSong() {
         return this.song;
@@ -38,11 +37,4 @@ public class GameState {
         players.add(player);
     }
 
-    public Player getAnnouncer() {
-        return announcer;
-    }
-
-    public void setAnnouncer(Player announcer) {
-        this.announcer = announcer;
-    }
 }

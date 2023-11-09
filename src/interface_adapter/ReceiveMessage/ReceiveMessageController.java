@@ -11,9 +11,9 @@ public class ReceiveMessageController {
     }
 
     public void execute(String content) {
-        String[] parts = content.split("\n", 2);
+        String[] parts = content.split("\n", 3);
         // split the content into 2 parts, one containing the author and another containing the message content
-        ReceiveMessageInputData receiveMessageInputData = new ReceiveMessageInputData(parts[0], parts[1]);
+        ReceiveMessageInputData receiveMessageInputData = new ReceiveMessageInputData(parts[1], parts[2], parts[0]);
 
         receiveMessageInteractor.execute(receiveMessageInputData);
     }

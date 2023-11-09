@@ -1,6 +1,7 @@
 package use_case.CheckGuess;
 
 import entity.GameState;
+import entity.Message;
 import entity.RoundState;
 import use_case.SendMessage.SendMessageInputBoundary;
 import use_case.SendMessage.SendMessageInputData;
@@ -28,7 +29,10 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
 
         Boolean guessStatus = roundState.getGuessStatusByPlayer(gameState.getMainPlayer());
         if (guessStatus) {
-            // send a message only the players who have guessed can see
+            // send a message for everyone to see
+            String message = checkGuessInputData.getGuess();
+            SendMessageInputData sendMessageInputData = new SendMessageInputData(message, gameState.getMainPlayer(), Message.MessageType.GUESSED);
+            this.sendMessageInputBoundary.execute(sendMessageInputData);
             return;
         } else if (songTitle.equalsIgnoreCase(guessTitle)) {
             // hide your guess, and then send a system message that everyone can see
@@ -39,7 +43,7 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
             String message = gameState.getMainPlayer().getName() + " has guessed the answer! They now have "
                     + gameState.getMainPlayer().getScore() + " point(s)!";
 
-            SendMessageInputData sendMessageInputData = new SendMessageInputData(message, gameState.getAnnouncer());
+            SendMessageInputData sendMessageInputData = new SendMessageInputData(message, null, Message.MessageType.SYSTEM);
             this.sendMessageInputBoundary.execute(sendMessageInputData);
         } else {
             // send a message for everyone to see

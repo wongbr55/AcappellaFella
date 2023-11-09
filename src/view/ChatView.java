@@ -37,20 +37,9 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
         pastMessages.setOpaque(false); // Make it transparent
         pastMessages.setEditable(false); // Make it non-editable
 
-        // Define fonts
-        Font font1 = new Font("Arial", Font.PLAIN, 4);
-        Font font2 = new Font("Arial", Font.BOLD, 4);
-
-        // todo remove later
-        String htmlContent = "<html><body>" +
-                "<font face=\"" + font1.getFamily() + "\" size=\"" + font1.getSize() + "\">This is in Arial font.</font><br>" +
-                "<font face=\"" + font2.getFamily() + "\" size=\"" + font2.getSize() + "\">This is in <i>Courier New</i> font.</font>" +
-                "</body></html>";
-
-        pastMessages.setText(htmlContent);
-
         // Add the JTextArea to a JScrollPane for scrolling
         JScrollPane scrollMessages = new JScrollPane(pastMessages);
+        scrollMessages.setPreferredSize(new Dimension(300, 200));
 
         JPanel messageField = new JPanel();
         messageField.add(messageInputField);

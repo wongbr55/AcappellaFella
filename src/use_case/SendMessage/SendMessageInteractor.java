@@ -17,7 +17,8 @@ public class SendMessageInteractor implements SendMessageInputBoundary {
     public void execute(SendMessageInputData sendMessageInputData) {
         Player author = sendMessageInputData.getAuthor();
         String content = sendMessageInputData.getMessage();
-        Message message = new Message(author, content);
+        Message.MessageType type = sendMessageInputData.getType();
+        Message message = new Message(author, content, type);
         SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(message);
         sendMessagePresenter.prepareSuccessView(sendMessageOutputData);
     }

@@ -1,7 +1,10 @@
 package interface_adapter.SendMessage;
 
+import entity.Message;
 import use_case.SendMessage.SendMessageOutputBoundary;
 import use_case.SendMessage.SendMessageOutputData;
+
+import java.util.Objects;
 
 public class SendMessagePresenter implements SendMessageOutputBoundary {
     private final SendMessageLoggerModel sendMessageLoggerModel;
@@ -14,7 +17,9 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
     public void prepareSuccessView(SendMessageOutputData sendMessageOutputData) {
         // send message on discord
         SendMessageState state = new SendMessageState();
-        state.setLastMessage(sendMessageOutputData.getMessage().toString());
+        Message message = sendMessageOutputData.getMessage();
+        String lastMessage =  String.format("%s\n%s\n%s", message.getType(), (message.getAuthor() != null) ? message.getAuthor().getName() : "SYSTEM", message.getContent());
+        state.setLastMessage(lastMessage);
         this.sendMessageLoggerModel.setState(state);
         sendMessageLoggerModel.firePropertyChanged();
     }
