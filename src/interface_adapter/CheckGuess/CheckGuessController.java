@@ -4,7 +4,6 @@ import use_case.CheckGuess.CheckGuessInputBoundary;
 import use_case.CheckGuess.CheckGuessInputData;
 
 public class CheckGuessController {
-
     private final CheckGuessInputBoundary checkGuessInputBoundary;
 
     public CheckGuessController(CheckGuessInputBoundary checkGuessInputBoundary) {

@@ -1,12 +1,13 @@
 package app;
 
-import data_access.InMemoryGameStateDataAccessObject;
+import data_access.InMemoryGameStateGameStateDataAccessObject;
 import data_access.InMemoryMessageHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
+import data_access.InMemoryRoundStateDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
-import interface_adapter.CheckGuess.CheckGuessViewModel;
+import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
@@ -45,15 +46,16 @@ public class Main {
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
-        CheckGuessViewModel checkGuessViewModel = new CheckGuessViewModel();
+        PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
 
         // DAOs
-        InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
+        InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
+        InMemoryRoundStateDataAccessObject roundStateDAO = new InMemoryRoundStateDataAccessObject();
         InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO);
 
         /*
          todo remove later
@@ -69,23 +71,16 @@ public class Main {
         singerChooseState.setSong3(song3);
         singerChooseViewModel.setState(singerChooseState);
 
-
         // todo remove later
-        // set a song for testing
-        gameStateDAO.getGameState().setSong(song1);
+        roundStateDAO.addRound();
 
+        // set a song for testing
+        roundStateDAO.getCurrentRoundState().setSong(song1);
 
         // todo remove later
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
-        // this is the announcer announces who has gotten guesses correct
-        Player announcer = new Player();
-        announcer.setName("Host");
-        gameStateDAO.addPlayer(announcer);
-        playerDAO.save(announcer);
-        gameStateDAO.getGameState().setAnnouncer(announcer);
-
         Player me = new Player();
         me.setName("Brandon");
         gameStateDAO.getGameState().setMainPlayer(me);
@@ -98,9 +93,9 @@ public class Main {
         playerDAO.save(you);
 
         // Views
-        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, checkGuessViewModel, gameStateDAO);
-        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, checkGuessViewModel);
+        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView

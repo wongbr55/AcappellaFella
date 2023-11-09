@@ -1,9 +1,9 @@
-package interface_adapter.CheckGuess;
+package interface_adapter.PlayerGuess;
 
-public class CheckGuessState {
+public class PlayerGuessState {
     private String titleLabel = "Guess the Song!";
 
-    public CheckGuessState() {
+    public PlayerGuessState() {
     }
 
     public String getTitleLabel() {
