@@ -1,5 +1,6 @@
 package use_case.SendMessage;
 
+import entity.GameState;
 import entity.Message;
 import entity.Player;
 
@@ -15,7 +16,7 @@ public class SendMessageInteractor implements SendMessageInputBoundary {
 
     @Override
     public void execute(SendMessageInputData sendMessageInputData) {
-        Player author = mainPlayerDataAccessObject.getMainPlayer();
+        Player author = sendMessageInputData.getAuthor();
         String content = sendMessageInputData.getMessage();
         Message message = new Message(author, content);
         SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(message);

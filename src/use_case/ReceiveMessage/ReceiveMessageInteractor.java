@@ -10,14 +10,14 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
-    final CheckGuessInteractor playerGuessInteractor;
+//    final CheckGuessInteractor checkGuessInteractor;
 
     public ReceiveMessageInteractor(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
-                                    ReceiveMessageOutputBoundary receiveMessagePresenter, CheckGuessInteractor playerGuessInteractor) {
+                                    ReceiveMessageOutputBoundary receiveMessagePresenter) {
         this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
         this.playerDataAccessObject = playerDataAccessObject;
         this.receiveMessagePresenter = receiveMessagePresenter;
-        this.playerGuessInteractor = playerGuessInteractor;
+//        this.checkGuessInteractor = checkGuessInteractor;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         ReceiveMessageOutputData receiveMessageOutputData = new ReceiveMessageOutputData(message);
         receiveMessagePresenter.prepareSuccessView(receiveMessageOutputData);
 
-        CheckGuessInputData checkGuessInputData = new CheckGuessInputData(receiveMessageInputData.getContent(), player.getName());
-        this.playerGuessInteractor.execute(checkGuessInputData);
+//        CheckGuessInputData checkGuessInputData = new CheckGuessInputData(receiveMessageInputData.getContent(), player.getName());
+//        this.checkGuessInteractor.execute(checkGuessInputData);
     }
 }

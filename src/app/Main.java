@@ -53,7 +53,7 @@ public class Main {
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, checkGuessViewModel, gameStateDAO, viewManagerModel);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel);
 
         /*
          todo remove later
@@ -99,7 +99,7 @@ public class Main {
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, checkGuessViewModel, gameStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, checkGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);

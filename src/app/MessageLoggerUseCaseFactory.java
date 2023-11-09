@@ -16,22 +16,15 @@ public class MessageLoggerUseCaseFactory {
     private MessageLoggerUseCaseFactory() {
     }
 
-    public static MessageLogger create(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject, SendMessageLoggerModel sendMessageLoggerModel, ChatViewModel chatViewModel,
-                                       CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ViewManagerModel viewManagerModel) {
-        ReceiveMessageController receiveMessageController = createMessageLoggerUseCase(messageHistoryDataAccessObject, playerDataAccessObject, chatViewModel, checkGuessViewModel, checkGuessDataAccessInterface, viewManagerModel);
+    public static MessageLogger create(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject, SendMessageLoggerModel sendMessageLoggerModel, ChatViewModel chatViewModel) {
+        ReceiveMessageController receiveMessageController = createMessageLoggerUseCase(messageHistoryDataAccessObject, playerDataAccessObject, chatViewModel);
         return new MessageLogger(sendMessageLoggerModel, receiveMessageController);
     }
 
-    private static ReceiveMessageController createMessageLoggerUseCase(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject, ChatViewModel chatViewModel,
-                                                                       CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ViewManagerModel viewManagerModel) {
+    private static ReceiveMessageController createMessageLoggerUseCase(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject, ChatViewModel chatViewModel) {
         ReceiveMessageOutputBoundary receiveMessageOutputBoundary = new ReceiveMessagePresenter(chatViewModel);
-        CheckGuessInteractor checkGuessInteractor = createCheckGuessInteractor(checkGuessViewModel, checkGuessDataAccessInterface, chatViewModel);
-        ReceiveMessageInputBoundary receiveMessageInputBoundary = new ReceiveMessageInteractor(messageHistoryDataAccessObject, playerDataAccessObject, receiveMessageOutputBoundary, checkGuessInteractor);
+        ReceiveMessageInputBoundary receiveMessageInputBoundary = new ReceiveMessageInteractor(messageHistoryDataAccessObject, playerDataAccessObject, receiveMessageOutputBoundary);
         return new ReceiveMessageController(receiveMessageInputBoundary);
     }
 
-    private static CheckGuessInteractor createCheckGuessInteractor(CheckGuessViewModel checkGuessViewModel, CheckGuessDataAccessInterface checkGuessDataAccessInterface, ChatViewModel chatViewModel) {
-        CheckGuessPresenter checkGuessPresenter = new CheckGuessPresenter(checkGuessViewModel, chatViewModel);
-        return new CheckGuessInteractor(checkGuessDataAccessInterface, checkGuessPresenter);
-    }
 }

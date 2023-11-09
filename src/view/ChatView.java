@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.Chat.ChatState;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.CheckGuess.CheckGuessController;
 import interface_adapter.SendMessage.SendMessageController;
 
 import javax.swing.*;
@@ -13,14 +14,16 @@ import java.beans.PropertyChangeListener;
 public class ChatView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "logger";
     private final SendMessageController sendMessageController;
+    private final CheckGuessController checkGuessController;
     private final JTextField messageInputField;
     private final JTextArea pastMessages;
     private final JButton send;
     public ChatViewModel chatViewModel;
 
-    public ChatView(ChatViewModel chatViewModel, SendMessageController sendMessageController) {
+    public ChatView(ChatViewModel chatViewModel, SendMessageController sendMessageController, CheckGuessController checkGuessController) {
         this.chatViewModel = chatViewModel;
         this.sendMessageController = sendMessageController;
+        this.checkGuessController = checkGuessController;
         chatViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(ChatViewModel.TITLE_LABEL);
@@ -71,7 +74,8 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
                     public void keyTyped(KeyEvent e) {
                         if (e.getKeyChar() == '\n') {
                             ChatState currentState = chatViewModel.getState();
-                            sendMessageController.execute(currentState.getTypingContent());
+                            //sendMessageController.execute(currentState.getTypingContent());
+                            checkGuessController.checkGuess(currentState.getTypingContent());
                             // clear the messageField after sending the message
                             currentState.setTypingContent("");
                             chatViewModel.setState(currentState);
@@ -98,7 +102,8 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(send)) {
                             ChatState currentState = chatViewModel.getState();
-                            sendMessageController.execute(currentState.getTypingContent());
+                            checkGuessController.checkGuess(currentState.getTypingContent());
+                            // sendMessageController.execute(currentState.getTypingContent());
                             // clear the messageField after sending the message
                             currentState.setTypingContent("");
                             chatViewModel.setState(currentState);
