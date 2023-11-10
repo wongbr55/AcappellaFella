@@ -11,8 +11,10 @@ import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
+import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
+import org.json.JSONObject;
 import view.ChatView;
 import view.PlayerGuessView;
 import view.SingerChooseView;
@@ -46,7 +48,9 @@ public class Main {
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
+        SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
+
 
         // DAOs
         InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
@@ -93,7 +97,7 @@ public class Main {
         playerDAO.save(you);
 
         // Views
-        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO);
+        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
 
@@ -107,5 +111,19 @@ public class Main {
 
         application.pack();
         application.setVisible(true);
+
+        // Demonstrate data access object functionality by retrieving three distinct songs
+        String accessToken = APIDataAccessObject.requestAccessToken();
+        JSONObject playlistData = APIDataAccessObject.requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
+        System.out.println(playlistData);
+        Song songOne = APIDataAccessObject.getSong(playlistData, 1);
+        Song songTwo = APIDataAccessObject.getSong(playlistData, 2);
+        Song songThree = APIDataAccessObject.getSong(playlistData, 3);
+        System.out.println(songOne.toString());
+        System.out.println(songTwo.toString());
+        System.out.println(songThree.toString());
+
+
+
     }
 }
