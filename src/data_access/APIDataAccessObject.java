@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class APIDataAccessObject {
@@ -19,6 +20,7 @@ public class APIDataAccessObject {
     public static String requestAccessToken() {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
+
 
         RequestBody formBody = new FormBody.Builder()
                 .add("grant_type", "client_credentials")
@@ -60,5 +62,18 @@ public class APIDataAccessObject {
         }
     }
 
-    // todo: method to return a Song object
+    public static Song getSong(JSONObject playlistData, Integer trackNumber) {
+
+        // navigate to specific track in the playlist based on trackNumber
+        JSONObject playlistTrack = playlistData.getJSONArray("items").getJSONObject(trackNumber).getJSONObject("track");
+
+        // retrieve name of the FIRST/MAIN artist in the track (there could be multiple artists per track)
+        String artist = playlistTrack.getJSONObject("album").getJSONArray("artists").getJSONObject(0).getString("name");
+
+        // retrieve the title of the track
+        String title = playlistTrack.getString("name");
+
+        // return a new Song object corresponding to the title and artist
+        return new Song(artist, title);
+    }
 }
