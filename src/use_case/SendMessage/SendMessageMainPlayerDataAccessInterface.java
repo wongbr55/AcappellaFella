@@ -4,4 +4,5 @@ import entity.Player;
 
 public interface SendMessageMainPlayerDataAccessInterface {
     Player getMainPlayer();
+
 }

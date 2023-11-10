@@ -1,5 +1,6 @@
 package view;
 
+
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
 

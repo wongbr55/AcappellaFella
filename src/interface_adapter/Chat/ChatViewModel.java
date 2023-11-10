@@ -9,8 +9,8 @@ public class ChatViewModel extends ViewModel {
     public static final String TITLE_LABEL = "Send a Message";
     public static final String TYPE_LABEL = "Message...";
     public static final String SEND_BUTTON_LABEL = "Send";
-    private ChatState state = new ChatState();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private ChatState state = new ChatState();
 
     public ChatViewModel() {
         super("logger");

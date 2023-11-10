@@ -1,9 +1,5 @@
 package view;
 
-import interface_adapter.PlayerGuess.PlayerGuessController;
-import interface_adapter.PlayerGuess.PlayerGuessState;
-import interface_adapter.PlayerGuess.PlayerGuessViewModel;
-import interface_adapter.PlayerGuess.PlayerGuessController;
 import interface_adapter.PlayerGuess.PlayerGuessState;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 
@@ -14,36 +10,22 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class PlayerGuessView  extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "player guess";
-    public final PlayerGuessViewModel playerGuessViewModel;
-    private final PlayerGuessController playerGuessController;
+public class PlayerGuessView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final JLabel title;
+    public String viewName = "player guess";
+    public PlayerGuessViewModel playerGuessViewModel;
 
-    private final JTextField guessInputField = new JTextField(15);
-
-    private final JButton checkGuess;
-
-    public PlayerGuessView(PlayerGuessViewModel playerGuessViewModel, PlayerGuessController playerGuessController) {
+    public PlayerGuessView(ChatView chatView, PlayerGuessViewModel playerGuessViewModel) {
         this.playerGuessViewModel = playerGuessViewModel;
-        this.playerGuessController = playerGuessController;
         playerGuessViewModel.addPropertyChangeListener(this);
+        PlayerGuessState playerGuessState = playerGuessViewModel.getState();
 
-
-        JLabel title = new JLabel(PlayerGuessViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        LabelTextPanel guessInfo = new LabelTextPanel(
-                new JLabel(PlayerGuessViewModel.GUESS_LABEL), guessInputField);
-
-        JPanel buttons = new JPanel();
-        PlayerGuessState state = playerGuessViewModel.getState();
-        checkGuess = new JButton(state.getcheckGuess).toString());
-        buttons.add(checkGuess);
-
-
+        this.title = new JLabel(playerGuessState.getTitleLabel());
+        this.title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.add(this.title);
+        this.add(chatView);
+        this.setBorder(BorderFactory.createEmptyBorder());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(title);
-        this.add(buttons);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package interface_adapter.SendMessage;
 
 
-import entity.Message;
 import use_case.SendMessage.SendMessageInputBoundary;
 import use_case.SendMessage.SendMessageInputData;
 
