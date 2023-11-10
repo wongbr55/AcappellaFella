@@ -44,4 +44,9 @@ public class WaitRoomView extends JPanel implements ActionListener, PropertyChan
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }
