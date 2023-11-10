@@ -1,2 +1,4 @@
-package use_case.RunGame;public class RunGameInputData {
+package use_case.RunGame;
+
+public class RunGameInputData {
 }

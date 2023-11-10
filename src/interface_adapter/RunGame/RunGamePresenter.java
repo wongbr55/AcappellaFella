@@ -1,2 +1,4 @@
-package interface_adapter.RunGame;public class RunGamePresenter {
+package interface_adapter.RunGame;
+
+public class RunGamePresenter {
 }

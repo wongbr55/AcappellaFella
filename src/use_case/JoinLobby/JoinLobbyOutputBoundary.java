@@ -1,2 +1,4 @@
-package use_case.JoinLobby;public interface JoinLobbyOutputBoundary {
+package use_case.JoinLobby;
+
+public interface JoinLobbyOutputBoundary {
 }

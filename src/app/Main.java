@@ -2,17 +2,22 @@ package app;
 
 import data_access.APIDataAccessObject;
 import data_access.InMemoryGameStateGameStateDataAccessObject;
-import data_access.InMemoryMessageMessageHistoryHistoryDataAccessObject;
+import data_access.InMemoryMessageHistoryDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
+import data_access.InMemoryRoundStateDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
+import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
+import org.json.JSONObject;
 import view.ChatView;
+import view.PlayerGuessView;
 import view.SingerChooseView;
 import view.ViewManager;
 
@@ -44,14 +49,18 @@ public class Main {
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
         ChatViewModel chatViewModel = new ChatViewModel();
+        SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
+        PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
+
 
         // DAOs
         InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
-        InMemoryMessageMessageHistoryHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageMessageHistoryHistoryDataAccessObject();
+        InMemoryRoundStateDataAccessObject roundStateDAO = new InMemoryRoundStateDataAccessObject();
+        InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO);
 
         /*
          todo remove later
@@ -68,26 +77,54 @@ public class Main {
         singerChooseViewModel.setState(singerChooseState);
 
         // todo remove later
+        roundStateDAO.addRound();
+
+        // set a song for testing
+        roundStateDAO.getCurrentRoundState().setSong(song1);
+
+        // todo remove later
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
         Player me = new Player();
-        me.setName("eric");
+        me.setName("Brandon");
         gameStateDAO.getGameState().setMainPlayer(me);
         gameStateDAO.addPlayer(me);
         playerDAO.save(me);
 
+        Player you = new Player();
+        you.setName("eric");
+        gameStateDAO.addPlayer(you);
+        playerDAO.save(you);
+
         // Views
-        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, gameStateDAO);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel);
+        SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
-        views.add(chatView, chatView.viewName);
+        // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
+        // views.add(chatView, chatView.viewName);
+        views.add(playerGuessView, playerGuessView.viewName);
 
-        viewManagerModel.setActiveView(chatView.viewName);
+        viewManagerModel.setActiveView(playerGuessView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
         application.setVisible(true);
+
+        // Demonstrate data access object functionality by retrieving three distinct songs
+        String accessToken = APIDataAccessObject.requestAccessToken();
+        JSONObject playlistData = APIDataAccessObject.requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
+        System.out.println(playlistData);
+        Song songOne = APIDataAccessObject.getSong(playlistData, 1);
+        Song songTwo = APIDataAccessObject.getSong(playlistData, 2);
+        Song songThree = APIDataAccessObject.getSong(playlistData, 3);
+        System.out.println(songOne.toString());
+        System.out.println(songTwo.toString());
+        System.out.println(songThree.toString());
+
+
+
     }
 }

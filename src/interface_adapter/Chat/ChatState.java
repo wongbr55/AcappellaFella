@@ -7,6 +7,7 @@ public class ChatState {
     public String getTypingContent() {
         return typingContent;
     }
+
     public void setTypingContent(String typingContent) {
         this.typingContent = typingContent;
     }

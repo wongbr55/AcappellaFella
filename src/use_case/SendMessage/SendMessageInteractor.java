@@ -1,7 +1,6 @@
 package use_case.SendMessage;
 
 import entity.Message;
-import entity.MessageHistory;
 import entity.Player;
 
 public class SendMessageInteractor implements SendMessageInputBoundary {
@@ -16,9 +15,10 @@ public class SendMessageInteractor implements SendMessageInputBoundary {
 
     @Override
     public void execute(SendMessageInputData sendMessageInputData) {
-        Player author = mainPlayerDataAccessObject.getMainPlayer();
+        Player author = sendMessageInputData.getAuthor();
         String content = sendMessageInputData.getMessage();
-        Message message = new Message(author, content);
+        Message.MessageType type = sendMessageInputData.getType();
+        Message message = new Message(author, content, type);
         SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(message);
         sendMessagePresenter.prepareSuccessView(sendMessageOutputData);
     }

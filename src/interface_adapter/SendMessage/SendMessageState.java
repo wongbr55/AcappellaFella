@@ -1,7 +1,5 @@
 package interface_adapter.SendMessage;
 
-import entity.Message;
-
 public class SendMessageState {
     private String lastMessage;
 

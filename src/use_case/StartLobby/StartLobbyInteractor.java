@@ -1,2 +1,4 @@
-package use_case.StartLobby;public class StartLobbyInteractor {
+package use_case.StartLobby;
+
+public class StartLobbyInteractor {
 }

@@ -1,4 +1,5 @@
 package logger;
+
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessageState;
@@ -19,8 +20,6 @@ import java.util.EnumSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MessageLogger extends ListenerAdapter implements PropertyChangeListener {
-    private SendMessageLoggerModel sendMessageLoggerModel;
-    private ReceiveMessageController receiveMessageController;
     final private String TOKEN = System.getenv("DISCORD_TOKEN");
     final private String GUILD_ID = "1168619453492236421";
     final private EnumSet<GatewayIntent> intents = EnumSet.of(
@@ -29,18 +28,21 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             // Enables access to message.getContentRaw()
             GatewayIntent.MESSAGE_CONTENT
     );
+    private SendMessageLoggerModel sendMessageLoggerModel;
+    private ReceiveMessageController receiveMessageController;
     private JDA jda;
     private Guild guild;
     private TextChannel channel;
+
     private MessageLogger(ReceiveMessageController receiveMessageController) {
         this.receiveMessageController = receiveMessageController;
     }
+
     public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, ReceiveMessageController receiveMessageController) {
         this.sendMessageLoggerModel = sendMessageLoggerModel;
         sendMessageLoggerModel.addPropertyChangeListener(this);
 
-        try
-        {
+        try {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
             // and only enable the provided set of intents. All other intents are disabled, so you won't receive events for those.
             this.jda = JDABuilder.createLight(TOKEN, intents)
@@ -68,9 +70,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
 
             // Now we can access the fully loaded cache and show some statistics or do other cache dependent things
             System.out.println("Guilds: " + jda.getGuildCache().size());
-        }
-        catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // Thrown if the awaitReady() call is interrupted
             e.printStackTrace();
         }
@@ -106,8 +106,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getNewValue() instanceof SendMessageState) {
-            SendMessageState state = (SendMessageState) evt.getNewValue();
+        if (evt.getNewValue() instanceof SendMessageState state) {
             sendMessage(state.getLastMessage());
         }
     }

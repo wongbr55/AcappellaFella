@@ -1,2 +1,4 @@
-package use_case.RunGame;public interface RunGameDataAccessInterface {
+package use_case.RunGame;
+
+public interface RunGameDataAccessInterface {
 }

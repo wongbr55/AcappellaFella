@@ -1,2 +1,4 @@
-package use_case.RunGame;public interface RunGameInputBoundary {
+package use_case.RunGame;
+
+public interface RunGameInputBoundary {
 }

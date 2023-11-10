@@ -1,2 +1,4 @@
-package use_case.JoinLobby;public class JoinLobbyInteractor {
+package use_case.JoinLobby;
+
+public class JoinLobbyInteractor {
 }

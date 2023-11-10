@@ -1,2 +1,4 @@
-package interface_adapter.JoinLobby;public class JoinLobbyState {
+package interface_adapter.JoinLobby;
+
+public class JoinLobbyState {
 }
