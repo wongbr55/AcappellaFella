@@ -41,32 +41,33 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(buttons);
-    }
+
 
         create.addActionListener(
-               new void ActionListener() {
+                new ActionListener() {
 
-                    public void actionPerformed(ActionEvent evt) {
-                       if (evt.getSource().equals(create)) {
-                           StartLobbyState currentState = StartLobbyViewModel.getState();
+            public void actionPerformed (ActionEvent evt){
+                if (evt.getSource().equals(create)) {
+                    StartLobbyState currentState = StartLobbyViewModel.getState();
 
-                           StartLobbyController.execute(currentState.getlobbyID());
-                       }
-                    }
-               }
+                    StartLobbyController.execute(currentState.getlobbyID());
+                }
+            }
+        }
                );
 
         join.addActionListener(
-                new void ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(join)) {
-                            JoinLobbyState currentState = JoinLobbyViewModel.getState();
+                new ActionListener() {
+            public void actionPerformed (ActionEvent evt){
+                if (evt.getSource().equals(join)) {
+                    JoinLobbyState currentState = JoinLobbyViewModel.getState();
 
-                            JoinLobbyController.execute(currentState.getlobbyID());
-                        }
-                    }
+                    JoinLobbyController.execute(currentState.getlobbyID());
                 }
+            }
+        }
                );
+    }
 
 
     @Override
