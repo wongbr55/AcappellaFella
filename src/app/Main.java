@@ -13,6 +13,7 @@ import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
+import org.json.JSONObject;
 import view.ChatView;
 import view.SingerChooseView;
 import view.ViewManager;
@@ -91,6 +92,18 @@ public class Main {
 
         application.pack();
         application.setVisible(true);
+
+        // Demonstrate data access object functionality by retrieving three distinct songs
+        String accessToken = APIDataAccessObject.requestAccessToken();
+        JSONObject playlistData = APIDataAccessObject.requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
+        System.out.println(playlistData);
+        Song songOne = APIDataAccessObject.getSong(playlistData, 1);
+        Song songTwo = APIDataAccessObject.getSong(playlistData, 2);
+        Song songThree = APIDataAccessObject.getSong(playlistData, 3);
+        System.out.println(songOne.toString());
+        System.out.println(songTwo.toString());
+        System.out.println(songThree.toString());
+
 
 
     }
