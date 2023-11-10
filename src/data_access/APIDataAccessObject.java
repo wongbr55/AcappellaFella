@@ -16,7 +16,7 @@ public class APIDataAccessObject {
     private static final String CLIENT_ID = System.getenv("CLIENT_ID");
     private static final String CLIENT_SECRET = System.getenv("CLIENT_SECRET");
 
-    private static String requestAccessToken() {
+    public static String requestAccessToken() {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
