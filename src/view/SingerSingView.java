@@ -1,7 +1,5 @@
 package view;
 
-
-import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
 
 import javax.swing.*;
@@ -21,10 +19,12 @@ public class SingerSingView extends JPanel implements ActionListener, PropertyCh
         this.singerSingViewModel = singerSingViewModel;
         this.singerSingViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel(SingerSingViewModel.TITLE_LABEL);
-        song = new JLabel(SingerSingViewModel.SONG_LABEL);
+        JLabel title = new JLabel(this.singerSingViewModel.getTitleLabel());
+        song = new JLabel(this.singerSingViewModel.getSongLabel());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setAlignmentY(Component.CENTER_ALIGNMENT);
+        song.setAlignmentX(Component.CENTER_ALIGNMENT);
+        song.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -39,6 +39,6 @@ public class SingerSingView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        this.song.setText(SingerSingViewModel.SONG_LABEL);
+        this.song.setText(singerSingViewModel.getSongLabel());
     }
 }

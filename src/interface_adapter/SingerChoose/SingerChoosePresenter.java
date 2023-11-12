@@ -23,6 +23,7 @@ public class SingerChoosePresenter implements SingerChooseOutputBoundary {
         singerSingViewModel.setSongLabel(singerChooseOutputData.getSong().toString());
         singerSingViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(singerSingViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
