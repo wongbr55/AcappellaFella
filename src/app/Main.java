@@ -57,7 +57,7 @@ public class Main {
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
 
         // Message logger
-//        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO);
 
         /*
          todo remove later
@@ -80,7 +80,7 @@ public class Main {
         roundStateDAO.getCurrentRoundState().setSong(song1);
 
         // todo remove later
-//        messageLogger.setChannel("1168619453492236424");
+        messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
         Player me = new Player();
@@ -97,14 +97,14 @@ public class Main {
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
         SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel);
-//        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
-//        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
         // views.add(chatView, chatView.viewName);
-//        views.add(playerGuessView, playerGuessView.viewName);
+        views.add(playerGuessView, playerGuessView.viewName);
 
         viewManagerModel.setActiveView(singerChooseView.viewName);
         viewManagerModel.firePropertyChanged();
@@ -113,15 +113,15 @@ public class Main {
         application.setVisible(true);
 
         // Demonstrate data access object functionality by retrieving three distinct songs
-//        String accessToken = APIDataAccessObject.requestAccessToken();
-//        JSONObject playlistData = APIDataAccessObject.requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
-//        System.out.println(playlistData);
-//        Song songOne = APIDataAccessObject.getSong(playlistData, 1);
-//        Song songTwo = APIDataAccessObject.getSong(playlistData, 2);
-//        Song songThree = APIDataAccessObject.getSong(playlistData, 3);
-//        System.out.println(songOne.toString());
-//        System.out.println(songTwo.toString());
-//        System.out.println(songThree.toString());
+        String accessToken = APIDataAccessObject.requestAccessToken();
+        JSONObject playlistData = APIDataAccessObject.requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
+        System.out.println(playlistData);
+        Song songOne = APIDataAccessObject.getSong(playlistData, 1);
+        Song songTwo = APIDataAccessObject.getSong(playlistData, 2);
+        Song songThree = APIDataAccessObject.getSong(playlistData, 3);
+        System.out.println(songOne.toString());
+        System.out.println(songTwo.toString());
+        System.out.println(songThree.toString());
 
 
 
