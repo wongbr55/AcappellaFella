@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.WaitRoom.WaitRoomController;
 import interface_adapter.WaitRoom.WaitRoomState;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 
@@ -14,13 +15,15 @@ public class WaitRoomView extends JPanel implements ActionListener, PropertyChan
 
     public final String viewName = "Waiting for Players";
     private final WaitRoomViewModel waitRoomViewModel;
+    private final WaitRoomController waitRoomController;
 
     JLabel player;
 
     final JButton startLobby;
 
-    public WaitRoomView(WaitRoomViewModel waitRoomViewModel) {
+    public WaitRoomView(WaitRoomViewModel waitRoomViewModel, WaitRoomController waitRoomController) {
         this.waitRoomViewModel = waitRoomViewModel;
+        this.waitRoomController = waitRoomController;
         this.waitRoomViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("Waiting for Players");
@@ -33,7 +36,17 @@ public class WaitRoomView extends JPanel implements ActionListener, PropertyChan
         startLobby = new JButton(WaitRoomViewModel.STARTLOBBY_BUTTON_LABEL);
         buttons.add(startLobby);
 
-        startLobby.addActionListener(this);
+        startLobby.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(startLobby)) {
+                            WaitRoomState currentState = waitRoomViewModel.getState();
+
+                            waitRoomController.execute(currentState.startLobby());
+                        }
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

@@ -1,7 +1,7 @@
 package interface_adapter.StartLobby;
 
 public class StartLobbyState {
-    public Object getlobbyID() {
+    public Object getID() {
         return null;
     }
 }

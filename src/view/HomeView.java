@@ -50,7 +50,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
                 if (evt.getSource().equals(create)) {
                     StartLobbyState currentState = StartLobbyViewModel.getState();
 
-                    StartLobbyController.execute(currentState.getlobbyID());
+                    StartLobbyController.execute(currentState.getID());
                 }
             }
         }
@@ -62,7 +62,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
                 if (evt.getSource().equals(join)) {
                     JoinLobbyState currentState = JoinLobbyViewModel.getState();
 
-                    JoinLobbyController.execute(currentState.getlobbyID());
+                    JoinLobbyController.execute(currentState.getID());
                 }
             }
         }

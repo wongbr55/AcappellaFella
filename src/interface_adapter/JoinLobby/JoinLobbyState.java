@@ -1,6 +1,6 @@
 package interface_adapter.JoinLobby;
 
 public class JoinLobbyState {
-    public Object getlobbyID() {
+    public Object getID() {
     return null;}
 }
