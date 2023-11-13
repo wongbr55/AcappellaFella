@@ -86,16 +86,17 @@ public class Main {
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
-        Player me = new Player();
-        me.setName("Brandon");
-        gameStateDAO.getGameState().setMainPlayer(me);
-        gameStateDAO.addPlayer(me);
-        playerDAO.save(me);
+        Player brandon = new Player();
+        brandon.setName("Brandon");
+        gameStateDAO.addPlayer(brandon);
+        playerDAO.save(brandon);
 
-        Player you = new Player();
-        you.setName("eric");
-        gameStateDAO.addPlayer(you);
-        playerDAO.save(you);
+        Player eric = new Player();
+        eric.setName("eric");
+        gameStateDAO.addPlayer(eric);
+        playerDAO.save(eric);
+
+        gameStateDAO.getGameState().setMainPlayer(brandon);
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
@@ -123,8 +124,5 @@ public class Main {
         System.out.println(songOne.toString());
         System.out.println(songTwo.toString());
         System.out.println(songThree.toString());
-
-
-
     }
 }
