@@ -20,7 +20,6 @@ public class SingerSingView extends JPanel implements ActionListener, PropertyCh
         this.singerSingViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(this.singerSingViewModel.getTitleLabel());
-//        song = new JLabel(this.singerSingViewModel.getSongLabel());
         song = new JLabel(this.singerSingViewModel.getState().getSongLabel());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setAlignmentY(Component.CENTER_ALIGNMENT);

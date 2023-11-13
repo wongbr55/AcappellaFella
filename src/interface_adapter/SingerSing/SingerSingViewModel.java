@@ -8,9 +8,6 @@ import java.beans.PropertyChangeSupport;
 public class SingerSingViewModel extends ViewModel {
     private final String TITLE_LABEL = "Start Singing!";
     private final SingerSingState singerSingState = new SingerSingState();
-
-//    private SingerSingState state = new SingerSingState();
-
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public SingerSingViewModel() {super("singer sing");}
 
@@ -27,8 +24,4 @@ public class SingerSingViewModel extends ViewModel {
     public String getTitleLabel(){
         return this.TITLE_LABEL;
     }
-
-//    public String getSongLabel() {return this.state.getSongLabel();}
-
-//    public void setSongLabel(String songLabel) {this.state.setSongLabel(songLabel);}
 }
