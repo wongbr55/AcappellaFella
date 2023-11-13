@@ -9,7 +9,7 @@ public class SingerChoosePresenter implements SingerChooseOutputBoundary {
     private final SingerChooseViewModel singerChooseViewModel;
 
     private final SingerSingViewModel singerSingViewModel;
-    private ViewManagerModel viewManagerModel;
+    private final ViewManagerModel viewManagerModel;
 
     public SingerChoosePresenter(ViewManagerModel viewManagerModel, SingerChooseViewModel singerChooseViewModel, SingerSingViewModel singerSingViewModel) {
         this.viewManagerModel = viewManagerModel;
@@ -20,7 +20,10 @@ public class SingerChoosePresenter implements SingerChooseOutputBoundary {
     @Override
     public void prepareSuccessView(SingerChooseOutputData singerChooseOutputData) {
         // Switch to SingerSing View
+        singerSingViewModel.getState().setSongLabel(singerChooseOutputData.getSong().toString());
+        singerSingViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(singerSingViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override

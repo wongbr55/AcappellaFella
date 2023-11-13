@@ -23,7 +23,7 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
     public SingerChooseView(SingerChooseViewModel singerChooseViewModel, SingerChooseController singerChooseController) {
         this.singerChooseViewModel = singerChooseViewModel;
         this.singerChooseController = singerChooseController;
-        singerChooseViewModel.addPropertyChangeListener(this);
+        this.singerChooseViewModel.addPropertyChangeListener(this);
 
 
         JLabel title = new JLabel(SingerChooseViewModel.TITLE_LABEL);

@@ -16,10 +16,7 @@ import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
 import org.json.JSONObject;
-import view.ChatView;
-import view.PlayerGuessView;
-import view.SingerChooseView;
-import view.ViewManager;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,15 +97,17 @@ public class Main {
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
+        SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
+        views.add(singerSingView, singerSingView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
 
-        viewManagerModel.setActiveView(playerGuessView.viewName);
+        viewManagerModel.setActiveView(singerChooseView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
