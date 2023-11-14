@@ -1,15 +1,15 @@
-package interface_adapter.Scoreboard;
+package interface_adapter.UpdateScore;
 
 import entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScoreboardState {
+public class UpdateScoreState {
 
     private final Map<Player, Integer> scoreboard = new HashMap<>();
 
-    public ScoreboardState() {
+    public UpdateScoreState() {
     }
     public Map<Player, Integer> getScoreboard() {
         return this.scoreboard;
