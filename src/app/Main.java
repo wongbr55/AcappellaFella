@@ -1,10 +1,6 @@
 package app;
 
-import data_access.APIDataAccessObject;
-import data_access.InMemoryGameStateGameStateDataAccessObject;
-import data_access.InMemoryMessageHistoryDataAccessObject;
-import data_access.InMemoryPlayerDataAccessObject;
-import data_access.InMemoryRoundStateDataAccessObject;
+import data_access.*;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
@@ -13,13 +9,15 @@ import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
+import interface_adapter.UpdateScore.UpdateScoreViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
 import org.json.JSONObject;
-import view.ChatView;
-import view.PlayerGuessView;
-import view.SingerChooseView;
-import view.ViewManager;
+import use_case.UpdateScore.UpdateScoreDataAccessInterface;
+import use_case.UpdateScore.UpdateScoreInputBoundary;
+import use_case.UpdateScore.UpdateScoreInteractor;
+import use_case.UpdateScore.UpdateScoreRoundStateDataAccessInterface;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +49,7 @@ public class Main {
         ChatViewModel chatViewModel = new ChatViewModel();
         SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
+        UpdateScoreViewModel updateScoreViewModel = new UpdateScoreViewModel();
 
 
         // DAOs
@@ -58,9 +57,13 @@ public class Main {
         InMemoryRoundStateDataAccessObject roundStateDAO = new InMemoryRoundStateDataAccessObject();
         InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
+        InMemoryScoreboardDataAccessObject scoreboardDAO = new InMemoryScoreboardDataAccessObject();
+
+        //
+        UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, updateScoreViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
 
         /*
          todo remove later
@@ -98,9 +101,11 @@ public class Main {
         playerDAO.save(you);
 
         // Views
+
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
-        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
+        ScoreboardView scoreboardView = ScoreboardViewBuilder.createView(updateScoreViewModel);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
