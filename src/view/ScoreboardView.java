@@ -19,7 +19,7 @@ public class ScoreboardView extends JPanel implements ActionListener, PropertyCh
         this.updateScoreViewModel = updateScoreViewModel;
         this.updateScoreViewModel.addPropertyChangeListener(this);
 
-        UpdateScoreState state = this.updateScoreViewModel.getScoreboardState();
+        UpdateScoreState state = this.updateScoreViewModel.getState();
         Map<Player, Integer> scoreboard = state.getScoreboard();
 
         for (Map.Entry<Player, Integer> entry: scoreboard.entrySet()){
