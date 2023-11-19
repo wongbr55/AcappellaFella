@@ -15,7 +15,7 @@ public class SingerSingView extends JPanel implements ActionListener, PropertyCh
     public final String viewName = "singer sing";
     public final SingerSingViewModel singerSingViewModel;
 
-    public SingerSingView(SingerSingViewModel singerSingViewModel) {
+    public SingerSingView(ScoreboardView scoreboardView, SingerSingViewModel singerSingViewModel) {
         this.singerSingViewModel = singerSingViewModel;
         JLabel title = new JLabel(SingerSingViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -23,6 +23,8 @@ public class SingerSingView extends JPanel implements ActionListener, PropertyCh
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
+        // add scoreboardView
+        this.add(scoreboardView);
     }
 
     @Override
