@@ -1,6 +1,8 @@
 package use_case.ReceiveMessage;
 
 import entity.*;
+import use_case.UpdateScore.UpdateScoreInputBoundary;
+import use_case.UpdateScore.UpdateScoreInputData;
 
 public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject;
@@ -9,14 +11,17 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
 
+    final UpdateScoreInputBoundary updateScoreInputBoundary;
+
     public ReceiveMessageInteractor(ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject, ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject, ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
-                                    ReceiveMessageOutputBoundary receiveMessagePresenter) {
+                                    ReceiveMessageOutputBoundary receiveMessagePresenter, UpdateScoreInputBoundary updateScoreInputBoundary) {
         this.gameStateDataAccessObject = gameStateDataAccessObject;
         this.roundStataDataAccessObject = roundStataDataAccessObject;
         this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
         this.playerDataAccessObject = playerDataAccessObject;
         this.receiveMessagePresenter = receiveMessagePresenter;
 //        this.checkGuessInteractor = checkGuessInteractor;
+        this.updateScoreInputBoundary = updateScoreInputBoundary;
     }
 
     @Override
@@ -28,6 +33,11 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         Message message = new Message(player, content, type);
         // add message to message history
         messageHistory.addMessage(message);
+
+        // send MESSAGE to UPDATE SCORE INTERACTOR AS INPUT DATA
+        UpdateScoreInputData updateScoreInputData = new UpdateScoreInputData(message);
+        this.updateScoreInputBoundary.execute(updateScoreInputData);
+
 
         GameState gameState = gameStateDataAccessObject.getGameState();
         RoundState roundState = roundStataDataAccessObject.getCurrentRoundState();
