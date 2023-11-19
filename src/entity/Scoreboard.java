@@ -25,4 +25,6 @@ public class Scoreboard {
         }
     }
 
+    public Integer getNumberOfPlayers(){return scoreboard.size();}
+
 }
