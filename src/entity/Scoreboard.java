@@ -25,6 +25,8 @@ public class Scoreboard {
         }
     }
 
-    public Integer getNumberOfPlayers(){return scoreboard.size();}
+    public Integer getNumberOfPlayers(){
+        return scoreboard.size();
+    }
 
 }
