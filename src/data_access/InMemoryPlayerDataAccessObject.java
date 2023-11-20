@@ -1,12 +1,13 @@
 package data_access;
 
 import entity.Player;
+import use_case.AddPlayer.AddPlayerPlayerDataAccessInterface;
 import use_case.ReceiveMessage.ReceiveMessagePlayerDataAccessInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryPlayerDataAccessObject implements ReceiveMessagePlayerDataAccessInterface {
+public class InMemoryPlayerDataAccessObject implements ReceiveMessagePlayerDataAccessInterface, AddPlayerPlayerDataAccessInterface {
 
     private final Map<String, Player> players = new HashMap<>();
 

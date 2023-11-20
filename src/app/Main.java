@@ -3,6 +3,7 @@ package app;
 import data_access.*;
 import entity.Player;
 import entity.Song;
+import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
@@ -59,8 +60,9 @@ public class Main {
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
         InMemoryScoreboardDataAccessObject scoreboardDAO = new InMemoryScoreboardDataAccessObject();
 
-        //
+        // Lone controllers and interactors to be placed in other views/items/etc.
         UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, updateScoreViewModel);
+        AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, updateScoreViewModel);
 
         // Message logger
         MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
@@ -92,13 +94,15 @@ public class Main {
         Player me = new Player();
         me.setName("Brandon");
         gameStateDAO.getGameState().setMainPlayer(me);
-        gameStateDAO.addPlayer(me);
-        playerDAO.save(me);
+        addPlayerController.execute(me);
+//        gameStateDAO.addPlayer(me);
+//        playerDAO.save(me);
 
         Player you = new Player();
         you.setName("eric");
-        gameStateDAO.addPlayer(you);
-        playerDAO.save(you);
+        addPlayerController.execute(you);
+//        gameStateDAO.addPlayer(you);
+//        playerDAO.save(you);
 
         scoreboardDAO.addPlayer(me);
         scoreboardDAO.addPlayer(you);
@@ -115,9 +119,8 @@ public class Main {
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
 
-        views.add(scoreboardView, scoreboardView.viewName);
 
-        viewManagerModel.setActiveView(scoreboardView.viewName);
+        viewManagerModel.setActiveView(playerGuessView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
