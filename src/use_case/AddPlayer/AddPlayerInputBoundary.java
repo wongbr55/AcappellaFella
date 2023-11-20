@@ -1,4 +1,6 @@
 package use_case.AddPlayer;
 
-public class AddPlayerInputBoundary {
+public interface AddPlayerInputBoundary {
+
+    void execute(AddPlayerInputData addPlayerInputData);
 }
