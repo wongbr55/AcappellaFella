@@ -115,7 +115,9 @@ public class Main {
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
 
-        viewManagerModel.setActiveView(playerGuessView.viewName);
+        views.add(scoreboardView, scoreboardView.viewName);
+
+        viewManagerModel.setActiveView(scoreboardView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

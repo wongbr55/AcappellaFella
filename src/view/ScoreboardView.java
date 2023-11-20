@@ -5,6 +5,7 @@ import interface_adapter.UpdateScore.UpdateScoreState;
 import interface_adapter.UpdateScore.UpdateScoreViewModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 public class ScoreboardView extends JPanel implements ActionListener, PropertyChangeListener {
     private final UpdateScoreViewModel updateScoreViewModel;
-    private final String viewName = "scoreboard";
+    public final String viewName = "scoreboard";
 
     public ScoreboardView(UpdateScoreViewModel updateScoreViewModel){
         this.updateScoreViewModel = updateScoreViewModel;
@@ -22,12 +23,17 @@ public class ScoreboardView extends JPanel implements ActionListener, PropertyCh
         UpdateScoreState state = this.updateScoreViewModel.getState();
         Map<Player, Integer> scoreboard = state.getScoreboard();
 
+
         for (Map.Entry<Player, Integer> entry: scoreboard.entrySet()){
             String username = entry.getKey().getName();
             Integer score = entry.getValue();
             JLabel label = new JLabel(username + ": " + score);
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
             this.add(label);
         }
+
+        this.setBorder(BorderFactory.createEmptyBorder());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     @Override
