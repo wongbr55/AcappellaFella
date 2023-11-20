@@ -100,6 +100,9 @@ public class Main {
         gameStateDAO.addPlayer(you);
         playerDAO.save(you);
 
+        scoreboardDAO.addPlayer(me);
+        scoreboardDAO.addPlayer(you);
+
         // Views
 
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
