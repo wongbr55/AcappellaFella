@@ -28,7 +28,7 @@ public class Main {
         // various cards, and the layout, and stitch them together.
 
         // The main application window.
-        JFrame application = new JFrame("AcappellaFella");
+        JFrame application = new JFrame("brandon");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -116,6 +116,6 @@ public class Main {
         application.pack();
         application.setVisible(true);
 
-        runGameController.execute(1, 10);
+        runGameController.execute(3, 10);
     }
 }

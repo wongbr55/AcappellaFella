@@ -56,7 +56,8 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             roundState.setGuessStatusByPlayer(player, true);
 
             // check if every player has guessed correctly, and update singerState appropriately
-            if (roundState.getNumberOfPlayerGuessed() == playerDataAccessObject.numberOfPlayer()) {
+            // -1 since the singer isn't guessing
+            if (roundState.getNumberOfPlayerGuessed() == playerDataAccessObject.numberOfPlayer() - 1) {
                 roundState.setSingerState(RoundState.SingerState.DONE);
             }
         } else if (type == Message.MessageType.SYSTEM && singingMatcher.matches()) {
@@ -68,7 +69,7 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             // using a placeholder below
             Song song1 = new Song(songArtist, songTitle);
             roundState.setSong(song1);
-        } else if (type == Message.MessageType.INVIS_SYSTEM && content.equals("ROUND_DONE")) {
+        } else if (type == Message.MessageType.INVIS_SYSTEM && content.equals("ROUND DONE")) {
             roundState.setSingerState(RoundState.SingerState.DONE);
         }
 

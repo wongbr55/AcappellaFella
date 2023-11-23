@@ -37,8 +37,10 @@ public class RunGameInteractor implements RunGameInputBoundary {
         for (int i = 0; i < runGameInputData.getNumberOfRounds(); i++) {
             // each round, every player gets to sing once.
             for (Player singer : playerList) {
+                System.out.println(singer.getName());
                 // check if you are the singer
                 if (singer.equals(gameState.getMainPlayer())) {
+                    System.out.println("Singing");
                     // basically how this works is that roundState has an attribute called singerState, which is either
                     //    - CHOOSING: it means the singer is choosing in the SingerChooseView, or
                     //    - SINGING: it means the singer is singing
@@ -71,7 +73,6 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     // todo this method of waiting kinda sucks; need to fix
                     while (roundState.getSingerState() == RoundState.SingerState.CHOOSING && (System.currentTimeMillis() - startTime) < timeLimit) {
                         try {
-                            // Sleep for 3 seconds (3000 milliseconds)
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -107,7 +108,6 @@ public class RunGameInteractor implements RunGameInputBoundary {
 
                     while (roundState.getSingerState() == RoundState.SingerState.SINGING && (System.currentTimeMillis() - startTime) < timeLimit) {
                         try {
-                            // Sleep for 3 seconds (3000 milliseconds)
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -123,22 +123,41 @@ public class RunGameInteractor implements RunGameInputBoundary {
 
                     sendMessageInputData = new SendMessageInputData(content, null, Message.MessageType.INVIS_SYSTEM);
                     this.sendMessageInputBoundary.execute(sendMessageInputData);
+
+                    // you need to wait for the round done message to go out, or else sync issues will occur
+                    // we'll just wait for 1 second at the end of the round, but if your ping is higher than that, bad things happen.
+                    // there are other solutions to this, but they require more effort than its worth
+                    // players will hardly be able to notice this
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("Done Singing");
                 }
                 // otherwise, you're a guesser
                 else {
+                    System.out.println("Guessing");
+                    roundStateDataAccessObject.addRound();
+                    RoundState roundState = roundStateDataAccessObject.getCurrentRoundState();
+
                     runGamePresenter.prepareGuessView(new RunGameGuessOutputData());
 
                     // keep guessing until the round is done
-                    while (roundStateDataAccessObject.getCurrentRoundState().getSingerState() != RoundState.SingerState.DONE ) {
+                    while (roundState.getSingerState() != RoundState.SingerState.DONE ) {
                         try {
-                            // Sleep for 3 seconds (3000 milliseconds)
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+
+                    System.out.println("Done guessing");
                 }
             }
         }
+
+        // todo need a end screen view here
     }
 }
