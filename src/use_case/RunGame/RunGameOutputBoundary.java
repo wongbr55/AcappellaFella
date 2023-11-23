@@ -1,8 +1,7 @@
 package use_case.RunGame;
 
-import use_case.SingerChoose.SingerChooseOutputData;
-
 public interface RunGameOutputBoundary {
-    void prepareSingView(RunGameSingOutputData runGameSingOutputData);
+    void prepareSingerChooseView(RunGameSingerChooseOutputData runGameSingerChooseOutputData);
+    void prepareSingerSingView(RunGameSingerSingOutputData runGameSingerSingOutputData);
     void prepareGuessView(RunGameGuessOutputData runGameGuessOutputData);
 }

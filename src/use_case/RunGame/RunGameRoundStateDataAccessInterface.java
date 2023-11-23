@@ -4,4 +4,5 @@ import entity.RoundState;
 
 public interface RunGameRoundStateDataAccessInterface {
     RoundState getCurrentRoundState();
+    void addRound();
 }
