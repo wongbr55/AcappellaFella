@@ -34,14 +34,21 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         GameState gameState = gameStateDataAccessObject.getGameState();
         RoundState roundState = roundStataDataAccessObject.getCurrentRoundState();
 
-        String patternString = "(.+?) has guessed the answer!";
+        String guessedPatternString = "(.+?) has guessed the answer!";
+        Pattern guessedPattern = Pattern.compile(guessedPatternString);
+        Matcher guessedMatcher = guessedPattern.matcher(content);
 
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher(content);
+        String singingPatternString = "(.+?) has chose a song! Start guessing!";
+        Pattern singingPattern = Pattern.compile(singingPatternString);
+        Matcher singingMatcher = singingPattern.matcher(content);
+
+        String newSongPatternString = "Song: (.+?) by (.+?)";
+        Pattern newSongPattern = Pattern.compile(newSongPatternString);
+        Matcher newSongMatcher = newSongPattern.matcher(content);
 
         // if it matches
-        if (type == Message.MessageType.SYSTEM && matcher.matches()) {
-            String playerName = matcher.group(1);
+        if (type == Message.MessageType.SYSTEM && guessedMatcher.matches()) {
+            String playerName = guessedMatcher.group(1);
             player = playerDataAccessObject.getByName(playerName);
 
             // todo call updateScore use case
@@ -52,21 +59,22 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             if (roundState.getNumberOfPlayerGuessed() == playerDataAccessObject.numberOfPlayer()) {
                 roundState.setSingerState(RoundState.SingerState.DONE);
             }
-        } else {
-            // todo this code is super ugly
-            patternString = "(.+?) has chose a song! Start guessing!";
+        } else if (type == Message.MessageType.SYSTEM && singingMatcher.matches()) {
+            roundState.setSingerState(RoundState.SingerState.SINGING);
+        } else if (type == Message.MessageType.INVIS_SYSTEM && newSongMatcher.matches()) {
+            String songTitle = guessedMatcher.group(1);
+            String songArtist = guessedMatcher.group(2);
+            // todo need a songGetByName method
+            // using a placeholder below
+            Song song1 = new Song(songArtist, songTitle);
 
-            pattern = Pattern.compile(patternString);
-            matcher = pattern.matcher(content);
-
-            // if it matches
-            if (type == Message.MessageType.SYSTEM && matcher.matches()) {
-                roundState.setSingerState(RoundState.SingerState.SINGING);
-            }
+            roundState.setSong(song1);
         }
 
         // don't show the message if the player hasn't guessed it yet, and it comes from a player who has guessed it
         boolean showMessage = type != Message.MessageType.GUESSED || roundState.getGuessStatusByPlayer(gameState.getMainPlayer());
+        // don't show the message if it's an invis message
+        showMessage = showMessage && type != Message.MessageType.INVIS_SYSTEM;
 
         ReceiveMessageOutputData receiveMessageOutputData = new ReceiveMessageOutputData(message, showMessage);
         receiveMessagePresenter.prepareSuccessView(receiveMessageOutputData);

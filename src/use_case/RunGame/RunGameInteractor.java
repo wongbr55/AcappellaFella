@@ -80,9 +80,16 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     // update the singerState
                     roundState.setSingerState(RoundState.SingerState.SINGING);
 
+                    // let other clients know to update roundState.singerState
                     String content = gameState.getMainPlayer().getName() + " has chose a song! Start guessing!";
 
                     SendMessageInputData sendMessageInputData = new SendMessageInputData(content, null, Message.MessageType.SYSTEM);
+                    this.sendMessageInputBoundary.execute(sendMessageInputData);
+
+                    // let other clients know to update roundState.song
+                    content = "Song: " + roundState.getSong().getTitle() + " by " + roundState.getSong().getArtist();
+
+                    sendMessageInputData = new SendMessageInputData(content, null, Message.MessageType.INVIS_SYSTEM);
                     this.sendMessageInputBoundary.execute(sendMessageInputData);
 
                     // PART 2: singer sing
