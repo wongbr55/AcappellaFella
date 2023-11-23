@@ -4,6 +4,9 @@ import entity.*;
 import use_case.UpdateScore.UpdateScoreInputBoundary;
 import use_case.UpdateScore.UpdateScoreInputData;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject;
     final ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject;
@@ -33,14 +36,27 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         Message message = new Message(player, content, type);
         // add message to message history
         messageHistory.addMessage(message);
-
-        // send MESSAGE to UPDATE SCORE INTERACTOR AS INPUT DATA
-        UpdateScoreInputData updateScoreInputData = new UpdateScoreInputData(message);
-        this.updateScoreInputBoundary.execute(updateScoreInputData);
-
-
         GameState gameState = gameStateDataAccessObject.getGameState();
         RoundState roundState = roundStataDataAccessObject.getCurrentRoundState();
+
+        String patternString = "(.+?) has guessed the answer!";
+
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(content);
+
+        // if it matches
+        if (type == Message.MessageType.SYSTEM && matcher.matches()) {
+            String playerName = matcher.group(1);
+            player = playerDataAccessObject.getByName(playerName);
+            // todo old code remove
+            // player.setScore(gameState.getMainPlayer().getScore() + 1);
+            // roundState.setGuessStatusByPlayer(player, true);
+
+            // todo don't send message, send player
+            // send MESSAGE to UPDATE SCORE INTERACTOR AS INPUT DATA
+            UpdateScoreInputData updateScoreInputData = new UpdateScoreInputData(message);
+            this.updateScoreInputBoundary.execute(updateScoreInputData);
+        }
 
         // don't show the message if the player hasn't guess it yet and it comes from a player who has guessed it
         boolean showMessage = type != Message.MessageType.GUESSED || roundState.getGuessStatusByPlayer(gameState.getMainPlayer());
