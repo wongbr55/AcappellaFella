@@ -22,6 +22,15 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
         GameState gameState = checkGuessGameStateDataAccessInterface.getGameState();
         RoundState roundState = checkGuessRoundStateDataAccessInterface.getCurrentRoundState();
 
+        // if we're not singing, then there's no need to check
+        if (roundState.getSingerState() != RoundState.SingerState.SINGING) {
+            // send a message for everyone to see
+            String message = checkGuessInputData.getGuess();
+            SendMessageInputData sendMessageInputData = new SendMessageInputData(message, gameState.getMainPlayer());
+            this.sendMessageInputBoundary.execute(sendMessageInputData);
+            return;
+        }
+
         String songTitle = roundState.getSong().getTitle();
         String guessTitle = checkGuessInputData.getGuess();
 

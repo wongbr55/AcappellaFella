@@ -52,6 +52,17 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             if (roundState.getNumberOfPlayerGuessed() == playerDataAccessObject.numberOfPlayer()) {
                 roundState.setSingerState(RoundState.SingerState.DONE);
             }
+        } else {
+            // todo this code is super ugly
+            patternString = "(.+?) has chose a song! Start guessing!";
+
+            pattern = Pattern.compile(patternString);
+            matcher = pattern.matcher(content);
+
+            // if it matches
+            if (type == Message.MessageType.SYSTEM && matcher.matches()) {
+                roundState.setSingerState(RoundState.SingerState.SINGING);
+            }
         }
 
         // don't show the message if the player hasn't guessed it yet, and it comes from a player who has guessed it
