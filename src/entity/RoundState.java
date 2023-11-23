@@ -25,6 +25,16 @@ public class RoundState {
         playerGuessStatus.put(player, newStatus);
     }
 
+    public int getNumberOfPlayerGuessed() {
+        int i = 0;
+        for (Boolean guessed : playerGuessStatus.values()) {
+            if (guessed) {
+                i++;
+            }
+        }
+        return i;
+    }
+
     public SingerState getSingerState() {
         return singerState;
     }

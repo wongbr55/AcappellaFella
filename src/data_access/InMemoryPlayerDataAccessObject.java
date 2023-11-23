@@ -19,6 +19,10 @@ public class InMemoryPlayerDataAccessObject implements ReceiveMessagePlayerDataA
     public Player getByName(String identifier) {
         return players.get(identifier);
     }
+    @Override
+    public int numberOfPlayer() {
+        return players.size();
+    }
 
     // @Override
     public void save(Player player) {
