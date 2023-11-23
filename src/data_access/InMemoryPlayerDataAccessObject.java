@@ -4,6 +4,7 @@ import entity.Player;
 import use_case.ReceiveMessage.ReceiveMessagePlayerDataAccessInterface;
 import use_case.RunGame.RunGamePlayerDataAccessInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,6 @@ public class InMemoryPlayerDataAccessObject implements ReceiveMessagePlayerDataA
 
     @Override
     public List<Player> getPlayerList() {
-        return players.values().stream().toList();
+        return new ArrayList<>(players.values());
     }
 }

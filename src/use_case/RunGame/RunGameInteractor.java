@@ -5,6 +5,7 @@ import interface_adapter.SingerChoose.SingerChooseState;
 import use_case.SendMessage.SendMessageInputBoundary;
 import use_case.SendMessage.SendMessageInputData;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +27,7 @@ public class RunGameInteractor implements RunGameInputBoundary {
     @Override
     public void execute(RunGameInputData runGameInputData) {
         List<Player> playerList = playerDataAccessObject.getPlayerList();
+        Collections.sort(playerList); // need to sort it to sync with other clients
         GameState gameState = gameStateDataAccessObject.getGameState();
 
         // iterate over the number of rounds
@@ -66,8 +68,14 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     long startTime = System.currentTimeMillis();
                     long timeLimit = 10 * 1000; // 10 seconds to choose
 
+                    // todo this method of waiting kinda sucks; need to fix
                     while (roundState.getSingerState() == RoundState.SingerState.CHOOSING && (System.currentTimeMillis() - startTime) < timeLimit) {
-                        // just wait and do nothing
+                        try {
+                            // Sleep for 3 seconds (3000 milliseconds)
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     // if the singer hasn't chosen a song and the time is up, choose one randomly
@@ -98,15 +106,37 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     timeLimit = runGameInputData.getRoundLength() * 1000;
 
                     while (roundState.getSingerState() == RoundState.SingerState.SINGING && (System.currentTimeMillis() - startTime) < timeLimit) {
-                        // just wait and do nothing
+                        try {
+                            // Sleep for 3 seconds (3000 milliseconds)
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     // update the singerState
                     roundState.setSingerState(RoundState.SingerState.DONE);
+
+                    // let other clients know the round is done
+                    // todo this should be a constant/enum
+                    content = "ROUND DONE";
+
+                    sendMessageInputData = new SendMessageInputData(content, null, Message.MessageType.INVIS_SYSTEM);
+                    this.sendMessageInputBoundary.execute(sendMessageInputData);
                 }
                 // otherwise, you're a guesser
                 else {
                     runGamePresenter.prepareGuessView(new RunGameGuessOutputData());
+
+                    // keep guessing until the round is done
+                    while (roundStateDataAccessObject.getCurrentRoundState().getSingerState() != RoundState.SingerState.DONE ) {
+                        try {
+                            // Sleep for 3 seconds (3000 milliseconds)
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }

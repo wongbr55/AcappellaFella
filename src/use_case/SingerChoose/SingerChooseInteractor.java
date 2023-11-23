@@ -16,6 +16,7 @@ public class SingerChooseInteractor implements SingerChooseInputBoundary {
         // Get the current game state and change the song
         RoundState roundState = singerChooseRoundStateDataAccessObject.getCurrentRoundState();
         roundState.setSong(singerChooseInputData.getSong());
+        roundState.setSingerState(RoundState.SingerState.SINGING);
 
         // REDUNDANT NOW: the RunGameInteractor handles changing views and stuff
         // prepare success view

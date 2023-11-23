@@ -62,13 +62,14 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         } else if (type == Message.MessageType.SYSTEM && singingMatcher.matches()) {
             roundState.setSingerState(RoundState.SingerState.SINGING);
         } else if (type == Message.MessageType.INVIS_SYSTEM && newSongMatcher.matches()) {
-            String songTitle = guessedMatcher.group(1);
-            String songArtist = guessedMatcher.group(2);
-            // todo need a songGetByName method
+            String songTitle = newSongMatcher.group(1);
+            String songArtist = newSongMatcher.group(2);
+
             // using a placeholder below
             Song song1 = new Song(songArtist, songTitle);
-
             roundState.setSong(song1);
+        } else if (type == Message.MessageType.INVIS_SYSTEM && content.equals("ROUND_DONE")) {
+            roundState.setSingerState(RoundState.SingerState.DONE);
         }
 
         // don't show the message if the player hasn't guessed it yet, and it comes from a player who has guessed it
