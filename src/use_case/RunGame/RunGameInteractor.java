@@ -32,7 +32,7 @@ public class RunGameInteractor implements RunGameInputBoundary {
         // NOTE: round has a different meaning here. A round here is where every player gets to sing once, i.e., for a
         // game with n players, there are n subRounds and each subRound has a corresponding RoundState
         // todo possibly change the naming convention to better reflect this
-        for (int i = 0; i < runGameInputData.numberOfRounds; i++) {
+        for (int i = 0; i < runGameInputData.getNumberOfRounds(); i++) {
             // each round, every player gets to sing once.
             for (Player singer : playerList) {
                 // check if you are the singer
@@ -93,9 +93,9 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     this.sendMessageInputBoundary.execute(sendMessageInputData);
 
                     // PART 2: singer sing
-                    runGamePresenter.prepareSingerSingView(new RunGameSingerSingOutputData());
+                    runGamePresenter.prepareSingerSingView(new RunGameSingerSingOutputData(roundState.getSong()));
                     startTime = System.currentTimeMillis();
-                    timeLimit = runGameInputData.roundLength * 1000;
+                    timeLimit = runGameInputData.getRoundLength() * 1000;
 
                     while (roundState.getSingerState() == RoundState.SingerState.SINGING && (System.currentTimeMillis() - startTime) < timeLimit) {
                         // just wait and do nothing
