@@ -49,8 +49,7 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             String playerName = matcher.group(1);
             player = playerDataAccessObject.getByName(playerName);
 
-            // todo don't send message, send player
-            // send MESSAGE to UPDATE SCORE INTERACTOR AS INPUT DATA
+            // send player info to UpdateScoreInteractor as input data
             UpdateScoreInputData updateScoreInputData = new UpdateScoreInputData(player);
             this.updateScoreInputBoundary.execute(updateScoreInputData);
         }
