@@ -1,8 +1,8 @@
 package view;
 
 import entity.Player;
-import interface_adapter.UpdateScore.UpdateScoreState;
-import interface_adapter.UpdateScore.UpdateScoreViewModel;
+import interface_adapter.Scoreboard.ScoreboardState;
+import interface_adapter.Scoreboard.ScoreboardViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,14 +13,14 @@ import java.beans.PropertyChangeListener;
 import java.util.Map;
 
 public class ScoreboardView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final UpdateScoreViewModel updateScoreViewModel;
+    private final ScoreboardViewModel scoreboardViewModel;
     public final String viewName = "scoreboard";
 
-    public ScoreboardView(UpdateScoreViewModel updateScoreViewModel){
-        this.updateScoreViewModel = updateScoreViewModel;
-        this.updateScoreViewModel.addPropertyChangeListener(this);
+    public ScoreboardView(ScoreboardViewModel scoreboardViewModel){
+        this.scoreboardViewModel = scoreboardViewModel;
+        this.scoreboardViewModel.addPropertyChangeListener(this);
 
-        UpdateScoreState state = this.updateScoreViewModel.getState();
+        ScoreboardState state = this.scoreboardViewModel.getState();
         Map<Player, Integer> scoreboard = state.getScoreboard();
 
 

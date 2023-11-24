@@ -1,17 +1,17 @@
-package interface_adapter.UpdateScore;
+package interface_adapter.Scoreboard;
 
 import interface_adapter.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class UpdateScoreViewModel extends ViewModel {
+public class ScoreboardViewModel extends ViewModel {
 
-    private UpdateScoreState state = new UpdateScoreState();
+    private ScoreboardState state = new ScoreboardState();
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public UpdateScoreViewModel(){
+    public ScoreboardViewModel(){
         super("scoreboard");
     }
 
@@ -24,11 +24,11 @@ public class UpdateScoreViewModel extends ViewModel {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
-    public UpdateScoreState getState() {
+    public ScoreboardState getState() {
         return state;
     }
 
-    public void setState(UpdateScoreState state){
+    public void setState(ScoreboardState state){
         this.state = state;
     }
 

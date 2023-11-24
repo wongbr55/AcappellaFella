@@ -1,7 +1,7 @@
 package app;
 
 import interface_adapter.AddPlayer.AddPlayerController;
-import interface_adapter.UpdateScore.UpdateScoreViewModel;
+import interface_adapter.Scoreboard.ScoreboardViewModel;
 import use_case.AddPlayer.*;
 
 public class AddPlayerUseCaseFactory {
@@ -11,9 +11,9 @@ public class AddPlayerUseCaseFactory {
     public static AddPlayerController create(AddPlayerScoreboardDataAccessInterface addPlayerScoreboardDataAccessInterface,
                   AddPlayerPlayerDataAccessInterface addPlayerPlayerDataAccessInterface,
                   AddPlayerGameStateDataAccessInterace addPlayerGameStateDataAccessInterace,
-                  UpdateScoreViewModel updateScoreViewModel){
+                  ScoreboardViewModel scoreboardViewModel){
         AddPlayerInputBoundary addPlayerInputBoundary = new AddPlayerInteractor(addPlayerGameStateDataAccessInterace, addPlayerScoreboardDataAccessInterface,
-                addPlayerPlayerDataAccessInterface, updateScoreViewModel);
+                addPlayerPlayerDataAccessInterface, scoreboardViewModel);
         return new AddPlayerController(addPlayerInputBoundary);
     }
 

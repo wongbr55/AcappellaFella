@@ -10,14 +10,11 @@ import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
-import interface_adapter.UpdateScore.UpdateScoreViewModel;
+import interface_adapter.Scoreboard.ScoreboardViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
 import org.json.JSONObject;
-import use_case.UpdateScore.UpdateScoreDataAccessInterface;
-import use_case.UpdateScore.UpdateScoreInputBoundary;
 import use_case.UpdateScore.UpdateScoreInteractor;
-import use_case.UpdateScore.UpdateScoreRoundStateDataAccessInterface;
 import view.*;
 
 import javax.swing.*;
@@ -50,7 +47,7 @@ public class Main {
         ChatViewModel chatViewModel = new ChatViewModel();
         SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
-        UpdateScoreViewModel updateScoreViewModel = new UpdateScoreViewModel();
+        ScoreboardViewModel scoreboardViewModel = new ScoreboardViewModel();
 
 
         // DAOs
@@ -61,8 +58,8 @@ public class Main {
         InMemoryScoreboardDataAccessObject scoreboardDAO = new InMemoryScoreboardDataAccessObject();
 
         // Lone controllers and interactors to be placed in other views/items/etc.
-        UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, updateScoreViewModel);
-        AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, updateScoreViewModel);
+        UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, scoreboardViewModel);
+        AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, scoreboardViewModel);
 
         // Message logger
         MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
@@ -111,7 +108,7 @@ public class Main {
 
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
-        ScoreboardView scoreboardView = ScoreboardViewBuilder.createView(updateScoreViewModel);
+        ScoreboardView scoreboardView = ScoreboardViewBuilder.createView(scoreboardViewModel);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);

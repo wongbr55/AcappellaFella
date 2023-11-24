@@ -1,6 +1,6 @@
 package app;
 
-import interface_adapter.UpdateScore.UpdateScoreViewModel;
+import interface_adapter.Scoreboard.ScoreboardViewModel;
 import view.ScoreboardView;
 
 public class ScoreboardViewBuilder {
@@ -8,7 +8,7 @@ public class ScoreboardViewBuilder {
 
     }
 
-    public static ScoreboardView createView(UpdateScoreViewModel updateScoreViewModel) {
-        return new ScoreboardView(updateScoreViewModel);
+    public static ScoreboardView createView(ScoreboardViewModel scoreboardViewModel) {
+        return new ScoreboardView(scoreboardViewModel);
     }
 }
