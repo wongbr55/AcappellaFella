@@ -1,6 +1,5 @@
 package view;
 
-import entity.Player;
 import interface_adapter.Scoreboard.ScoreboardState;
 import interface_adapter.Scoreboard.ScoreboardViewModel;
 
@@ -21,11 +20,11 @@ public class ScoreboardView extends JPanel implements ActionListener, PropertyCh
         this.scoreboardViewModel.addPropertyChangeListener(this);
 
         ScoreboardState state = this.scoreboardViewModel.getState();
-        Map<Player, Integer> scoreboard = state.getScoreboard();
+        Map<String, Integer> scoreboard = state.getScoreboard();
 
 
-        for (Map.Entry<Player, Integer> entry: scoreboard.entrySet()){
-            String username = entry.getKey().getName();
+        for (Map.Entry<String, Integer> entry: scoreboard.entrySet()){
+            String username = entry.getKey();
             Integer score = entry.getValue();
             JLabel label = new JLabel(username + ": " + score);
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -43,6 +42,6 @@ public class ScoreboardView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        // todo - implement
     }
 }

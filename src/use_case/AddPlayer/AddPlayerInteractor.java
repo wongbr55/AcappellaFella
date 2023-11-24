@@ -30,7 +30,7 @@ public class AddPlayerInteractor implements AddPlayerInputBoundary{
         gameStateDAO.getGameState().addPlayer(newPlayer);
         scoreboardDAO.getScoreboard().addPlayer(newPlayer);
         ScoreboardState state = this.scoreboardViewModel.getState();
-        state.addPlayer(newPlayer);
+        state.addPlayer(newPlayer.getName());
         this.scoreboardViewModel.firePropertyChanged();
         // todo again need to update the wait room view
 

@@ -19,10 +19,10 @@ public class UpdateScorePresenter implements UpdateScoreOutputBoundary {
     @Override
     public void prepareSuccessView(UpdateScoreOutputData updateScoreOutputData) {
         // add ScoreboardView to PlayerGuessView
-        Map<Player, Integer> scoreboard = this.scoreboardViewModel.getState().getScoreboard();
+        Map<String, Integer> scoreboard = this.scoreboardViewModel.getState().getScoreboard();
         Player player = updateScoreOutputData.getPlayer();
         Integer score = updateScoreOutputData.getScore();
-        scoreboard.put(player, score);
+        scoreboard.put(player.getName(), score);
         this.scoreboardViewModel.firePropertyChanged();
 
     }

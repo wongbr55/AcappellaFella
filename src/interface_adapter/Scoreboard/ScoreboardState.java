@@ -1,20 +1,18 @@
 package interface_adapter.Scoreboard;
 
-import entity.Player;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ScoreboardState {
 
-    private final Map<Player, Integer> scoreboard = new HashMap<>();
+    private final Map<String, Integer> scoreboard = new HashMap<>();
 
     public ScoreboardState() {
     }
-    public Map<Player, Integer> getScoreboard() {
+    public Map<String, Integer> getScoreboard() {
         return this.scoreboard;
     }
-    public void addPlayer(Player player){
+    public void addPlayer(String player){
         scoreboard.put(player, 0);
     }
 }
