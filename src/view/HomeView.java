@@ -13,6 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.EventObject;
@@ -21,6 +23,9 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
     public final String viewName = "home";
 
     private final HomeViewModel homeViewModel;
+
+    final JTextField idInputField = new JTextField(15);
+    private final JLabel idErrorField = new JLabel();
 
     private final JButton create;
 
@@ -32,15 +37,14 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         JLabel title = new JLabel(HomeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        LabelTextPanel idInfo = new LabelTextPanel(
+                new JLabel("Enter Game ID"), idInputField);
+
         JPanel buttons = new JPanel();
         create = new JButton(HomeViewModel.CREATE_BUTTON);
         buttons.add(create);
         join = new JButton(HomeViewModel.JOIN_BUTTON);
         buttons.add(join);
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(title);
-        this.add(buttons);
 
 
         create.addActionListener(
@@ -67,6 +71,28 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
             }
         }
                );
+        idInputField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                JoinLobbyState currentState = JoinLobbyViewModel.getState();
+                currentState.setID(idInputField.getText() + e.getKeyChar());
+                JoinLobbyViewModel.setState(currentState);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(title);
+        this.add(idInfo);
+        this.add(idErrorField);
+        this.add(buttons);
+
     }
 
 
