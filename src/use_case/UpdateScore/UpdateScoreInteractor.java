@@ -8,10 +8,10 @@ public class UpdateScoreInteractor implements UpdateScoreInputBoundary {
     private final UpdateScoreDataAccessInterface updateScoreDataAccessInterface;
     private final UpdateScoreRoundStateDataAccessInterface updateScoreRoundStateDataAccessInterface;
 
-    private final UpdateScorePresenter updateScorePresenter;
+    private final UpdateScoreOutputBoundary updateScorePresenter;
 
 
-    public UpdateScoreInteractor(UpdateScoreDataAccessInterface updateScoreDataAccessInterface, UpdateScoreRoundStateDataAccessInterface updateScoreRoundStateDataAccessInterface, UpdateScorePresenter updateScorePresenter) {
+    public UpdateScoreInteractor(UpdateScoreDataAccessInterface updateScoreDataAccessInterface, UpdateScoreRoundStateDataAccessInterface updateScoreRoundStateDataAccessInterface, UpdateScoreOutputBoundary updateScorePresenter) {
         this.updateScoreDataAccessInterface = updateScoreDataAccessInterface;
         this.updateScoreRoundStateDataAccessInterface = updateScoreRoundStateDataAccessInterface;
         this.updateScorePresenter = updateScorePresenter;
