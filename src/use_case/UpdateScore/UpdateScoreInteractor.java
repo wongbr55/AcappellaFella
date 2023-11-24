@@ -24,8 +24,8 @@ public class UpdateScoreInteractor implements UpdateScoreInputBoundary {
         RoundState roundState = updateScoreRoundStateDataAccessInterface.getCurrentRoundState();
         Scoreboard scoreboard = updateScoreDataAccessInterface.getScoreboard();
 
-        Message message = updateScoreInputData.getMessage();
-        Player player = message.getAuthor();
+        // get the name of the player who most recently guessed right
+        Player player = updateScoreInputData.getPlayer();
 
         // get total number of players
         Integer numPlayers = scoreboard.getNumberOfPlayers();

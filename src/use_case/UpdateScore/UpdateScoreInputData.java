@@ -1,16 +1,16 @@
 package use_case.UpdateScore;
 
-import entity.Message;
+import entity.Player;
 
 public class UpdateScoreInputData {
 
-    private Message message;
-    public UpdateScoreInputData(Message message) {
-        this.message = message;
+    private Player player;
+    public UpdateScoreInputData(Player player) {
+        this.player = player;
     }
 
-    public Message getMessage() {
-        return this.message;
+    public Player getPlayer() {
+        return this.player;
     }
 
 

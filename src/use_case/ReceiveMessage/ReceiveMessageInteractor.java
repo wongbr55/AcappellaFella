@@ -48,13 +48,10 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         if (type == Message.MessageType.SYSTEM && matcher.matches()) {
             String playerName = matcher.group(1);
             player = playerDataAccessObject.getByName(playerName);
-            // todo old code remove
-            // player.setScore(gameState.getMainPlayer().getScore() + 1);
-            // roundState.setGuessStatusByPlayer(player, true);
 
             // todo don't send message, send player
             // send MESSAGE to UPDATE SCORE INTERACTOR AS INPUT DATA
-            UpdateScoreInputData updateScoreInputData = new UpdateScoreInputData(message);
+            UpdateScoreInputData updateScoreInputData = new UpdateScoreInputData(player);
             this.updateScoreInputBoundary.execute(updateScoreInputData);
         }
 
