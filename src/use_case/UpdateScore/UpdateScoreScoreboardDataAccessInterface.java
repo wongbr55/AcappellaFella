@@ -2,6 +2,6 @@ package use_case.UpdateScore;
 
 import entity.Scoreboard;
 
-public interface UpdateScoreDataAccessInterface {
+public interface UpdateScoreScoreboardDataAccessInterface {
     Scoreboard getScoreboard();
 }

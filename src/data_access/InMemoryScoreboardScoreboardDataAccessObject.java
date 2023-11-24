@@ -3,9 +3,9 @@ package data_access;
 import entity.Player;
 import entity.Scoreboard;
 import use_case.AddPlayer.AddPlayerScoreboardDataAccessInterface;
-import use_case.UpdateScore.UpdateScoreDataAccessInterface;
+import use_case.UpdateScore.UpdateScoreScoreboardDataAccessInterface;
 
-public class InMemoryScoreboardDataAccessObject implements UpdateScoreDataAccessInterface, AddPlayerScoreboardDataAccessInterface {
+public class InMemoryScoreboardScoreboardDataAccessObject implements UpdateScoreScoreboardDataAccessInterface, AddPlayerScoreboardDataAccessInterface {
 
     private final Scoreboard scoreboard = new Scoreboard();
     @Override

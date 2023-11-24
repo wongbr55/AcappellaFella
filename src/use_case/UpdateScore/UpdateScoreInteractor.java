@@ -1,18 +1,17 @@
 package use_case.UpdateScore;
 
 import entity.*;
-import interface_adapter.UpdateScore.UpdateScorePresenter;
 
 public class UpdateScoreInteractor implements UpdateScoreInputBoundary {
 
-    private final UpdateScoreDataAccessInterface updateScoreDataAccessInterface;
+    private final UpdateScoreScoreboardDataAccessInterface updateScoreScoreboardDataAccessInterface;
     private final UpdateScoreRoundStateDataAccessInterface updateScoreRoundStateDataAccessInterface;
 
     private final UpdateScoreOutputBoundary updateScorePresenter;
 
 
-    public UpdateScoreInteractor(UpdateScoreDataAccessInterface updateScoreDataAccessInterface, UpdateScoreRoundStateDataAccessInterface updateScoreRoundStateDataAccessInterface, UpdateScoreOutputBoundary updateScorePresenter) {
-        this.updateScoreDataAccessInterface = updateScoreDataAccessInterface;
+    public UpdateScoreInteractor(UpdateScoreScoreboardDataAccessInterface updateScoreScoreboardDataAccessInterface, UpdateScoreRoundStateDataAccessInterface updateScoreRoundStateDataAccessInterface, UpdateScoreOutputBoundary updateScorePresenter) {
+        this.updateScoreScoreboardDataAccessInterface = updateScoreScoreboardDataAccessInterface;
         this.updateScoreRoundStateDataAccessInterface = updateScoreRoundStateDataAccessInterface;
         this.updateScorePresenter = updateScorePresenter;
     }
@@ -22,7 +21,7 @@ public class UpdateScoreInteractor implements UpdateScoreInputBoundary {
         // make one DAI for retrieving the roundstate
 
         RoundState roundState = updateScoreRoundStateDataAccessInterface.getCurrentRoundState();
-        Scoreboard scoreboard = updateScoreDataAccessInterface.getScoreboard();
+        Scoreboard scoreboard = updateScoreScoreboardDataAccessInterface.getScoreboard();
 
         // get the name of the player who most recently guessed right
         Player player = updateScoreInputData.getPlayer();
