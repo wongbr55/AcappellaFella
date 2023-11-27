@@ -15,20 +15,18 @@ public class ScoreboardView extends JPanel implements ActionListener, PropertyCh
     private final ScoreboardViewModel scoreboardViewModel;
     public final String viewName = "scoreboard";
 
+    private final JPanel panel = new JPanel();
+
     public ScoreboardView(ScoreboardViewModel scoreboardViewModel){
         this.scoreboardViewModel = scoreboardViewModel;
         this.scoreboardViewModel.addPropertyChangeListener(this);
 
-        ScoreboardState state = this.scoreboardViewModel.getState();
-        Map<String, Integer> scoreboard = state.getScoreboard();
-
-
-        for (Map.Entry<String, Integer> entry: scoreboard.entrySet()){
+        for (Map.Entry<String, Integer> entry: this.scoreboardViewModel.getState().getScoreboard().entrySet()){
             String username = entry.getKey();
             Integer score = entry.getValue();
             JLabel label = new JLabel(username + ": " + score);
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
-            this.add(label);
+            this.panel.add(label);
         }
 
         this.setBorder(BorderFactory.createEmptyBorder());
@@ -42,6 +40,14 @@ public class ScoreboardView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // todo - implement
+        this.panel.removeAll();
+        for (Map.Entry<String, Integer> entry: this.scoreboardViewModel.getState().getScoreboard().entrySet()){
+            String username = entry.getKey();
+            Integer score = entry.getValue();
+            JLabel label = new JLabel(username + ": " + score);
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            this.panel.add(label);
+        }
+
     }
 }
