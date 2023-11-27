@@ -6,6 +6,7 @@ import entity.Song;
 import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
+import interface_adapter.RunGame.RunGameController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
@@ -26,7 +27,7 @@ public class Main {
         // various cards, and the layout, and stitch them together.
 
         // The main application window.
-        JFrame application = new JFrame("AcappellaFella");
+        JFrame application = new JFrame("brandon");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -104,34 +105,27 @@ public class Main {
         // Views
 
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
+        SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         ScoreboardView scoreboardView = ScoreboardViewBuilder.createView(scoreboardViewModel);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
+        views.add(singerSingView, singerSingView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
 
 
         viewManagerModel.setActiveView(playerGuessView.viewName);
+
         viewManagerModel.firePropertyChanged();
+
+        RunGameController runGameController = RunGameUseCaseFactory.createRunGameUseCase(gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel);
 
         application.pack();
         application.setVisible(true);
 
-        // Demonstrate data access object functionality by retrieving three distinct songs
-        String accessToken = APIDataAccessObject.requestAccessToken();
-        JSONObject playlistData = APIDataAccessObject.requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
-        System.out.println(playlistData);
-        Song songOne = APIDataAccessObject.getSong(playlistData, 1);
-        Song songTwo = APIDataAccessObject.getSong(playlistData, 2);
-        Song songThree = APIDataAccessObject.getSong(playlistData, 3);
-        System.out.println(songOne.toString());
-        System.out.println(songTwo.toString());
-        System.out.println(songThree.toString());
-
-
-
+        runGameController.execute(3, 10);
     }
 }

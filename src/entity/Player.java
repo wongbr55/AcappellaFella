@@ -1,6 +1,6 @@
 package entity;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private String name = "";
     private int score = 0;
 
@@ -18,5 +18,9 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+    public int compareTo(Player otherPlayer) {
+        // Compare based on a property, for example, age
+        return this.name.compareTo(otherPlayer.name);
     }
 }

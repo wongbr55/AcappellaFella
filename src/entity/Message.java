@@ -37,6 +37,7 @@ public class Message {
 
     public enum MessageType {
         SYSTEM,
+        INVIS_SYSTEM,
         ALL,
         GUESSED
     }
