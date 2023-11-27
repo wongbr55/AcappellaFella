@@ -88,16 +88,20 @@ public class Main {
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
-        Player me = new Player();
-        me.setName("Brandon");
-        gameStateDAO.getGameState().setMainPlayer(me);
-        addPlayerController.execute(me);
+        Player brandon = new Player();
+        brandon.setName("Brandon");
+        gameStateDAO.getGameState().setMainPlayer(brandon);
+        addPlayerController.execute(brandon);
 //        gameStateDAO.addPlayer(me);
 //        playerDAO.save(me);
 
-        Player you = new Player();
-        you.setName("eric");
-        addPlayerController.execute(you);
+        Player mark = new Player();
+        mark.setName("Mark");
+        addPlayerController.execute(mark);
+
+        Player eric = new Player();
+        eric.setName("eric");
+        addPlayerController.execute(eric);
 //        gameStateDAO.addPlayer(you);
 //        playerDAO.save(you);
 
