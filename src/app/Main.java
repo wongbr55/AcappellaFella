@@ -8,6 +8,7 @@ import data_access.InMemoryRoundStateDataAccessObject;
 import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.Home.HomeViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
@@ -48,6 +49,7 @@ public class Main {
         ChatViewModel chatViewModel = new ChatViewModel();
         SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
+        HomeViewModel homeViewModel = new HomeViewModel();
 
 
         // DAOs
@@ -100,14 +102,16 @@ public class Main {
         SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
+        HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
+        views.add(homeView, homeView.viewName);
 
-        viewManagerModel.setActiveView(singerChooseView.viewName);
+        viewManagerModel.setActiveView(HomeView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
