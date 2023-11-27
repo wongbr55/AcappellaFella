@@ -44,6 +44,7 @@ public class ReceiveMessagePresenter implements ReceiveMessageOutputBoundary {
                     font.getSize(),
                     message.getAuthor().getName(),
                     message.getContent());
+            case INVIS_SYSTEM -> ""; // we'll never reach here hopefully. In any case it should be invisible.
         };
 
         String chatHistory = chatState.getMessageHistory().concat(content);

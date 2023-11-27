@@ -4,4 +4,6 @@ import entity.Player;
 
 public interface ReceiveMessagePlayerDataAccessInterface {
     Player getByName(String identifier);
+
+    int numberOfPlayer();
 }
