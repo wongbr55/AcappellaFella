@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class WaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
+public class JoinWaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "Waiting for Players";
     private final WaitRoomViewModel waitRoomViewModel;
     private final RunGameController runGameController;
@@ -20,7 +20,7 @@ public class WaitRoomView extends JPanel implements ActionListener, PropertyChan
 
     final JButton startLobby;
 
-    public WaitRoomView(WaitRoomViewModel waitRoomViewModel, RunGameController runGameController) {
+    public JoinWaitRoomView(WaitRoomViewModel waitRoomViewModel, RunGameController runGameController) {
         this.waitRoomViewModel = waitRoomViewModel;
         this.runGameController = runGameController;
         this.waitRoomViewModel.addPropertyChangeListener(this);
@@ -45,9 +45,7 @@ public class WaitRoomView extends JPanel implements ActionListener, PropertyChan
                             // runGameController.execute();
                         }
                     }
-                }
-        );
-
+                });
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
@@ -63,3 +61,4 @@ public class WaitRoomView extends JPanel implements ActionListener, PropertyChan
 
     }
 }
+
