@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.EndScreen.EndScreenState;
 import interface_adapter.EndScreen.EndScreenViewModel;
 
 import javax.swing.*;
@@ -10,14 +11,22 @@ import java.beans.PropertyChangeListener;
 
 public class EndScreenView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private JLabel firstPlayerName;
-
-    private JButton playAgain;
-    private JButton toMenu;
+    private JLabel firstPlayer;
+    private final EndScreenViewModel endScreenViewModel;
 
     public EndScreenView(EndScreenViewModel endScreenViewModel){
-        endScreenViewModel.addPropertyChangeListener(this);
+        this.endScreenViewModel = endScreenViewModel;
+        this.endScreenViewModel.addPropertyChangeListener(this);
+        EndScreenState state = this.endScreenViewModel.getState();
+        this.firstPlayer = new JLabel("Game Over! " + state.getFirstPlayer() + " won with a final score of "
+        + state.getFirstScore() + " points!");
 
+        JButton playAgain = new JButton("Play Again");
+        JButton toMenu = new JButton("Back To Menu");
+
+        this.add(firstPlayer);
+        this.add(playAgain);
+        this.add(toMenu);
 
     }
 
@@ -28,6 +37,8 @@ public class EndScreenView extends JPanel implements ActionListener, PropertyCha
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        EndScreenState state = this.endScreenViewModel.getState();
+        this.firstPlayer.setText("Game Over! " + state.getFirstPlayer() + " won with a final score of "
+                + state.getFirstScore() + " points!");
     }
 }
