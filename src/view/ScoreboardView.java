@@ -45,7 +45,6 @@ public class ScoreboardView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Got into the view");
         String scoresSoFar = "<html>";
         for (Map.Entry<String, Integer> entry: this.scoreboardViewModel.getState().getScoreboard().entrySet()){
             String username = entry.getKey();
