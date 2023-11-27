@@ -10,9 +10,9 @@ public class AddPlayerUseCaseFactory {
 
     public static AddPlayerController create(AddPlayerScoreboardDataAccessInterface addPlayerScoreboardDataAccessInterface,
                   AddPlayerPlayerDataAccessInterface addPlayerPlayerDataAccessInterface,
-                  AddPlayerGameStateDataAccessInterace addPlayerGameStateDataAccessInterace,
+                  AddPlayerGameStateDataAccessInterface addPlayerGameStateDataAccessInterface,
                   ScoreboardViewModel scoreboardViewModel){
-        AddPlayerInputBoundary addPlayerInputBoundary = new AddPlayerInteractor(addPlayerGameStateDataAccessInterace, addPlayerScoreboardDataAccessInterface,
+        AddPlayerInputBoundary addPlayerInputBoundary = new AddPlayerInteractor(addPlayerGameStateDataAccessInterface, addPlayerScoreboardDataAccessInterface,
                 addPlayerPlayerDataAccessInterface, scoreboardViewModel);
         return new AddPlayerController(addPlayerInputBoundary);
     }

@@ -2,7 +2,7 @@ package use_case.AddPlayer;
 
 import entity.GameState;
 
-public interface AddPlayerGameStateDataAccessInterace {
+public interface AddPlayerGameStateDataAccessInterface {
 
     GameState getGameState();
 }

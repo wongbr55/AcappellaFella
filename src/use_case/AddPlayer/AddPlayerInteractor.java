@@ -8,17 +8,17 @@ public class AddPlayerInteractor implements AddPlayerInputBoundary{
 
     private final AddPlayerPlayerDataAccessInterface playerDAO;
     private final AddPlayerScoreboardDataAccessInterface scoreboardDAO;
-    private final AddPlayerGameStateDataAccessInterace gameStateDAO;
+    private final AddPlayerGameStateDataAccessInterface gameStateDAO;
     private final ScoreboardViewModel scoreboardViewModel;
 
     // todo refactor to work with the wait lobby
 
-    public AddPlayerInteractor(AddPlayerGameStateDataAccessInterace addPlayerGameStateDataAccessInterace,
-                                AddPlayerScoreboardDataAccessInterface addPlayerScoreboardDataAccessInterface,
+    public AddPlayerInteractor(AddPlayerGameStateDataAccessInterface addPlayerGameStateDataAccessInterface,
+                               AddPlayerScoreboardDataAccessInterface addPlayerScoreboardDataAccessInterface,
                                AddPlayerPlayerDataAccessInterface addPlayerPlayerDataAccessInterface,
                                ScoreboardViewModel scoreboardViewModel){
         this.playerDAO = addPlayerPlayerDataAccessInterface;
-        this.gameStateDAO = addPlayerGameStateDataAccessInterace;
+        this.gameStateDAO = addPlayerGameStateDataAccessInterface;
         this.scoreboardDAO = addPlayerScoreboardDataAccessInterface;
         this.scoreboardViewModel = scoreboardViewModel;
     }

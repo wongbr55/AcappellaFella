@@ -14,7 +14,6 @@ import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.Scoreboard.ScoreboardViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
-import org.json.JSONObject;
 import use_case.UpdateScore.UpdateScoreInteractor;
 import view.*;
 
@@ -105,9 +104,10 @@ public class Main {
         // Views
 
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
-        SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel);
-        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         ScoreboardView scoreboardView = ScoreboardViewBuilder.createView(scoreboardViewModel);
+        SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel, scoreboardView);
+        ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
+
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
