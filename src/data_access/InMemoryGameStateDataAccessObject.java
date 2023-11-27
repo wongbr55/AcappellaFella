@@ -8,7 +8,7 @@ import use_case.ReceiveMessage.ReceiveMessageGameStateDataAccessInterface;
 import use_case.RunGame.RunGameGameStateDataAccessInterface;
 import use_case.SendMessage.SendMessageMainPlayerDataAccessInterface;
 
-public class InMemoryGameStateGameStateDataAccessObject implements SendMessageMainPlayerDataAccessInterface, CheckGuessGameStateDataAccessInterface, ReceiveMessageGameStateDataAccessInterface, AddPlayerGameStateDataAccessInterface, RunGameGameStateDataAccessInterface {
+public class InMemoryGameStateDataAccessObject implements SendMessageMainPlayerDataAccessInterface, CheckGuessGameStateDataAccessInterface, ReceiveMessageGameStateDataAccessInterface, AddPlayerGameStateDataAccessInterface, RunGameGameStateDataAccessInterface {
 
     private final GameState gameState = new GameState();
 
