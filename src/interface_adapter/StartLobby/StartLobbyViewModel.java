@@ -4,7 +4,7 @@ import view.StartLobbyView;
 
 public class StartLobbyViewModel {
 
-    public static final String START_BUTTON_LABEL = null;
+    public static final String START_BUTTON_LABEL = "Start Lobby";
 
     public static StartLobbyState getState() {
         return null;

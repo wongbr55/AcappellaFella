@@ -14,6 +14,7 @@ import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
+import interface_adapter.StartLobby.StartLobbyViewModel;
 import interface_adapter.ViewManagerModel;
 import logger.MessageLogger;
 import org.json.JSONObject;
@@ -50,6 +51,7 @@ public class Main {
         SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
         HomeViewModel homeViewModel = new HomeViewModel();
+        StartLobbyViewModel startLobbyViewModel = new StartLobbyViewModel();
 
 
         // DAOs
@@ -103,6 +105,7 @@ public class Main {
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
         HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
+        StartLobbyView startLobbyView = StartLobbyUseCaseFactory.create(startLobbyViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
@@ -110,8 +113,10 @@ public class Main {
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
         views.add(homeView, homeView.viewName);
+        views.add(startLobbyView, startLobbyView.viewName);
 
-        viewManagerModel.setActiveView(HomeView.viewName);
+
+        viewManagerModel.setActiveView(StartLobbyView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

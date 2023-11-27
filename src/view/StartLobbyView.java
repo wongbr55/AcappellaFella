@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class StartLobbyView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "create lobby";
+    public static final String viewName = "create lobby";
     private final StartLobbyViewModel startLobbyViewModel;
     private final JTextField nameInputField = new JTextField(15);
     private final StartLobbyController startLobbyController;
@@ -32,7 +32,7 @@ public class StartLobbyView extends JPanel implements ActionListener, PropertyCh
         LabelTextPanel nameInfo = new LabelTextPanel(
                 new JLabel("Enter Name"), nameInputField);
         JPanel buttons = new JPanel();
-        lobbyStart = new JButton(startLobbyViewModel.START_BUTTON_LABEL);
+        lobbyStart = new JButton(StartLobbyViewModel.START_BUTTON_LABEL);
         buttons.add(lobbyStart);
         lobbyStart.addActionListener(                // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
