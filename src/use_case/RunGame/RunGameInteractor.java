@@ -37,10 +37,8 @@ public class RunGameInteractor implements RunGameInputBoundary {
         for (int i = 0; i < runGameInputData.getNumberOfRounds(); i++) {
             // each round, every player gets to sing once.
             for (Player singer : playerList) {
-                System.out.println(singer.getName());
                 // check if you are the singer
                 if (singer.equals(gameState.getMainPlayer())) {
-                    System.out.println("Singing");
                     // basically how this works is that roundState has an attribute called singerState, which is either
                     //    - CHOOSING: it means the singer is choosing in the SingerChooseView, or
                     //    - SINGING: it means the singer is singing
@@ -133,12 +131,9 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    System.out.println("Done Singing");
                 }
                 // otherwise, you're a guesser
                 else {
-                    System.out.println("Guessing");
                     roundStateDataAccessObject.addRound();
                     RoundState roundState = roundStateDataAccessObject.getCurrentRoundState();
 
@@ -152,8 +147,6 @@ public class RunGameInteractor implements RunGameInputBoundary {
                             e.printStackTrace();
                         }
                     }
-
-                    System.out.println("Done guessing");
                 }
             }
         }
