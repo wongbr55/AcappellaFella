@@ -1,6 +1,7 @@
 package data_access;
 
 // libraries for working with APIs
+import entity.Playlist;
 import entity.Song;
 import okhttp3.*;
 import org.json.JSONArray;
@@ -18,6 +19,8 @@ public class APIDataAccessObject implements LoadPlaylistDataAccessInterface {
     // load CLIENT_ID and CLIENT_SECRET from env variable.
     private static final String CLIENT_ID = System.getenv("CLIENT_ID");
     private static final String CLIENT_SECRET = System.getenv("CLIENT_SECRET");
+
+    private Playlist playlist = new Playlist();
 
     public static String requestAccessToken() {
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -81,7 +84,7 @@ public class APIDataAccessObject implements LoadPlaylistDataAccessInterface {
 
 
     @Override
-    public ArrayList<Song> getPlaylist() {
+    public Playlist getPlaylist() {
         Integer minTrackNumber = 0;
         Integer maxTrackNumber = 149;
         Integer numSongs = 3;
@@ -99,6 +102,9 @@ public class APIDataAccessObject implements LoadPlaylistDataAccessInterface {
             System.out.println(randomTrackNumber);
             threeSongs.add(getSong(playlistData, randomTrackNumber));
         }
-        return threeSongs;
+        playlist.setSongOne(threeSongs.get(0));
+        playlist.setSongTwo(threeSongs.get(1));
+        playlist.setSongThree(threeSongs.get(2));
+        return playlist;
     }
 }
