@@ -1,7 +1,6 @@
 package view;
 
 import interface_adapter.RunGame.RunGameController;
-import interface_adapter.StartLobby.StartLobbyState;
 import interface_adapter.WaitRoom.WaitRoomState;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 
@@ -14,7 +13,7 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class MainWaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
+public class HostWaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "Waiting for Players";
     private final WaitRoomViewModel waitRoomViewModel;
     private final RunGameController runGameController;
@@ -27,7 +26,7 @@ public class MainWaitRoomView extends JPanel implements ActionListener, Property
 
     final JButton startLobby;
 
-    public MainWaitRoomView(WaitRoomViewModel waitRoomViewModel, RunGameController runGameController) {
+    public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel, RunGameController runGameController) {
         this.waitRoomViewModel = waitRoomViewModel;
         this.runGameController = runGameController;
         this.waitRoomViewModel.addPropertyChangeListener(this);

@@ -1,13 +1,13 @@
 package interface_adapter.WaitRoom;
 
 import view.JoinWaitRoomView;
-import view.MainWaitRoomView;
+import view.HostWaitRoomView;
 
 public class WaitRoomViewModel {
     public static final String STARTLOBBY_BUTTON_LABEL = "Start Lobby";
     private WaitRoomState state = new WaitRoomState();
 
-    public void addPropertyChangeListener(MainWaitRoomView mainWaitRoomView) {
+    public void addPropertyChangeListener(HostWaitRoomView hostWaitRoomView) {
     }
 
     public WaitRoomState getState() {return state;}

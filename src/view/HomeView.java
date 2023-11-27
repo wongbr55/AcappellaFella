@@ -20,7 +20,7 @@ import java.beans.PropertyChangeListener;
 import java.util.EventObject;
 
 public class HomeView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "home";
+    public static final String viewName = "home";
 
     private final HomeViewModel homeViewModel;
 
