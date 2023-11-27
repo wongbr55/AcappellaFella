@@ -1,6 +1,10 @@
 package use_case.ReceiveMessage;
 
 import entity.*;
+
+import use_case.UpdateScore.UpdateScoreInputBoundary;
+import use_case.UpdateScore.UpdateScoreInputData;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,14 +15,17 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
 
+    final UpdateScoreInputBoundary updateScoreInputBoundary;
+
     public ReceiveMessageInteractor(ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject, ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject, ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
-                                    ReceiveMessageOutputBoundary receiveMessagePresenter) {
+                                    ReceiveMessageOutputBoundary receiveMessagePresenter, UpdateScoreInputBoundary updateScoreInputBoundary) {
         this.gameStateDataAccessObject = gameStateDataAccessObject;
         this.roundStataDataAccessObject = roundStataDataAccessObject;
         this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
         this.playerDataAccessObject = playerDataAccessObject;
         this.receiveMessagePresenter = receiveMessagePresenter;
 //        this.checkGuessInteractor = checkGuessInteractor;
+        this.updateScoreInputBoundary = updateScoreInputBoundary;
     }
 
     @Override
@@ -30,7 +37,6 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         Message message = new Message(player, content, type);
         // add message to message history
         messageHistory.addMessage(message);
-
         GameState gameState = gameStateDataAccessObject.getGameState();
         RoundState roundState = roundStataDataAccessObject.getCurrentRoundState();
 
@@ -51,7 +57,9 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             String playerName = guessedMatcher.group(1);
             player = playerDataAccessObject.getByName(playerName);
 
-            // todo call updateScore use case
+            // send player info to UpdateScoreInteractor as input data
+            UpdateScoreInputData updateScoreInputData = new UpdateScoreInputData(player);
+            this.updateScoreInputBoundary.execute(updateScoreInputData);
 
             roundState.setGuessStatusByPlayer(player, true);
 
@@ -74,6 +82,7 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         }
 
         // don't show the message if the player hasn't guessed it yet, and it comes from a player who has guessed it
+
         boolean showMessage = type != Message.MessageType.GUESSED || roundState.getGuessStatusByPlayer(gameState.getMainPlayer());
         // don't show the message if it's an invis message
         showMessage = showMessage && type != Message.MessageType.INVIS_SYSTEM;

@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,10 @@ public class RoundState {
         playerGuessStatus.put(player, newStatus);
     }
 
+    public Integer getTotalCorrectGuesses() {
+        return Collections.frequency(playerGuessStatus.values(), true);
+    }
+
     public int getNumberOfPlayerGuessed() {
         int i = 0;
         for (Boolean guessed : playerGuessStatus.values()) {
@@ -48,4 +53,5 @@ public class RoundState {
         SINGING,
         DONE
     }
+
 }
