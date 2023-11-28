@@ -112,6 +112,7 @@ public class Main {
         StartLobbyView startLobbyView = StartLobbyUseCaseFactory.create(startLobbyViewModel);
         JoinLobbyView joinLobbyView = JoinLobbyUseCaseFactory.create(joinLobbyViewModel);
         HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(waitRoomViewModel);
+        JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(waitRoomViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
@@ -122,9 +123,10 @@ public class Main {
         views.add(startLobbyView, startLobbyView.viewName);
         views.add(joinLobbyView, joinLobbyView.viewName);
         views.add(hostWaitRoomView, hostWaitRoomView.viewName);
+        views.add(joinWaitRoomView, joinWaitRoomView.viewName);
 
 
-        viewManagerModel.setActiveView(HostWaitRoomView.viewName);
+        viewManagerModel.setActiveView(JoinWaitRoomView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
