@@ -13,9 +13,11 @@ public class EndScreenView extends JPanel implements ActionListener, PropertyCha
 
     private JLabel firstPlayer;
     private final EndScreenViewModel endScreenViewModel;
+    public final String viewName;
 
     public EndScreenView(EndScreenViewModel endScreenViewModel){
         this.endScreenViewModel = endScreenViewModel;
+        this.viewName = this.endScreenViewModel.getViewName();
         this.endScreenViewModel.addPropertyChangeListener(this);
         EndScreenState state = this.endScreenViewModel.getState();
         this.firstPlayer = new JLabel("Game Over! " + state.getFirstPlayer() + " won with a final score of "

@@ -5,6 +5,7 @@ import entity.Player;
 import entity.Song;
 import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
+import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.RunGame.RunGameController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
@@ -48,6 +49,7 @@ public class Main {
         SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
         ScoreboardViewModel scoreboardViewModel = new ScoreboardViewModel();
+        EndScreenViewModel endScreenViewModel = new EndScreenViewModel();
 
 
         // DAOs
@@ -111,11 +113,12 @@ public class Main {
         ScoreboardView scoreboardView = ScoreboardViewBuilder.createView(scoreboardViewModel);
         SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel, scoreboardView);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
-
+        EndScreenView endScreenView = EndScreenViewFactory.createView(endScreenViewModel);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
+        views.add(endScreenView, endScreenView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
