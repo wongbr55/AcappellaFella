@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class JoinLobbyView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "join lobby";
+    public static final String viewName = "join lobby";
     private final JoinLobbyViewModel joinLobbyViewModel;
     private final JTextField nameInputField = new JTextField(15);
     private final JoinLobbyController joinLobbyController;

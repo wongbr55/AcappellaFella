@@ -9,6 +9,7 @@ import entity.Player;
 import entity.Song;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.Home.HomeViewModel;
+import interface_adapter.JoinLobby.JoinLobbyViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
@@ -52,6 +53,7 @@ public class Main {
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
         HomeViewModel homeViewModel = new HomeViewModel();
         StartLobbyViewModel startLobbyViewModel = new StartLobbyViewModel();
+        JoinLobbyViewModel joinLobbyViewModel = new JoinLobbyViewModel();
 
 
         // DAOs
@@ -106,6 +108,7 @@ public class Main {
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
         HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
         StartLobbyView startLobbyView = StartLobbyUseCaseFactory.create(startLobbyViewModel);
+        JoinLobbyView joinLobbyView = JoinLobbyUseCaseFactory.create(joinLobbyViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
@@ -114,9 +117,10 @@ public class Main {
         views.add(playerGuessView, playerGuessView.viewName);
         views.add(homeView, homeView.viewName);
         views.add(startLobbyView, startLobbyView.viewName);
+        views.add(joinLobbyView, joinLobbyView.viewName);
 
 
-        viewManagerModel.setActiveView(StartLobbyView.viewName);
+        viewManagerModel.setActiveView(JoinLobbyView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
