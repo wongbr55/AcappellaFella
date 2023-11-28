@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class HostWaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "Waiting for Players";
+    public static final String viewName = "Waiting for Players";
     private final WaitRoomViewModel waitRoomViewModel;
     private final RunGameController runGameController;
 

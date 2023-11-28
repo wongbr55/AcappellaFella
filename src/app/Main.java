@@ -17,6 +17,7 @@ import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.StartLobby.StartLobbyViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.WaitRoom.WaitRoomViewModel;
 import logger.MessageLogger;
 import org.json.JSONObject;
 import view.*;
@@ -54,6 +55,7 @@ public class Main {
         HomeViewModel homeViewModel = new HomeViewModel();
         StartLobbyViewModel startLobbyViewModel = new StartLobbyViewModel();
         JoinLobbyViewModel joinLobbyViewModel = new JoinLobbyViewModel();
+        WaitRoomViewModel waitRoomViewModel = new WaitRoomViewModel();
 
 
         // DAOs
@@ -109,6 +111,7 @@ public class Main {
         HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
         StartLobbyView startLobbyView = StartLobbyUseCaseFactory.create(startLobbyViewModel);
         JoinLobbyView joinLobbyView = JoinLobbyUseCaseFactory.create(joinLobbyViewModel);
+        HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(waitRoomViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
@@ -118,9 +121,10 @@ public class Main {
         views.add(homeView, homeView.viewName);
         views.add(startLobbyView, startLobbyView.viewName);
         views.add(joinLobbyView, joinLobbyView.viewName);
+        views.add(hostWaitRoomView, hostWaitRoomView.viewName);
 
 
-        viewManagerModel.setActiveView(JoinLobbyView.viewName);
+        viewManagerModel.setActiveView(HostWaitRoomView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
