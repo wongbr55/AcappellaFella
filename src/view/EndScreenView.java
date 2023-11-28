@@ -20,7 +20,7 @@ public class EndScreenView extends JPanel implements ActionListener, PropertyCha
         this.viewName = this.endScreenViewModel.getViewName();
         this.endScreenViewModel.addPropertyChangeListener(this);
         EndScreenState state = this.endScreenViewModel.getState();
-        this.firstPlayer = new JLabel("Game Over! " + state.getFirstPlayer() + " won with a final score of "
+        this.firstPlayer = new JLabel("Game Over! " + state.getFirstPlayerName() + " won with a final score of "
         + state.getFirstScore() + " points!");
 
         JButton playAgain = new JButton("Play Again");
@@ -62,7 +62,7 @@ public class EndScreenView extends JPanel implements ActionListener, PropertyCha
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         EndScreenState state = this.endScreenViewModel.getState();
-        this.firstPlayer.setText("Game Over! " + state.getFirstPlayer() + " won with a final score of "
+        this.firstPlayer.setText("Game Over! " + state.getFirstPlayerName() + " won with a final score of "
                 + state.getFirstScore() + " points!");
     }
 }

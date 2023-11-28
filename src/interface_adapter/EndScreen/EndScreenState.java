@@ -1,19 +1,19 @@
 package interface_adapter.EndScreen;
 
 public class EndScreenState {
-    String firstPlayer;
+    String firstPlayerName;
     Integer firstScore;
 
     public EndScreenState(){}
 
     public void setFirstPlace(String firstPlayer, Integer firstScore){
         this.firstScore = firstScore;
-        this.firstPlayer = firstPlayer;
+        this.firstPlayerName = firstPlayer;
     }
     public Integer getFirstScore() {
         return firstScore;
     }
-    public String getFirstPlayer() {
-        return firstPlayer;
+    public String getFirstPlayerName() {
+        return firstPlayerName;
     }
 }
