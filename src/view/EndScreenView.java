@@ -11,7 +11,7 @@ import java.beans.PropertyChangeListener;
 
 public class EndScreenView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private JLabel firstPlayer;
+    private final JLabel firstPlayer;
     private final EndScreenViewModel endScreenViewModel;
     public final String viewName;
 
@@ -27,8 +27,30 @@ public class EndScreenView extends JPanel implements ActionListener, PropertyCha
         JButton toMenu = new JButton("Back To Menu");
 
         this.add(firstPlayer);
-        this.add(playAgain);
-        this.add(toMenu);
+        JPanel buttons = new JPanel();
+        buttons.add(playAgain);
+        buttons.add(toMenu);
+        this.add(buttons);
+
+        playAgain.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(playAgain)) {
+                            // todo add relevant methods here, call to RunGame
+                        }
+                    }
+                }
+        );
+        toMenu.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(toMenu)) {
+                            // todo add relevant methods here, call to HomeView
+                        }
+                    }
+                }
+        );
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
     }
 

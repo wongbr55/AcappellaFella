@@ -123,8 +123,11 @@ public class Main {
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
 
+        // left in as tests, you may comment out RunGame controller to see how it works
+        // endScreenViewModel.getState().setFirstPlace("Brandon", 100);
+        // endScreenViewModel.firePropertyChanged();
 
-        viewManagerModel.setActiveView(playerGuessView.viewName);
+        viewManagerModel.setActiveView(endScreenView.viewName);
 
         viewManagerModel.firePropertyChanged();
 
