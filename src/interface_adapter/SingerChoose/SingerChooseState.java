@@ -6,6 +6,7 @@ public class SingerChooseState {
     private Song song1;
     private Song song2;
     private Song song3;
+    private String time;
 
     public Song getSong1() {
         return song1;
@@ -29,5 +30,13 @@ public class SingerChooseState {
 
     public void setSong3(Song song3) {
         this.song3 = song3;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
