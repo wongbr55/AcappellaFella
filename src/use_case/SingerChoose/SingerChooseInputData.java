@@ -1,15 +1,13 @@
 package use_case.SingerChoose;
 
-import entity.Song;
-
 public class SingerChooseInputData {
-    final private Song song;
+    final private String songName;
 
-    public SingerChooseInputData(Song song) {
-        this.song = song;
+    public SingerChooseInputData(String songName) {
+        this.songName = songName;
     }
 
-    public Song getSong() {
-        return song;
+    public String getSongName() {
+        return songName;
     }
 }

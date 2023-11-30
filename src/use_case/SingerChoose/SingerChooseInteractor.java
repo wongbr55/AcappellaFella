@@ -1,6 +1,10 @@
 package use_case.SingerChoose;
 
 import entity.RoundState;
+import entity.Song;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SingerChooseInteractor implements SingerChooseInputBoundary {
     final SingerChooseRoundStateDataAccessInterface singerChooseRoundStateDataAccessObject;
@@ -13,14 +17,16 @@ public class SingerChooseInteractor implements SingerChooseInputBoundary {
 
     @Override
     public void execute(SingerChooseInputData singerChooseInputData) {
-        // Get the current game state and change the song
-        RoundState roundState = singerChooseRoundStateDataAccessObject.getCurrentRoundState();
-        roundState.setSong(singerChooseInputData.getSong());
-        roundState.setSingerState(RoundState.SingerState.SINGING);
+        String songPatternString = "(.+?) by (.+?)";
+        Pattern songPattern = Pattern.compile(songPatternString);
+        Matcher songMatcher = songPattern.matcher(singerChooseInputData.getSongName());
 
-        // REDUNDANT NOW: the RunGameInteractor handles changing views and stuff
-        // prepare success view
-        // SingerChooseOutputData singerChooseOutputData = new SingerChooseOutputData(singerChooseInputData.getSong());
-        // singerChoosePresenter.prepareSuccessView(singerChooseOutputData);
+        if (songMatcher.matches()) {
+            RoundState roundState = singerChooseRoundStateDataAccessObject.getCurrentRoundState();
+            roundState.setSong(new Song(songMatcher.group(2), songMatcher.group(1)));
+            roundState.setSingerState(RoundState.SingerState.SINGING);
+        } else {
+            // todo throw an error here i guess, but it won't happen in our current code
+        }
     }
 }

@@ -58,9 +58,9 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     Song song1 = new Song("Queen", "Don't Stop Me now");
                     Song song2 = new Song("Queen", "Bohemian Rhapsody");
                     Song song3 = new Song("Queen", "Another One Bites The Dust");
-                    singerChooseState.setSong1(song1);
-                    singerChooseState.setSong2(song2);
-                    singerChooseState.setSong3(song3);
+                    singerChooseState.setSong1Name(song1.toString());
+                    singerChooseState.setSong2Name(song2.toString());
+                    singerChooseState.setSong3Name(song3.toString());
 
                     // update the view
                     runGamePresenter.prepareSingerChooseView(new RunGameSingerChooseOutputData(singerChooseState));

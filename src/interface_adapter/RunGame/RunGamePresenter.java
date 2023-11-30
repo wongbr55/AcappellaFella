@@ -30,14 +30,7 @@ public class RunGamePresenter implements RunGameOutputBoundary {
 
     @Override
     public void prepareSingerChooseView(RunGameSingerChooseOutputData runGameSingerChooseOutputData) {
-        SingerChooseState singerChooseState = singerChooseViewModel.getState();
-        Song song1 = new Song("Queen", "Don't Stop Me now");
-        Song song2 = new Song("Queen", "Bohemian Rhapsody");
-        Song song3 = new Song("Queen", "Another One Bites The Dust");
-        singerChooseState.setSong1(song1);
-        singerChooseState.setSong2(song2);
-        singerChooseState.setSong3(song3);
-        singerChooseViewModel.setState(singerChooseState);
+        singerChooseViewModel.setState(runGameSingerChooseOutputData.getSingerChooseState());
         singerChooseViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(singerChooseViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
