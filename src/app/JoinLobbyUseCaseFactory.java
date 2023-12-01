@@ -2,7 +2,6 @@ package app;
 
 import interface_adapter.JoinLobby.JoinLobbyController;
 import interface_adapter.JoinLobby.JoinLobbyViewModel;
-import view.JoinLobbyView;
 
 public class JoinLobbyUseCaseFactory {
     private JoinLobbyUseCaseFactory(){}

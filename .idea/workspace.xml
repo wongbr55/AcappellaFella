@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="548c69e1-e0db-4c60-a4ef-d14849722230" name="Changes" comment="Trying to get files to show up again">
-      <change afterPath="$PROJECT_DIR$/src/interface_adapter/Home/HomeViewState.java" afterDir="false" />
+    <list default="true" id="548c69e1-e0db-4c60-a4ef-d14849722230" name="Changes" comment="Cleaned up HomeView">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface_adapter/Home/HomeViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interface_adapter/Home/HomeViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interface_adapter/SingerChoose/SingerChooseViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interface_adapter/SingerChoose/SingerChooseViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/StartLobbyUseCaseFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/ChooseNameViewFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interface_adapter/StartLobby/StartLobbyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interface_adapter/StartLobby/StartLobbyPresenter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interface_adapter/StartLobby/StartLobbyState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interface_adapter/ChooseName/ChooseNameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interface_adapter/StartLobby/StartLobbyViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/interface_adapter/ChooseName/ChooseNameViewModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/HomeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/StartLobbyView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ChooseNameView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +54,7 @@
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "lobby",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -101,7 +106,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700506142452</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Cleaned up HomeView">
+      <option name="closed" value="true" />
+      <created>1701390377504</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701390377504</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,6 +122,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Trying to get files to show up again" />
-    <option name="LAST_COMMIT_MESSAGE" value="Trying to get files to show up again" />
+    <MESSAGE value="Cleaned up HomeView" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up HomeView" />
   </component>
 </project>

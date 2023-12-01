@@ -2,12 +2,6 @@ package view;
 
 import interface_adapter.Home.HomeViewModel;
 import interface_adapter.Home.HomeViewState;
-import interface_adapter.JoinLobby.JoinLobbyController;
-import interface_adapter.JoinLobby.JoinLobbyState;
-import interface_adapter.JoinLobby.JoinLobbyViewModel;
-import interface_adapter.StartLobby.StartLobbyController;
-import interface_adapter.StartLobby.StartLobbyState;
-import interface_adapter.StartLobby.StartLobbyViewModel;
 
 import javax.swing.*;
 import java.awt.*;

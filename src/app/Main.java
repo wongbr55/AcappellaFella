@@ -15,7 +15,7 @@ import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
-import interface_adapter.StartLobby.StartLobbyViewModel;
+import interface_adapter.ChooseName.ChooseNameViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 import logger.MessageLogger;
@@ -53,7 +53,7 @@ public class Main {
         SingerSingViewModel singerSingViewModel = new SingerSingViewModel();
         PlayerGuessViewModel playerGuessViewModel = new PlayerGuessViewModel();
         HomeViewModel homeViewModel = new HomeViewModel();
-        StartLobbyViewModel startLobbyViewModel = new StartLobbyViewModel();
+        ChooseNameViewModel startLobbyViewModel = new ChooseNameViewModel();
         JoinLobbyViewModel joinLobbyViewModel = new JoinLobbyViewModel();
         WaitRoomViewModel waitRoomViewModel = new WaitRoomViewModel();
 
@@ -109,7 +109,7 @@ public class Main {
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
         HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
-        StartLobbyView startLobbyView = StartLobbyUseCaseFactory.create(startLobbyViewModel);
+        ChooseNameView chooseNameView = ChooseNameViewFactory.create(startLobbyViewModel);
         JoinLobbyView joinLobbyView = JoinLobbyUseCaseFactory.create(joinLobbyViewModel);
         HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(waitRoomViewModel);
         JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(waitRoomViewModel);
@@ -120,7 +120,7 @@ public class Main {
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
         views.add(homeView, homeView.viewName);
-        views.add(startLobbyView, startLobbyView.viewName);
+        views.add(chooseNameView, chooseNameView.viewName);
         views.add(joinLobbyView, joinLobbyView.viewName);
         views.add(hostWaitRoomView, hostWaitRoomView.viewName);
         views.add(joinWaitRoomView, joinWaitRoomView.viewName);

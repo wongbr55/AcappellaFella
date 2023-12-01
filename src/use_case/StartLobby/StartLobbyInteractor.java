@@ -14,7 +14,7 @@ public class StartLobbyInteractor implements StartLobbyOutputBoundary {
     public void execute(StartLobbyInputData startLobbyInputData){
         if (startLobbyDataAccessInterface.existsByName(startLobbyInputData.getName())){
             startLobbyOutputBoundary.prepareFailView("Name already in use");
-        }else {
+        } else {
             Player player = new Player();
             player.setName(startLobbyInputData.getName());
             startLobbyDataAccessInterface.save(player);
