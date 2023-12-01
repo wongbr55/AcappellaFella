@@ -6,7 +6,7 @@ public class SingerChooseState {
     private String song1Name;
     private String song2Name;
     private String song3Name;
-    private String time
+    private String time;
 
     public String getSong1Name() {
         return song1Name;
