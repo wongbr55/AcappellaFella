@@ -19,12 +19,14 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
     private final JButton song1;
     private final JButton song2;
     private final JButton song3;
+    private final JLabel timer;
 
     public SingerChooseView(SingerChooseViewModel singerChooseViewModel, SingerChooseController singerChooseController) {
         this.singerChooseViewModel = singerChooseViewModel;
         this.singerChooseController = singerChooseController;
         this.singerChooseViewModel.addPropertyChangeListener(this);
 
+        this.timer = new JLabel("0");
 
         JLabel title = new JLabel(SingerChooseViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -74,6 +76,7 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
+        this.add(timer);
         this.add(buttons);
     }
 
@@ -88,5 +91,6 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
         song1.setText(state.getSong1Name());
         song2.setText(state.getSong2Name());
         song3.setText(state.getSong3Name());
+        timer.setText(state.getTime());
     }
 }

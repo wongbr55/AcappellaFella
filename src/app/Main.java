@@ -72,7 +72,6 @@ public class Main {
         // todo remove later
         Player brandon = new Player();
         brandon.setName("Brandon");
-        gameStateDAO.getGameState().setMainPlayer(brandon);
         addPlayerController.execute(brandon);
 //        gameStateDAO.addPlayer(me);
 //        playerDAO.save(me);
@@ -86,6 +85,8 @@ public class Main {
         addPlayerController.execute(eric);
 //        gameStateDAO.addPlayer(you);
 //        playerDAO.save(you);
+
+        gameStateDAO.getGameState().setMainPlayer(brandon);
 
         // Views
 
