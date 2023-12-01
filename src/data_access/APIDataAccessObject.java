@@ -1,21 +1,26 @@
 package data_access;
 
 // libraries for working with APIs
+import entity.Playlist;
 import entity.Song;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import use_case.LoadPlaylist.LoadPlaylistDataAccessInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 
-public class APIDataAccessObject {
+public class APIDataAccessObject implements LoadPlaylistDataAccessInterface {
 
     // load CLIENT_ID and CLIENT_SECRET from env variable.
     private static final String CLIENT_ID = System.getenv("CLIENT_ID");
     private static final String CLIENT_SECRET = System.getenv("CLIENT_SECRET");
+
+    private Playlist playlist = new Playlist();
 
     public static String requestAccessToken() {
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -75,5 +80,31 @@ public class APIDataAccessObject {
 
         // return a new Song object corresponding to the title and artist
         return new Song(artist, title);
+    }
+
+
+    @Override
+    public Playlist getPlaylist() {
+        Integer minTrackNumber = 0;
+        Integer maxTrackNumber = 149;
+        Integer numSongs = 3;
+
+        // array to store three songs
+        ArrayList<Song> threeSongs = new ArrayList<>();
+
+        // request the access token using environment variables
+        String accessToken = requestAccessToken();
+
+        // main program
+        JSONObject playlistData = requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
+        for (Integer i = 0; i < numSongs; i++) {
+            Integer randomTrackNumber = ThreadLocalRandom.current().nextInt(minTrackNumber, maxTrackNumber + 1);
+            System.out.println(randomTrackNumber);
+            threeSongs.add(getSong(playlistData, randomTrackNumber));
+        }
+        playlist.setSongOne(threeSongs.get(0));
+        playlist.setSongTwo(threeSongs.get(1));
+        playlist.setSongThree(threeSongs.get(2));
+        return playlist;
     }
 }

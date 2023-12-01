@@ -68,7 +68,6 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             String songTitle = newSongMatcher.group(1);
             String songArtist = newSongMatcher.group(2);
 
-            // using a placeholder below
             Song song1 = new Song(songArtist, songTitle);
             roundState.setSong(song1);
         } else if (type == Message.MessageType.INVIS_SYSTEM && content.equals("ROUND DONE")) {

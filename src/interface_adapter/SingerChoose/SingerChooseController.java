@@ -11,8 +11,8 @@ public class SingerChooseController {
         this.singerChooseInteractor = singerChooseInteractor;
     }
 
-    public void execute(Song song) {
-        SingerChooseInputData singerChooseInputData = new SingerChooseInputData(song);
+    public void execute(String songName) {
+        SingerChooseInputData singerChooseInputData = new SingerChooseInputData(songName);
         singerChooseInteractor.execute(singerChooseInputData);
     }
 }
