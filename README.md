@@ -5,7 +5,6 @@ Our problem domain is focused on making a trivia game. At a high level we were p
 
 ## API Documentation
 [Spotify API](https://developer.spotify.com/documentation/web-api)
-[Lyrics API](https://lyricsovh.docs.apiary.io/#reference/0/lyrics-of-a-song/search)
 
 ## Hoppscotch Example
 The following examples use Hoppscotch to test the Spotify API. Since the access token test requires both parameter and header data, which can't be shown in one screenshot, the following links are provided instead.
@@ -65,8 +64,3 @@ System.out.println(artistData.toString(4));
     "uri": "spotify:artist:3ICflSq6ZgYAIrm2CTkfVP"
 }
 ```
-
-## Technical Issues
-While we have no issues with the Spotify API, we have not come to a solution on how we are going to stream the audio. Our approach are as follows:
-- To record the singer’s audio, we are planning on using the MediaStream Recording API.
-- If this does not work, our alternative is to use the Discord API to make this game in the form of a Discord bot. 

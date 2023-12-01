@@ -12,10 +12,10 @@ import java.beans.PropertyChangeListener;
 public class SingerSingView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "singer sing";
     public final SingerSingViewModel singerSingViewModel;
-
     public final JLabel song;
 
-    public SingerSingView(SingerSingViewModel singerSingViewModel) {
+    public SingerSingView(ScoreboardView scoreboardView, SingerSingViewModel singerSingViewModel) {
+
         this.singerSingViewModel = singerSingViewModel;
         this.singerSingViewModel.addPropertyChangeListener(this);
 
@@ -29,7 +29,7 @@ public class SingerSingView extends JPanel implements ActionListener, PropertyCh
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(song);
-
+        this.add(scoreboardView);
     }
 
     @Override

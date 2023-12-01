@@ -1,5 +1,7 @@
 package use_case.SingerChoose;
 
+import entity.RoundState;
+
 public class SingerChooseInteractor implements SingerChooseInputBoundary {
     final SingerChooseRoundStateDataAccessInterface singerChooseRoundStateDataAccessObject;
     final SingerChooseOutputBoundary singerChoosePresenter;
@@ -12,10 +14,13 @@ public class SingerChooseInteractor implements SingerChooseInputBoundary {
     @Override
     public void execute(SingerChooseInputData singerChooseInputData) {
         // Get the current game state and change the song
-        singerChooseRoundStateDataAccessObject.getCurrentRoundState().setSong(singerChooseInputData.getSong());
-        // prepare success view
+        RoundState roundState = singerChooseRoundStateDataAccessObject.getCurrentRoundState();
+        roundState.setSong(singerChooseInputData.getSong());
+        roundState.setSingerState(RoundState.SingerState.SINGING);
 
-        SingerChooseOutputData singerChooseOutputData = new SingerChooseOutputData(singerChooseInputData.getSong());
-        singerChoosePresenter.prepareSuccessView(singerChooseOutputData);
+        // REDUNDANT NOW: the RunGameInteractor handles changing views and stuff
+        // prepare success view
+        // SingerChooseOutputData singerChooseOutputData = new SingerChooseOutputData(singerChooseInputData.getSong());
+        // singerChoosePresenter.prepareSuccessView(singerChooseOutputData);
     }
 }

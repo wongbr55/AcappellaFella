@@ -15,7 +15,7 @@ public class PlayerGuessView extends JPanel implements ActionListener, PropertyC
     public String viewName = "player guess";
     public PlayerGuessViewModel playerGuessViewModel;
 
-    public PlayerGuessView(ChatView chatView, PlayerGuessViewModel playerGuessViewModel) {
+    public PlayerGuessView(ScoreboardView scoreboardView, ChatView chatView, PlayerGuessViewModel playerGuessViewModel) {
         this.playerGuessViewModel = playerGuessViewModel;
         playerGuessViewModel.addPropertyChangeListener(this);
         PlayerGuessState playerGuessState = playerGuessViewModel.getState();
@@ -24,6 +24,8 @@ public class PlayerGuessView extends JPanel implements ActionListener, PropertyC
         this.title.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(this.title);
         this.add(chatView);
+        // add scoreboardView
+        this.add(scoreboardView);
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }

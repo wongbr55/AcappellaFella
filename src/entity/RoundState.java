@@ -1,11 +1,13 @@
 package entity;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RoundState {
     private final Map<Player, Boolean> playerGuessStatus = new HashMap<>();
     private Song song;
+    private SingerState singerState = SingerState.CHOOSING;
 
     public Song getSong() {
         return this.song;
@@ -23,4 +25,33 @@ public class RoundState {
     public void setGuessStatusByPlayer(Player player, Boolean newStatus) {
         playerGuessStatus.put(player, newStatus);
     }
+
+    public Integer getTotalCorrectGuesses() {
+        return Collections.frequency(playerGuessStatus.values(), true);
+    }
+
+    public int getNumberOfPlayerGuessed() {
+        int i = 0;
+        for (Boolean guessed : playerGuessStatus.values()) {
+            if (guessed) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public SingerState getSingerState() {
+        return singerState;
+    }
+
+    public void setSingerState(SingerState singerState) {
+        this.singerState = singerState;
+    }
+
+    public enum SingerState {
+        CHOOSING,
+        SINGING,
+        DONE
+    }
+
 }

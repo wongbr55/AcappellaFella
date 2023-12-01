@@ -22,6 +22,15 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
         GameState gameState = checkGuessGameStateDataAccessInterface.getGameState();
         RoundState roundState = checkGuessRoundStateDataAccessInterface.getCurrentRoundState();
 
+        // if we're not singing, then there's no need to check
+        if (roundState.getSingerState() != RoundState.SingerState.SINGING) {
+            // send a message for everyone to see
+            String message = checkGuessInputData.getGuess();
+            SendMessageInputData sendMessageInputData = new SendMessageInputData(message, gameState.getMainPlayer());
+            this.sendMessageInputBoundary.execute(sendMessageInputData);
+            return;
+        }
+
         String songTitle = roundState.getSong().getTitle();
         String guessTitle = checkGuessInputData.getGuess();
 
@@ -33,12 +42,7 @@ public class CheckGuessInteractor implements CheckGuessInputBoundary {
             this.sendMessageInputBoundary.execute(sendMessageInputData);
         } else if (songTitle.equalsIgnoreCase(guessTitle)) {
             // hide your guess, and then send a system message that everyone can see
-            // todo the score system needs to be more complicated, this is left here as a placeholder
-            gameState.getMainPlayer().setScore(gameState.getMainPlayer().getScore() + 1);
-            roundState.setGuessStatusByPlayer(gameState.getMainPlayer(), true);
-
-            String message = gameState.getMainPlayer().getName() + " has guessed the answer! They now have "
-                    + gameState.getMainPlayer().getScore() + " point(s)!";
+            String message = gameState.getMainPlayer().getName() + " has guessed the answer!";
 
             SendMessageInputData sendMessageInputData = new SendMessageInputData(message, null, Message.MessageType.SYSTEM);
             this.sendMessageInputBoundary.execute(sendMessageInputData);

@@ -1,27 +1,27 @@
 package app;
 
-import data_access.APIDataAccessObject;
-import data_access.InMemoryGameStateGameStateDataAccessObject;
-import data_access.InMemoryMessageHistoryDataAccessObject;
-import data_access.InMemoryPlayerDataAccessObject;
-import data_access.InMemoryRoundStateDataAccessObject;
+import data_access.*;
 import entity.Player;
 import entity.Song;
+import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.ChooseName.HostChooseNameViewModel;
 import interface_adapter.ChooseName.JoinChooseNameViewModel;
 import interface_adapter.Home.HomeViewModel;
+import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
+import interface_adapter.RunGame.RunGameController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
+import interface_adapter.Scoreboard.ScoreboardViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.WaitRoom.HostWaitRoomViewModel;
 import interface_adapter.WaitRoom.JoinWaitRoomViewModel;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 import logger.MessageLogger;
-import org.json.JSONObject;
+import use_case.UpdateScore.UpdateScoreInteractor;
 import view.*;
 
 import javax.swing.*;
@@ -33,7 +33,7 @@ public class Main {
         // various cards, and the layout, and stitch them together.
 
         // The main application window.
-        JFrame application = new JFrame("AcappellaFella");
+        JFrame application = new JFrame("brandon");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -59,16 +59,23 @@ public class Main {
         HostChooseNameViewModel hostChooseNameViewModel = new HostChooseNameViewModel();
         JoinWaitRoomViewModel joinWaitRoomViewModel = new JoinWaitRoomViewModel();
         HostWaitRoomViewModel hostWaitRoomViewModel = new HostWaitRoomViewModel();
+        ScoreboardViewModel scoreboardViewModel = new ScoreboardViewModel();
+        EndScreenViewModel endScreenViewModel = new EndScreenViewModel();
 
 
         // DAOs
-        InMemoryGameStateGameStateDataAccessObject gameStateDAO = new InMemoryGameStateGameStateDataAccessObject();
+        InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
         InMemoryRoundStateDataAccessObject roundStateDAO = new InMemoryRoundStateDataAccessObject();
         InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
+        InMemoryScoreboardScoreboardDataAccessObject scoreboardDAO = new InMemoryScoreboardScoreboardDataAccessObject();
+
+        // Lone controllers and interactors to be placed in other views/items/etc.
+        UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, scoreboardViewModel);
+        AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
 
         /*
          todo remove later
@@ -96,20 +103,28 @@ public class Main {
         // todo remove later
         Player brandon = new Player();
         brandon.setName("Brandon");
-        gameStateDAO.addPlayer(brandon);
-        playerDAO.save(brandon);
+        gameStateDAO.getGameState().setMainPlayer(brandon);
+        addPlayerController.execute(brandon);
+//        gameStateDAO.addPlayer(me);
+//        playerDAO.save(me);
+
+        Player mark = new Player();
+        mark.setName("Mark");
+        addPlayerController.execute(mark);
 
         Player eric = new Player();
         eric.setName("eric");
-        gameStateDAO.addPlayer(eric);
-        playerDAO.save(eric);
-
-        gameStateDAO.getGameState().setMainPlayer(brandon);
+        addPlayerController.execute(eric);
+//        gameStateDAO.addPlayer(you);
+//        playerDAO.save(you);
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
-        SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel);
+        ScoreboardView scoreboardView = ScoreboardViewBuilder.createView(scoreboardViewModel);
+        SingerSingView singerSingView = SingerSingUseCaseFactory.create(singerSingViewModel, scoreboardView);
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
+        EndScreenView endScreenView = EndScreenViewFactory.createView(endScreenViewModel);
+        PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(chatView, playerGuessViewModel);
         HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
         JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(joinChooseNameViewModel);
@@ -119,6 +134,7 @@ public class Main {
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
+        views.add(endScreenView, endScreenView.viewName);
         // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
         // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
@@ -131,18 +147,11 @@ public class Main {
         viewManagerModel.setActiveView(hostWaitRoomView.viewName);
         viewManagerModel.firePropertyChanged();
 
+        RunGameController runGameController = RunGameUseCaseFactory.createRunGameUseCase(gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel);
+
         application.pack();
         application.setVisible(true);
 
-        // Demonstrate data access object functionality by retrieving three distinct songs
-        String accessToken = APIDataAccessObject.requestAccessToken();
-        JSONObject playlistData = APIDataAccessObject.requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
-        System.out.println(playlistData);
-        Song songOne = APIDataAccessObject.getSong(playlistData, 1);
-        Song songTwo = APIDataAccessObject.getSong(playlistData, 2);
-        Song songThree = APIDataAccessObject.getSong(playlistData, 3);
-        System.out.println(songOne.toString());
-        System.out.println(songTwo.toString());
-        System.out.println(songThree.toString());
+        runGameController.execute(3, 10);
     }
 }
