@@ -1,7 +1,5 @@
 package interface_adapter.SingerChoose;
 
-import entity.Song;
-
 public class SingerChooseState {
     private String song1Name;
     private String song2Name;
