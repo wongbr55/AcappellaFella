@@ -110,7 +110,8 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             sendMessage(state.getLastMessage());
         } else if (evt.getNewValue() instanceof StartLobbyState state) {
             String lobbyID = createChannel();
-            // todo call some presenter and propagate the id back into the interactor layer
+            setChannel(lobbyID);
+            // todo call some controller and propagate the id back into the interactor layer
         }
     }
 }
