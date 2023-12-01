@@ -1,7 +1,6 @@
 package interface_adapter.ChooseName;
 
 import interface_adapter.ViewModel;
-import view.ChooseNameView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

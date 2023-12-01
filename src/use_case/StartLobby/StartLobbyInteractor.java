@@ -8,7 +8,6 @@ public class StartLobbyInteractor implements StartLobbyInputBoundary {
     }
 
     public void execute(StartLobbyInputData startLobbyInputData){
-        // create lobby
-        startLobbyPresenter.createLobby();
+        startLobbyPresenter.createLobby(new StartLobbyOutputData());
     }
 }

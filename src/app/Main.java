@@ -2,22 +2,19 @@ package app;
 
 import data_access.*;
 import entity.Player;
-import entity.Song;
 import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
-import interface_adapter.ChooseName.HostChooseNameViewModel;
-import interface_adapter.ChooseName.JoinChooseNameViewModel;
+import interface_adapter.ChooseName.HostChooseName.HostChooseNameViewModel;
+import interface_adapter.ChooseName.JoinChooseName.JoinChooseNameViewModel;
 import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.Home.HomeViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.RunGame.RunGameController;
 import interface_adapter.Scoreboard.ScoreboardViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
-import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.StartLobby.StartLobbyLoggerModel;
-import interface_adapter.StartLobby.StartLobbyPresenter;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.WaitRoom.HostWaitRoomViewModel;
 import interface_adapter.WaitRoom.JoinWaitRoomViewModel;
@@ -86,8 +83,6 @@ public class Main {
         Player brandon = new Player();
         brandon.setName("Brandon");
         addPlayerController.execute(brandon);
-//        gameStateDAO.addPlayer(me);
-//        playerDAO.save(me);
 
         Player mark = new Player();
         mark.setName("Mark");
@@ -96,8 +91,6 @@ public class Main {
         Player eric = new Player();
         eric.setName("eric");
         addPlayerController.execute(eric);
-//        gameStateDAO.addPlayer(you);
-//        playerDAO.save(you);
 
         gameStateDAO.getGameState().setMainPlayer(brandon);
 

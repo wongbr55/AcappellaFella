@@ -11,17 +11,7 @@ public class StartLobbyPresenter implements StartLobbyOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(StartLobbyOutputData startLobbyOutputData) {
-
-    }
-
-    @Override
-    public void prepareFailView(String error) {
-
-    }
-
-    @Override
-    public void createLobby() {
+    public void createLobby(StartLobbyOutputData startLobbyOutputData) {
         StartLobbyState state = new StartLobbyState();
         startLobbyLoggerModel.setState(state);
         startLobbyLoggerModel.firePropertyChanged();
