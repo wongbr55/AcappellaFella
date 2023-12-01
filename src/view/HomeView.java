@@ -1,13 +1,13 @@
 package view;
 
 import interface_adapter.Home.HomeViewModel;
-import interface_adapter.StartLobby.StartLobbyState;
-import interface_adapter.StartLobby.StartLobbyViewModel;
-import interface_adapter.StartLobby.StartLobbyController;
+import interface_adapter.Home.HomeViewState;
+import interface_adapter.JoinLobby.JoinLobbyController;
 import interface_adapter.JoinLobby.JoinLobbyState;
 import interface_adapter.JoinLobby.JoinLobbyViewModel;
-import interface_adapter.JoinLobby.JoinLobbyController;
-
+import interface_adapter.StartLobby.StartLobbyController;
+import interface_adapter.StartLobby.StartLobbyState;
+import interface_adapter.StartLobby.StartLobbyViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,14 +17,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.EventObject;
 
 public class HomeView extends JPanel implements ActionListener, PropertyChangeListener {
-    public static final String viewName = "home";
-
-    private final HomeViewModel homeViewModel;
-
+    public final String viewName = "home";
     final JTextField idInputField = new JTextField(15);
+    private final HomeViewModel homeViewModel;
     private final JLabel idErrorField = new JLabel();
 
     private final JButton create;
@@ -37,8 +34,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         JLabel title = new JLabel(HomeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        LabelTextPanel idInfo = new LabelTextPanel(
-                new JLabel("Enter Game ID"), idInputField);
+        LabelTextPanel idInfo = new LabelTextPanel(new JLabel("Enter Game ID"), idInputField);
 
         JPanel buttons = new JPanel();
         create = new JButton(HomeViewModel.CREATE_BUTTON);
@@ -46,37 +42,27 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         join = new JButton(HomeViewModel.JOIN_BUTTON);
         buttons.add(join);
 
-
-        create.addActionListener(
-                new ActionListener() {
-
-            public void actionPerformed (ActionEvent evt){
+        create.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(create)) {
-                    StartLobbyState currentState = StartLobbyViewModel.getState();
-
-                    StartLobbyController.execute(currentState.getID());
+                    // todo call StartLobbyController
                 }
             }
-        }
-               );
+        });
 
-        join.addActionListener(
-                new ActionListener() {
-            public void actionPerformed (ActionEvent evt){
+        join.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(join)) {
-                    JoinLobbyState currentState = JoinLobbyViewModel.getState();
-
-                    JoinLobbyController.execute(currentState.getID());
+                    // todo call JoinLobbyController
                 }
             }
-        }
-               );
+        });
         idInputField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                JoinLobbyState currentState = JoinLobbyViewModel.getState();
-                currentState.setID(idInputField.getText() + e.getKeyChar());
-                JoinLobbyViewModel.setState(currentState);
+                HomeViewState currentState = homeViewModel.getState();
+                currentState.setLobbyID(idInputField.getText() + e.getKeyChar());
+                homeViewModel.setState(currentState);
             }
 
             @Override
@@ -92,7 +78,6 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         this.add(idInfo);
         this.add(idErrorField);
         this.add(buttons);
-
     }
 
 

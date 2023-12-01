@@ -126,7 +126,7 @@ public class Main {
         views.add(joinWaitRoomView, joinWaitRoomView.viewName);
 
 
-        viewManagerModel.setActiveView(JoinWaitRoomView.viewName);
+        viewManagerModel.setActiveView(homeView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();
