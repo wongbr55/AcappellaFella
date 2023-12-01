@@ -7,9 +7,6 @@ import view.JoinWaitRoomView;
 public class JoinWaitRoomUseCaseFactory {
     private JoinWaitRoomUseCaseFactory(){}
     public static JoinWaitRoomView create(WaitRoomViewModel waitRoomViewModel){
-        RunGameController controller = createRunGameUseCase();
-        return new JoinWaitRoomView(waitRoomViewModel, controller);
+        return new JoinWaitRoomView(waitRoomViewModel);
     }
-    private static RunGameController createRunGameUseCase(){return new RunGameController();}
-
 }

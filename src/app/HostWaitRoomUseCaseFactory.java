@@ -7,9 +7,6 @@ import view.HostWaitRoomView;
 public class HostWaitRoomUseCaseFactory {
     private HostWaitRoomUseCaseFactory(){}
     public static HostWaitRoomView create(WaitRoomViewModel waitRoomViewModel){
-        RunGameController controller = createRunGameUseCase();
-        return new HostWaitRoomView(waitRoomViewModel, controller);
+        return new HostWaitRoomView(waitRoomViewModel);
     }
-    private static RunGameController createRunGameUseCase(){return new RunGameController();}
-
 }

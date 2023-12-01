@@ -17,6 +17,8 @@ import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.WaitRoom.HostWaitRoomViewModel;
+import interface_adapter.WaitRoom.JoinWaitRoomViewModel;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 import logger.MessageLogger;
 import org.json.JSONObject;
@@ -55,7 +57,8 @@ public class Main {
         HomeViewModel homeViewModel = new HomeViewModel();
         JoinChooseNameViewModel joinChooseNameViewModel = new JoinChooseNameViewModel();
         HostChooseNameViewModel hostChooseNameViewModel = new HostChooseNameViewModel();
-        WaitRoomViewModel waitRoomViewModel = new WaitRoomViewModel();
+        JoinWaitRoomViewModel joinWaitRoomViewModel = new JoinWaitRoomViewModel();
+        HostWaitRoomViewModel hostWaitRoomViewModel = new HostWaitRoomViewModel();
 
 
         // DAOs
@@ -111,8 +114,8 @@ public class Main {
         HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
         JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(joinChooseNameViewModel);
         HostChooseNameView hostChooseNameView = ChooseNameViewFactory.createHostView(hostChooseNameViewModel);
-        HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(waitRoomViewModel);
-        JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(waitRoomViewModel);
+        JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(joinWaitRoomViewModel);
+        HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(hostWaitRoomViewModel);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
@@ -122,11 +125,10 @@ public class Main {
         views.add(homeView, homeView.viewName);
         views.add(joinChooseNameView, joinChooseNameView.viewName);
         views.add(hostChooseNameView, hostChooseNameView.viewName);
-        views.add(hostWaitRoomView, hostWaitRoomView.viewName);
         views.add(joinWaitRoomView, joinWaitRoomView.viewName);
+        views.add(hostWaitRoomView, hostWaitRoomView.viewName);
 
-
-        viewManagerModel.setActiveView(hostChooseNameView.viewName);
+        viewManagerModel.setActiveView(hostWaitRoomView.viewName);
         viewManagerModel.firePropertyChanged();
 
         application.pack();

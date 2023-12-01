@@ -1,11 +1,11 @@
 package view;
 
-import interface_adapter.RunGame.RunGameController;
 import interface_adapter.WaitRoom.WaitRoomState;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,112 +14,102 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class HostWaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
-    public static final String viewName = "Waiting for Players";
+    public final String viewName = "host wait room";
     private final WaitRoomViewModel waitRoomViewModel;
-    private final RunGameController runGameController;
+    private final JTextField playlistInputField = new JTextField(15);
+    private final JSlider numberOfRoundsSlider;
+    private final JSlider roundLengthSlider;
+    private final JButton startGame;
+    private final JButton loadPlaylist;
 
-    JLabel player;
-
-    private final JTextField roundInputField = new JTextField(15);
-    private final JTextField lengthRoundInputField = new JTextField(15);
-    private final JTextField playlistNameInputField = new JTextField(15);
-
-    final JButton startLobby;
-
-    public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel, RunGameController runGameController) {
+    public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel) {
         this.waitRoomViewModel = waitRoomViewModel;
-        this.runGameController = runGameController;
         this.waitRoomViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("Waiting for Players");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        LabelTextPanel playlistInfo = new LabelTextPanel(new JLabel("Spotify playlist link"), playlistInputField);
 
-        JLabel usernameInfo = new JLabel("Currently logged in: ");
-        player = new JLabel();
+        JLabel numberOfRoundsDesc = new JLabel("Set the number of rounds");
+        JLabel roundLengthDesc = new JLabel("Set the length of each round");
 
-        LabelTextPanel roundInfo = new LabelTextPanel(
-                new JLabel("Enter Number of Rounds"), roundInputField);
-        LabelTextPanel lengthRoundInfo = new LabelTextPanel(
-                new JLabel("Enter Length of Round"), lengthRoundInputField);
-        LabelTextPanel playlistNameInfo = new LabelTextPanel(
-                new JLabel("Enter Name of Playlist"), playlistNameInputField);
+        numberOfRoundsSlider = new JSlider(JSlider.HORIZONTAL, 1, 5, 3);
+        numberOfRoundsSlider.setMajorTickSpacing(1);
+        numberOfRoundsSlider.setMinorTickSpacing(1);
+        numberOfRoundsSlider.setPaintTicks(true);
+        numberOfRoundsSlider.setPaintLabels(true);
+        numberOfRoundsSlider.setSnapToTicks(true);
+        numberOfRoundsSlider.setLabelTable(numberOfRoundsSlider.createStandardLabels(5));
 
-        JPanel buttons = new JPanel();
-        startLobby = new JButton(WaitRoomViewModel.STARTLOBBY_BUTTON_LABEL);
-        buttons.add(startLobby);
+        roundLengthSlider = new JSlider(JSlider.HORIZONTAL, 15, 120, 60);
+        roundLengthSlider.setMajorTickSpacing(15);
+        roundLengthSlider.setPaintTicks(true);
+        roundLengthSlider.setPaintLabels(true);
+        roundLengthSlider.setSnapToTicks(true);
+        roundLengthSlider.setLabelTable(roundLengthSlider.createStandardLabels(15));
 
-        startLobby.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(startLobby)) {
-                            WaitRoomState currentState = waitRoomViewModel.getState();
+        startGame = new JButton(WaitRoomViewModel.START_GAME_BUTTON_LABEL);
 
-                            // todo add rungamecontroller
-                            // runGameController.execute();
-                        }
-                    }
+        loadPlaylist = new JButton(WaitRoomViewModel.LOAD_PLAYLIST_BUTTON_LABEL);
+
+        startGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(startGame)) {
+                    WaitRoomState currentState = waitRoomViewModel.getState();
+
+                    // todo add StartGameController
                 }
-        );
-        roundInputField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                WaitRoomState currentState = waitRoomViewModel.getState();
-                currentState.setround(roundInputField.getText() + e.getKeyChar());
-                waitRoomViewModel.setState(currentState);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
             }
         });
-        lengthRoundInputField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                WaitRoomState currentState = waitRoomViewModel.getState();
-                currentState.setround(lengthRoundInputField.getText() + e.getKeyChar());
-                waitRoomViewModel.setState(currentState);
-            }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
+        loadPlaylist.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource().equals(loadPlaylist)) {
+                    WaitRoomState currentState = waitRoomViewModel.getState();
+                    currentState.setPlaylistLink(playlistInputField.getText());
+                    waitRoomViewModel.setState(currentState);
 
-            @Override
-            public void keyReleased(KeyEvent e) {
+                    // todo add load playlist controller
+                }
             }
         });
-        playlistNameInputField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                WaitRoomState currentState = waitRoomViewModel.getState();
-                currentState.setround(playlistNameInputField.getText() + e.getKeyChar());
-                waitRoomViewModel.setState(currentState);
-            }
 
+        numberOfRoundsSlider.addChangeListener(new ChangeListener() {
             @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
+            public void stateChanged(ChangeEvent e) {
+                if (!numberOfRoundsSlider.getValueIsAdjusting()) {
+                    WaitRoomState currentState = waitRoomViewModel.getState();
+                    currentState.setNumberOfRounds(numberOfRoundsSlider.getValue());
+                    waitRoomViewModel.setState(currentState);
+                }
             }
         });
+
+        roundLengthSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (!roundLengthSlider.getValueIsAdjusting()) {
+                    WaitRoomState currentState = waitRoomViewModel.getState();
+                    currentState.setRoundLength(roundLengthSlider.getValue());
+                    waitRoomViewModel.setState(currentState);
+                }
+            }
+        });
+
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(title);
-        this.add(roundInfo);
-        this.add(lengthRoundInfo);
-        this.add(playlistNameInfo);
-        this.add(player);
-        this.add(buttons);
+        JPanel playListLoadMenu = new JPanel();
+        playListLoadMenu.add(playlistInfo);
+        playListLoadMenu.add(loadPlaylist);
+        this.add(playListLoadMenu);
+        this.add(numberOfRoundsDesc);
+        this.add(numberOfRoundsSlider);
+        this.add(roundLengthDesc);
+        this.add(roundLengthSlider);
+        this.add(startGame);
     }
+
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
+
     }
 
     @Override

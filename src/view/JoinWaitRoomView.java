@@ -12,48 +12,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class JoinWaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
-    public static final String viewName = "Waiting for Players";
+    public final String viewName = "join wait room";
     private final WaitRoomViewModel waitRoomViewModel;
-    private final RunGameController runGameController;
 
-    JLabel player;
-
-    final JButton startLobby;
-
-    public JoinWaitRoomView(WaitRoomViewModel waitRoomViewModel, RunGameController runGameController) {
+    public JoinWaitRoomView(WaitRoomViewModel waitRoomViewModel) {
         this.waitRoomViewModel = waitRoomViewModel;
-        this.runGameController = runGameController;
         this.waitRoomViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel("Waiting for Players");
+        JLabel title = new JLabel("Waiting for host to start");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel usernameInfo = new JLabel("Currently logged in: ");
-        player = new JLabel();
-
-        JPanel buttons = new JPanel();
-        startLobby = new JButton(WaitRoomViewModel.STARTLOBBY_BUTTON_LABEL);
-        buttons.add(startLobby);
-
-        startLobby.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(startLobby)) {
-                            WaitRoomState currentState = waitRoomViewModel.getState();
-
-                            // todo add rungamecontroller
-                            // runGameController.execute();
-                        }
-                    }
-                });
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         this.add(title);
-        this.add(player);
-        this.add(buttons);
     }
     public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
+
     }
 
     @Override
