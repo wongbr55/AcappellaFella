@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.Home.HomeViewModel;
 import interface_adapter.Home.HomeViewState;
+import interface_adapter.StartLobby.StartLobbyController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,32 +15,32 @@ import java.beans.PropertyChangeListener;
 
 public class HomeView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "home";
-    final JTextField idInputField = new JTextField(15);
     private final HomeViewModel homeViewModel;
-    private final JLabel idErrorField = new JLabel();
-
+    private final StartLobbyController startLobbyController;
+    final JTextField idInputField = new JTextField(15);
     private final JButton create;
-
     private final JButton join;
 
-    public HomeView(HomeViewModel homeViewModel) {
+    public HomeView(HomeViewModel homeViewModel, StartLobbyController startLobbyController) {
         this.homeViewModel = homeViewModel;
+        this.startLobbyController = startLobbyController;
+        homeViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(HomeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         LabelTextPanel idInfo = new LabelTextPanel(new JLabel("Enter Game ID"), idInputField);
 
-        JPanel buttons = new JPanel();
         create = new JButton(HomeViewModel.CREATE_BUTTON);
-        buttons.add(create);
+        create.setAlignmentX(Component.CENTER_ALIGNMENT);
         join = new JButton(HomeViewModel.JOIN_BUTTON);
-        buttons.add(join);
 
         create.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(create)) {
-                    // todo call StartLobbyController
+                    startLobbyController.execute();
+
+                    // todo switch views here
                 }
             }
         });
@@ -67,11 +68,18 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
             public void keyReleased(KeyEvent e) {
             }
         });
+
+        JPanel joinMenu = new JPanel();
+        joinMenu.add(idInfo);
+        joinMenu.add(join);
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
-        this.add(idInfo);
-        this.add(idErrorField);
-        this.add(buttons);
+
+        JPanel buttons = new JPanel();
+        this.add(Box.createVerticalStrut(100));
+        this.add(create);
+        this.add(joinMenu);
     }
 
 

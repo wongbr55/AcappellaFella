@@ -1,7 +1,5 @@
 package view;
 
-import interface_adapter.RunGame.RunGameController;
-import interface_adapter.WaitRoom.WaitRoomState;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 
 import javax.swing.*;
@@ -24,6 +22,7 @@ public class JoinWaitRoomView extends JPanel implements ActionListener, Property
 
         this.add(title);
     }
+
     public void actionPerformed(ActionEvent evt) {
 
     }

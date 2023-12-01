@@ -14,7 +14,6 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
-
     final UpdateScoreInputBoundary updateScoreInputBoundary;
 
     public ReceiveMessageInteractor(ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject, ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject, ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,

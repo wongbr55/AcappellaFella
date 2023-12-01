@@ -4,4 +4,6 @@ public interface StartLobbyOutputBoundary {
     void prepareSuccessView(StartLobbyOutputData startLobbyOutputData);
 
     void prepareFailView(String error);
+
+    void createLobby();
 }

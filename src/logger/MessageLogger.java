@@ -3,6 +3,8 @@ package logger;
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessageState;
+import interface_adapter.StartLobby.StartLobbyLoggerModel;
+import interface_adapter.StartLobby.StartLobbyState;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -29,6 +31,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             GatewayIntent.MESSAGE_CONTENT
     );
     private SendMessageLoggerModel sendMessageLoggerModel;
+    private StartLobbyLoggerModel startLobbyLoggerModel;
     private ReceiveMessageController receiveMessageController;
     private JDA jda;
     private Guild guild;
@@ -38,9 +41,11 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         this.receiveMessageController = receiveMessageController;
     }
 
-    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, ReceiveMessageController receiveMessageController) {
+    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, StartLobbyLoggerModel startLobbyLoggerModel, ReceiveMessageController receiveMessageController) {
         this.sendMessageLoggerModel = sendMessageLoggerModel;
         sendMessageLoggerModel.addPropertyChangeListener(this);
+        this.startLobbyLoggerModel = startLobbyLoggerModel;
+        startLobbyLoggerModel.addPropertyChangeListener(this);
 
         try {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
@@ -91,13 +96,9 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         channel.sendMessage(content).queue();
     }
 
-    public String createChannel(String name) {
-        // literally no idea what this does lol
-        AtomicReference<String> res = new AtomicReference<>("");
-        guild.createTextChannel(name).queue(channel -> {
-            res.set(channel.getId());
-        });
-        return res.get();
+    public String createChannel() {
+        TextChannel textChannel = guild.createTextChannel("lobby").complete();
+        return textChannel.getId();
     }
 
     public void setChannel(String id) {
@@ -108,6 +109,10 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof SendMessageState state) {
             sendMessage(state.getLastMessage());
+        } else if (evt.getNewValue() instanceof StartLobbyState state) {
+            String lobbyID = createChannel();
+            System.out.println(lobbyID);
+            // todo call some presenter and propagate the id back into the interactor layer
         }
     }
 }

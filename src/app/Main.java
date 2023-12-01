@@ -7,19 +7,20 @@ import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.ChooseName.HostChooseNameViewModel;
 import interface_adapter.ChooseName.JoinChooseNameViewModel;
-import interface_adapter.Home.HomeViewModel;
 import interface_adapter.EndScreen.EndScreenViewModel;
+import interface_adapter.Home.HomeViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.RunGame.RunGameController;
+import interface_adapter.Scoreboard.ScoreboardViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
 import interface_adapter.SingerSing.SingerSingViewModel;
-import interface_adapter.Scoreboard.ScoreboardViewModel;
+import interface_adapter.StartLobby.StartLobbyLoggerModel;
+import interface_adapter.StartLobby.StartLobbyPresenter;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.WaitRoom.HostWaitRoomViewModel;
 import interface_adapter.WaitRoom.JoinWaitRoomViewModel;
-import interface_adapter.WaitRoom.WaitRoomViewModel;
 import logger.MessageLogger;
 import use_case.UpdateScore.UpdateScoreInteractor;
 import view.*;
@@ -48,6 +49,7 @@ public class Main {
 
         // Message logger model
         SendMessageLoggerModel sendMessageLoggerModel = new SendMessageLoggerModel();
+        StartLobbyLoggerModel startLobbyLoggerModel = new StartLobbyLoggerModel();
 
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
@@ -75,7 +77,7 @@ public class Main {
         AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, chatViewModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
 
         // todo remove later
         messageLogger.setChannel("1168619453492236424");
@@ -106,7 +108,7 @@ public class Main {
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         EndScreenView endScreenView = EndScreenViewFactory.createView(endScreenViewModel);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
-        HomeView homeView = HomeUseCaseFactory.create(homeViewModel);
+        HomeView homeView = HomeUseCaseFactory.create(homeViewModel, startLobbyLoggerModel);
         JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(joinChooseNameViewModel);
         HostChooseNameView hostChooseNameView = ChooseNameViewFactory.createHostView(hostChooseNameViewModel);
         JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(joinWaitRoomViewModel);
@@ -115,8 +117,6 @@ public class Main {
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
         views.add(endScreenView, endScreenView.viewName);
-        // Keep this line commented out because otherwise the ChatView will not be added properly to the playerGuessView
-        // views.add(chatView, chatView.viewName);
         views.add(playerGuessView, playerGuessView.viewName);
         views.add(homeView, homeView.viewName);
         views.add(joinChooseNameView, joinChooseNameView.viewName);
@@ -124,12 +124,14 @@ public class Main {
         views.add(joinWaitRoomView, joinWaitRoomView.viewName);
         views.add(hostWaitRoomView, hostWaitRoomView.viewName);
 
-        viewManagerModel.setActiveView(hostWaitRoomView.viewName);
+        viewManagerModel.setActiveView(homeView.viewName);
         viewManagerModel.firePropertyChanged();
 
         RunGameController runGameController = RunGameUseCaseFactory.createRunGameUseCase(gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel);
 
         application.pack();
         application.setVisible(true);
+
+        // runGameController.execute(3, 10);
     }
 }
