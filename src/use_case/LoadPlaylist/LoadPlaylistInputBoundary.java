@@ -1,5 +1,7 @@
 package use_case.LoadPlaylist;
 
+import entity.Playlist;
+
 public interface LoadPlaylistInputBoundary {
-    public void execute();
+    public Playlist execute();
 }
