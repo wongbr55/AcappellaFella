@@ -30,7 +30,7 @@ public class RunGameUseCaseFactory {
                                                          ViewManagerModel viewManagerModel) {
         SendMessageInputBoundary sendMessageInteractor = createSendMessageInteractor(mainPlayerDataAccessObject, sendMessageLoggerModel);
 
-        RunGameOutputBoundary runGamePresenter = new RunGamePresenter(playerGuessViewModel, singerChooseViewModel, singerSingViewModel, viewManagerModel);
+        RunGameOutputBoundary runGamePresenter = new RunGamePresenter(singerChooseViewModel, singerSingViewModel, playerGuessViewModel, viewManagerModel);
 
         RunGameInputBoundary runGameInputBoundary = new RunGameInteractor(runGameGameStateDataAccessInterface,
                 runGameRoundStateDataAccessInterface,

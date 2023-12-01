@@ -3,31 +3,40 @@ package interface_adapter.SingerChoose;
 import entity.Song;
 
 public class SingerChooseState {
-    private Song song1;
-    private Song song2;
-    private Song song3;
+    private String song1Name;
+    private String song2Name;
+    private String song3Name;
+    private String time
 
-    public Song getSong1() {
-        return song1;
+    public String getSong1Name() {
+        return song1Name;
     }
 
-    public void setSong1(Song song1) {
-        this.song1 = song1;
+    public void setSong1Name(String song1Name) {
+        this.song1Name = song1Name;
     }
 
-    public Song getSong2() {
-        return song2;
+    public String getSong2Name() {
+        return song2Name;
     }
 
-    public void setSong2(Song song2) {
-        this.song2 = song2;
+    public void setSong2Name(String song2Name) {
+        this.song2Name = song2Name;
     }
 
-    public Song getSong3() {
-        return song3;
+    public String getSong3Name() {
+        return song3Name;
     }
 
-    public void setSong3(Song song3) {
-        this.song3 = song3;
+    public void setSong3Name(String song3Name) {
+        this.song3Name = song3Name;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

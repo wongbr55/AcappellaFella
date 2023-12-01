@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.PlayerGuess.PlayerGuessState;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
+import interface_adapter.SingerSing.SingerSingState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,20 +12,23 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class PlayerGuessView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final JLabel title;
     public String viewName = "player guess";
     public PlayerGuessViewModel playerGuessViewModel;
+    private final JLabel timer;
 
     public PlayerGuessView(ScoreboardView scoreboardView, ChatView chatView, PlayerGuessViewModel playerGuessViewModel) {
         this.playerGuessViewModel = playerGuessViewModel;
         playerGuessViewModel.addPropertyChangeListener(this);
         PlayerGuessState playerGuessState = playerGuessViewModel.getState();
 
-        this.title = new JLabel(playerGuessState.getTitleLabel());
-        this.title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(this.title);
+        JLabel title = new JLabel(playerGuessState.getTitleLabel());
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.timer = new JLabel("0");
+
+        this.add(title);
+        this.add(timer);
         this.add(chatView);
-        // add scoreboardView
         this.add(scoreboardView);
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -37,6 +41,7 @@ public class PlayerGuessView extends JPanel implements ActionListener, PropertyC
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        PlayerGuessState state = (PlayerGuessState) evt.getNewValue();
+        timer.setText(state.getTime());
     }
 }

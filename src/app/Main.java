@@ -66,33 +66,12 @@ public class Main {
         // Message logger
         MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, chatViewModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
 
-        /*
-         todo remove later
-         temp init for singerChooseViewModel
-         needs to go in the RunGame use case somewhere
-        */
-        SingerChooseState singerChooseState = singerChooseViewModel.getState();
-        Song song1 = new Song("Queen", "Don't Stop Me now");
-        Song song2 = new Song("Queen", "Bohemian Rhapsody");
-        Song song3 = new Song("Queen", "Another One Bites The Dust");
-        singerChooseState.setSong1(song1);
-        singerChooseState.setSong2(song2);
-        singerChooseState.setSong3(song3);
-        singerChooseViewModel.setState(singerChooseState);
-
-        // todo remove later
-        roundStateDAO.addRound();
-
-        // set a song for testing
-        roundStateDAO.getCurrentRoundState().setSong(song1);
-
         // todo remove later
         messageLogger.setChannel("1168619453492236424");
 
         // todo remove later
         Player brandon = new Player();
         brandon.setName("Brandon");
-        gameStateDAO.getGameState().setMainPlayer(brandon);
         addPlayerController.execute(brandon);
 //        gameStateDAO.addPlayer(me);
 //        playerDAO.save(me);
@@ -106,6 +85,8 @@ public class Main {
         addPlayerController.execute(eric);
 //        gameStateDAO.addPlayer(you);
 //        playerDAO.save(you);
+
+        gameStateDAO.getGameState().setMainPlayer(brandon);
 
         // Views
 

@@ -58,9 +58,9 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     Song song1 = new Song("Queen", "Don't Stop Me now");
                     Song song2 = new Song("Queen", "Bohemian Rhapsody");
                     Song song3 = new Song("Queen", "Another One Bites The Dust");
-                    singerChooseState.setSong1(song1);
-                    singerChooseState.setSong2(song2);
-                    singerChooseState.setSong3(song3);
+                    singerChooseState.setSong1Name(song1.toString());
+                    singerChooseState.setSong2Name(song2.toString());
+                    singerChooseState.setSong3Name(song3.toString());
 
                     // update the view
                     runGamePresenter.prepareSingerChooseView(new RunGameSingerChooseOutputData(singerChooseState));
@@ -68,13 +68,14 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     long startTime = System.currentTimeMillis();
                     long timeLimit = 10 * 1000; // 10 seconds to choose
 
-                    // todo this method of waiting kinda sucks; need to fix
                     while (roundState.getSingerState() == RoundState.SingerState.CHOOSING && (System.currentTimeMillis() - startTime) < timeLimit) {
                         try {
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
+                        runGamePresenter.updateSingerChooseTimer(new RunGameUpdateTimerOutputData((int)((timeLimit - (System.currentTimeMillis() - startTime)) / 1000)));
                     }
 
                     // if the singer hasn't chosen a song and the time is up, choose one randomly
@@ -110,6 +111,8 @@ public class RunGameInteractor implements RunGameInputBoundary {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
+                        runGamePresenter.updateSingerSingTimer(new RunGameUpdateTimerOutputData((int)((timeLimit - (System.currentTimeMillis() - startTime)) / 1000)));
                     }
 
                     // update the singerState
@@ -139,13 +142,31 @@ public class RunGameInteractor implements RunGameInputBoundary {
 
                     runGamePresenter.prepareGuessView(new RunGameGuessOutputData());
 
-                    // keep guessing until the round is done
-                    while (roundState.getSingerState() != RoundState.SingerState.DONE ) {
+                    long startTime = System.currentTimeMillis();
+                    long timeLimit = 10 * 1000; // 10 seconds to choose
+
+                    while (roundState.getSingerState() == RoundState.SingerState.CHOOSING) {
                         try {
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
+                        runGamePresenter.updateGuessTimer(new RunGameUpdateTimerOutputData((int)((timeLimit - (System.currentTimeMillis() - startTime)) / 1000)));
+                    }
+
+
+                    startTime = System.currentTimeMillis();
+                    timeLimit = runGameInputData.getRoundLength() * 1000;
+
+                    while (roundState.getSingerState() == RoundState.SingerState.SINGING) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        runGamePresenter.updateGuessTimer(new RunGameUpdateTimerOutputData((int)((timeLimit - (System.currentTimeMillis() - startTime)) / 1000)));
                     }
                 }
             }

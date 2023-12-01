@@ -19,23 +19,25 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
     private final JButton song1;
     private final JButton song2;
     private final JButton song3;
+    private final JLabel timer;
 
     public SingerChooseView(SingerChooseViewModel singerChooseViewModel, SingerChooseController singerChooseController) {
         this.singerChooseViewModel = singerChooseViewModel;
         this.singerChooseController = singerChooseController;
         this.singerChooseViewModel.addPropertyChangeListener(this);
 
+        this.timer = new JLabel("0");
 
         JLabel title = new JLabel(SingerChooseViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttons = new JPanel();
         SingerChooseState state = singerChooseViewModel.getState();
-        song1 = new JButton(state.getSong1().toString());
+        song1 = new JButton(state.getSong1Name());
         buttons.add(song1);
-        song2 = new JButton(state.getSong2().toString());
+        song2 = new JButton(state.getSong2Name());
         buttons.add(song2);
-        song3 = new JButton(state.getSong3().toString());
+        song3 = new JButton(state.getSong3Name());
         buttons.add(song3);
 
         song1.addActionListener(
@@ -44,7 +46,7 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
                         if (evt.getSource().equals(song1)) {
                             SingerChooseState currentState = singerChooseViewModel.getState();
 
-                            singerChooseController.execute(currentState.getSong1());
+                            singerChooseController.execute(currentState.getSong1Name());
                         }
                     }
                 }
@@ -55,7 +57,7 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
                         if (evt.getSource().equals(song2)) {
                             SingerChooseState currentState = singerChooseViewModel.getState();
 
-                            singerChooseController.execute(currentState.getSong2());
+                            singerChooseController.execute(currentState.getSong2Name());
                         }
                     }
                 }
@@ -66,7 +68,7 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
                         if (evt.getSource().equals(song3)) {
                             SingerChooseState currentState = singerChooseViewModel.getState();
 
-                            singerChooseController.execute(currentState.getSong3());
+                            singerChooseController.execute(currentState.getSong3Name());
                         }
                     }
                 }
@@ -74,6 +76,7 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
+        this.add(timer);
         this.add(buttons);
     }
 
@@ -84,6 +87,10 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        SingerChooseState state = singerChooseViewModel.getState();
+        song1.setText(state.getSong1Name());
+        song2.setText(state.getSong2Name());
+        song3.setText(state.getSong3Name());
+        timer.setText(state.getTime());
     }
 }
