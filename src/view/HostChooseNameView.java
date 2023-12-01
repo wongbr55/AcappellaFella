@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HostChooseNameView extends ChooseNameView {
+    public final String viewName = "host create lobby";
     public HostChooseNameView(ChooseNameViewModel chooseNameViewModel) {
         super(chooseNameViewModel);
 

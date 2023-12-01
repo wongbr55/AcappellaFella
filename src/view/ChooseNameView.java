@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class ChooseNameView extends JPanel implements ActionListener, PropertyChangeListener {
+public abstract class ChooseNameView extends JPanel implements ActionListener, PropertyChangeListener {
     public static final String viewName = "create lobby";
     private final ChooseNameViewModel chooseNameViewModel;
     private final JTextField nameInputField = new JTextField(15);
@@ -28,7 +28,7 @@ public class ChooseNameView extends JPanel implements ActionListener, PropertyCh
         LabelTextPanel nameInput = new LabelTextPanel(new JLabel("Enter Name"), nameInputField);
 
         JPanel buttons = new JPanel();
-        this.createLobby = new JButton(ChooseNameViewModel.JOIN_LOBBY_LABEL);
+        this.createLobby = new JButton(chooseNameViewModel.JOIN_LOBBY_LABEL);
         buttons.add(createLobby);
         nameInputField.addKeyListener(new KeyListener() {
             @Override

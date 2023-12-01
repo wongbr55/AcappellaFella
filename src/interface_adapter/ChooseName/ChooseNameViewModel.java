@@ -6,15 +6,15 @@ import view.ChooseNameView;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class ChooseNameViewModel extends ViewModel {
+public abstract class ChooseNameViewModel extends ViewModel {
     public static final String TITLE_LABEL = "Choose a name";
-    public static final String JOIN_LOBBY_LABEL = "Join Lobby";
+    public final String JOIN_LOBBY_LABEL = "Join Lobby";
     private ChooseNameState state = new ChooseNameState();
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public ChooseNameViewModel() {
-        super("choose name");
+    public ChooseNameViewModel(String viewName) {
+        super(viewName);
     }
     @Override
     public void firePropertyChanged() {
