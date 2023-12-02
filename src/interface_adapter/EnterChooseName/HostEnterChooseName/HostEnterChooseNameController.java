@@ -10,8 +10,8 @@ public class HostEnterChooseNameController {
         this.hostEnterChooseNameInteractor = hostEnterChooseNameInteractor;
     }
 
-    void execute(String lobbyID) {
-        HostEnterChooseNameInputData inputData = new HostEnterChooseNameInputData();
+    public void execute(String lobbyID) {
+        HostEnterChooseNameInputData inputData = new HostEnterChooseNameInputData(lobbyID);
         hostEnterChooseNameInteractor.execute(inputData);
     }
 }

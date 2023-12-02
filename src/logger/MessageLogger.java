@@ -1,5 +1,6 @@
 package logger;
 
+import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNameController;
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessageState;
@@ -33,29 +34,33 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private SendMessageLoggerModel sendMessageLoggerModel;
     private StartLobbyLoggerModel startLobbyLoggerModel;
     private ReceiveMessageController receiveMessageController;
+    private HostEnterChooseNameController hostEnterChooseNameController;
     private JDA jda;
     private Guild guild;
     private TextChannel channel;
 
-    private MessageLogger(ReceiveMessageController receiveMessageController) {
+    private MessageLogger(ReceiveMessageController receiveMessageController, HostEnterChooseNameController hostEnterChooseNameController) {
         this.receiveMessageController = receiveMessageController;
+        this.hostEnterChooseNameController = hostEnterChooseNameController;
     }
 
-    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, StartLobbyLoggerModel startLobbyLoggerModel, ReceiveMessageController receiveMessageController) {
+    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, StartLobbyLoggerModel startLobbyLoggerModel, ReceiveMessageController receiveMessageController, HostEnterChooseNameController hostEnterChooseNameController) {
         this.sendMessageLoggerModel = sendMessageLoggerModel;
         sendMessageLoggerModel.addPropertyChangeListener(this);
         this.startLobbyLoggerModel = startLobbyLoggerModel;
         startLobbyLoggerModel.addPropertyChangeListener(this);
+
+        this.receiveMessageController = receiveMessageController;
+        this.hostEnterChooseNameController = hostEnterChooseNameController;
 
         try {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
             // and only enable the provided set of intents. All other intents are disabled, so you won't receive events for those.
             this.jda = JDABuilder.createLight(TOKEN, intents)
                     // On this builder, you are adding all your event listeners and session configuration
-                    .addEventListeners(new MessageLogger(receiveMessageController))
+                    .addEventListeners(new MessageLogger(receiveMessageController, hostEnterChooseNameController))
                     // Once you're done configuring your jda instance, call build to start and login the bot.
                     .build();
-
             // Here you can now start using the jda instance before its fully loaded,
             // this can be useful for stuff like creating background services or similar.
 
@@ -111,7 +116,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         } else if (evt.getNewValue() instanceof StartLobbyState state) {
             String lobbyID = createChannel();
             setChannel(lobbyID);
-            // todo call some controller and propagate the id back into the interactor layer
+            hostEnterChooseNameController.execute(lobbyID);
         }
     }
 }

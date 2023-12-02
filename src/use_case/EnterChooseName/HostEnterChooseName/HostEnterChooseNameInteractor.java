@@ -9,6 +9,7 @@ public class HostEnterChooseNameInteractor implements HostEnterChooseNameInputBo
 
     @Override
     public void execute(HostEnterChooseNameInputData hostEnterChooseNameInputData) {
-
+        HostEnterChooseNameOutputData outputData = new HostEnterChooseNameOutputData(hostEnterChooseNameInputData.getLobbyID());
+        hostEnterChooseNamePresenter.prepareSuccessView(outputData);
     }
 }
