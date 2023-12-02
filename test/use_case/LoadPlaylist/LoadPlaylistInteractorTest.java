@@ -21,6 +21,7 @@ public class LoadPlaylistInteractorTest {
 
     @Test
     public void execute() {
+        // make sure to add the proper client secret and id to the env variables of this test
         Playlist playlist = loadPlaylistInteractor.execute();
         String songOne = playlist.getSongOne().toString();
         String songTwo = playlist.getSongTwo().toString();
