@@ -48,5 +48,10 @@ public class CheckGuessInteractorTest {
         CheckGuessInputData correctGuess = new CheckGuessInputData("ATTENTION");
         checkGuessInteractor.execute(correctGuess);
 
+        roundStateDAO.getCurrentRoundState().setGuessStatusByPlayer(gameStateDAO.getMainPlayer(), true);
+
+        CheckGuessInputData guessGuess = new CheckGuessInputData("How long");
+        checkGuessInteractor.execute(guessGuess);
+
     }
 }
