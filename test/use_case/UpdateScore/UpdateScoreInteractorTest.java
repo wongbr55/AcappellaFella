@@ -5,6 +5,7 @@ import data_access.InMemoryScoreboardScoreboardDataAccessObject;
 import entity.Player;
 import entity.RoundState;
 import entity.Scoreboard;
+import interface_adapter.Scoreboard.ScoreboardViewModel;
 import interface_adapter.UpdateScore.UpdateScorePresenter;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +22,13 @@ public class UpdateScoreInteractorTest {
     private UpdateScorePresenter updateScorePresenter;
     @Before
     public void init() {
-        this.roundStateDataAccessObject = new InMemoryRoundStateDataAccessObject();;
+        this.roundStateDataAccessObject = new InMemoryRoundStateDataAccessObject();
+        ;
         this.scoreboardScoreboardDataAccessObject = new InMemoryScoreboardScoreboardDataAccessObject();
+        ScoreboardViewModel scoreboardViewModel = new ScoreboardViewModel();
+        this.updateScorePresenter = new UpdateScorePresenter(scoreboardViewModel);
         this.updateScoreInteractor = new UpdateScoreInteractor(scoreboardScoreboardDataAccessObject, roundStateDataAccessObject, updateScorePresenter);
+
     }
 
     @Test
