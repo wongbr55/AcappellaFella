@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.WaitRoom.HostWaitRoomViewModel;
 import interface_adapter.WaitRoom.WaitRoomState;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 
@@ -14,6 +15,7 @@ import java.beans.PropertyChangeListener;
 public class HostWaitRoomView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "host wait room";
     private final WaitRoomViewModel waitRoomViewModel;
+    private final JLabel lobbyID;
     private final JTextField playlistInputField = new JTextField(15);
     private final JSlider numberOfRoundsSlider;
     private final JSlider roundLengthSlider;
@@ -23,6 +25,8 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
     public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel) {
         this.waitRoomViewModel = waitRoomViewModel;
         this.waitRoomViewModel.addPropertyChangeListener(this);
+
+        lobbyID = new JLabel("Lobby ID:");
 
         LabelTextPanel playlistInfo = new LabelTextPanel(new JLabel("Spotify playlist link"), playlistInputField);
 
@@ -98,6 +102,7 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
         JPanel playListLoadMenu = new JPanel();
         playListLoadMenu.add(playlistInfo);
         playListLoadMenu.add(loadPlaylist);
+        this.add(lobbyID);
         this.add(playListLoadMenu);
         this.add(numberOfRoundsDesc);
         this.add(numberOfRoundsSlider);
@@ -112,6 +117,7 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        WaitRoomState state = ((HostWaitRoomViewModel) evt.getSource()).getState();
+        lobbyID.setText("Lobby ID: " + state.getLobbyID());
     }
 }

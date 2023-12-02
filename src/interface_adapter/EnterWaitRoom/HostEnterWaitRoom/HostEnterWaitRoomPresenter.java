@@ -16,6 +16,9 @@ public class HostEnterWaitRoomPresenter implements HostEnterWaitRoomOutputBounda
 
     @Override
     public void prepareSuccessView(HostEnterWaitRoomOutputData hostEnterWaitRoomOutputData) {
-
+        hostWaitRoomViewModel.getState().setLobbyID(hostEnterWaitRoomOutputData.getLobbyID());
+        hostWaitRoomViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView(hostWaitRoomViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

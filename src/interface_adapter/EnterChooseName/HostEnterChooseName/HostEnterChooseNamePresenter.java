@@ -16,7 +16,7 @@ public class HostEnterChooseNamePresenter implements HostEnterChooseNameOutputBo
 
     @Override
     public void prepareSuccessView(HostEnterChooseNameOutputData hostEnterChooseNameOutputData) {
-        chooseNameViewModel.getState().setName(hostEnterChooseNameOutputData.getLobbyID());
+        chooseNameViewModel.getState().setLobbyID(hostEnterChooseNameOutputData.getLobbyID());
         viewManagerModel.setActiveView(chooseNameViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

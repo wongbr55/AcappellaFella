@@ -1,6 +1,7 @@
 package interface_adapter.WaitRoom;
 
 public class WaitRoomState {
+    private String lobbyID = "";
     private String playlistLink = "";
     private int numberOfRounds = 3;
     private int roundLength = 30;
@@ -27,5 +28,13 @@ public class WaitRoomState {
 
     public void setRoundLength(int roundLength) {
         this.roundLength = roundLength;
+    }
+
+    public String getLobbyID() {
+        return lobbyID;
+    }
+
+    public void setLobbyID(String lobbyID) {
+        this.lobbyID = lobbyID;
     }
 }
