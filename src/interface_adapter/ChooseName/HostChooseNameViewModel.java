@@ -1,4 +1,4 @@
-package interface_adapter.ChooseName.HostChooseName;
+package interface_adapter.ChooseName;
 
 import interface_adapter.ChooseName.ChooseNameViewModel;
 

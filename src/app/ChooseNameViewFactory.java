@@ -1,7 +1,7 @@
 package app;
 
-import interface_adapter.ChooseName.HostChooseName.HostChooseNameViewModel;
-import interface_adapter.ChooseName.JoinChooseName.JoinChooseNameViewModel;
+import interface_adapter.ChooseName.HostChooseNameViewModel;
+import interface_adapter.ChooseName.JoinChooseNameViewModel;
 import view.HostChooseNameView;
 import view.JoinChooseNameView;
 
