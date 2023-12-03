@@ -11,8 +11,8 @@ public class AddMainPlayerController {
         this.addMainPlayerInteractor = addMainPlayerInteractor;
     }
 
-    public void execute(Player mainPlayer) {
-        AddMainPlayerInputData addMainPlayerInputData = new AddMainPlayerInputData(mainPlayer);
+    public void execute(String mainPlayerName) {
+        AddMainPlayerInputData addMainPlayerInputData = new AddMainPlayerInputData(mainPlayerName);
         this.addMainPlayerInteractor.execute(addMainPlayerInputData);
     }
 }

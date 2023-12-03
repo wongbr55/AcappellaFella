@@ -1,13 +1,13 @@
 package use_case.AddMainPlayer;
 
-import entity.Player;
-
 public class AddMainPlayerInputData {
-    private final Player mainPlayer;
+    private final String mainPlayerName;
 
-    public AddMainPlayerInputData(Player mainPlayer) {
-        this.mainPlayer = mainPlayer;
+    public AddMainPlayerInputData(String mainPlayerName) {
+        this.mainPlayerName = mainPlayerName;
     }
 
-    public Player getMainPlayer(){return this.mainPlayer;}
+    public String getMainPlayerName() {
+        return mainPlayerName;
+    }
 }

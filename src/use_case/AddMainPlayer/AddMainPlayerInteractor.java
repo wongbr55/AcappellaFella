@@ -20,7 +20,7 @@ public class AddMainPlayerInteractor implements AddMainPlayerInputBoundary {
     }
 
     public void execute(AddMainPlayerInputData addMainPlayerInputData){
-        Player mainPlayer = addMainPlayerInputData.getMainPlayer();
+        Player mainPlayer = new Player(addMainPlayerInputData.getMainPlayerName());
         mainPlayerDAO.save(mainPlayer);
         scoreboardDAO.getScoreboard().addPlayer(mainPlayer);
         gameStateDAO.getGameState().addPlayer(mainPlayer);

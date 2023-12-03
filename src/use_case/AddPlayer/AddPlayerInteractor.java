@@ -32,7 +32,5 @@ public class AddPlayerInteractor implements AddPlayerInputBoundary{
         ScoreboardState state = this.scoreboardViewModel.getState();
         state.addPlayer(newPlayer.getName());
         this.scoreboardViewModel.firePropertyChanged();
-        // todo again need to update the wait room view
-
     }
 }
