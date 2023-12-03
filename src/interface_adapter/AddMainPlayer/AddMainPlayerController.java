@@ -1,6 +1,5 @@
 package interface_adapter.AddMainPlayer;
 
-import entity.Player;
 import use_case.AddMainPlayer.AddMainPlayerInputBoundary;
 import use_case.AddMainPlayer.AddMainPlayerInputData;
 
@@ -11,8 +10,8 @@ public class AddMainPlayerController {
         this.addMainPlayerInteractor = addMainPlayerInteractor;
     }
 
-    public void execute(String mainPlayerName) {
-        AddMainPlayerInputData addMainPlayerInputData = new AddMainPlayerInputData(mainPlayerName);
+    public void execute(String mainPlayerName, String lobbyID, boolean host) {
+        AddMainPlayerInputData addMainPlayerInputData = new AddMainPlayerInputData(mainPlayerName, lobbyID, host);
         this.addMainPlayerInteractor.execute(addMainPlayerInputData);
     }
 }

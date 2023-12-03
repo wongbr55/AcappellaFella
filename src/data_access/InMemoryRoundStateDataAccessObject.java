@@ -15,7 +15,11 @@ public class InMemoryRoundStateDataAccessObject implements CheckGuessRoundStateD
     private final List<RoundState> rounds = new ArrayList<>();
 
     public RoundState getCurrentRoundState() {
-        return rounds.get(rounds.size() - 1);
+        if (rounds.isEmpty()) {
+            return null;
+        } else {
+            return rounds.get(rounds.size() - 1);
+        }
     }
 
     public void addRound() {

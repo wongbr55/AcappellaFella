@@ -43,8 +43,6 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(create)) {
                     startLobbyController.execute();
-
-                    // view is switched in MessageLogger
                 }
             }
         });
@@ -80,7 +78,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof HomeViewState state) {
             if (!state.getLobbyIDError().isEmpty()) {
-                JOptionPane.showMessageDialog(this, state.getLobbyIDError());
+                JOptionPane.showMessageDialog(this, "Error: " + state.getLobbyIDError());
             }
         }
     }

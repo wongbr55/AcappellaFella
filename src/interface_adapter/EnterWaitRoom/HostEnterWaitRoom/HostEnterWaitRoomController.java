@@ -10,8 +10,8 @@ public class HostEnterWaitRoomController {
         this.hostEnterWaitRoomInteractor = hostEnterWaitRoomInteractor;
     }
 
-    public void execute(String lobbyID) {
-        HostEnterWaitRoomInputData inputData = new HostEnterWaitRoomInputData(lobbyID);
+    public void execute(String lobbyID, String nameError) {
+        HostEnterWaitRoomInputData inputData = new HostEnterWaitRoomInputData(lobbyID, nameError);
         hostEnterWaitRoomInteractor.execute(inputData);
     }
 }

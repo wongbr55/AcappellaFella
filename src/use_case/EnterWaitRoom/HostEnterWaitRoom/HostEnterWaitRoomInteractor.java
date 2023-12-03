@@ -9,7 +9,11 @@ public class HostEnterWaitRoomInteractor implements HostEnterWaitRoomInputBounda
 
     @Override
     public void execute(HostEnterWaitRoomInputData hostEnterWaitRoomInputData) {
-        HostEnterWaitRoomOutputData hostEnterWaitRoomOutputData = new HostEnterWaitRoomOutputData(hostEnterWaitRoomInputData.getLobbyID());
-        hostEnterWaitRoomPresenter.prepareSuccessView(hostEnterWaitRoomOutputData);
+        if (hostEnterWaitRoomInputData.getNameError() == null) {
+            HostEnterWaitRoomOutputData hostEnterWaitRoomOutputData = new HostEnterWaitRoomOutputData(hostEnterWaitRoomInputData.getLobbyID());
+            hostEnterWaitRoomPresenter.prepareSuccessView(hostEnterWaitRoomOutputData);
+        } else {
+            hostEnterWaitRoomPresenter.prepareFailView(hostEnterWaitRoomInputData.getNameError());
+        }
     }
 }

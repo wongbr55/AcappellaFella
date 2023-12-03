@@ -1,5 +1,6 @@
 package app;
 
+import interface_adapter.AddMainPlayer.AddMainPlayerLoggerModel;
 import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.ChooseName.ChooseNameViewModel;
@@ -40,6 +41,7 @@ public class MessageLoggerUseCaseFactory {
                                        SendMessageLoggerModel sendMessageLoggerModel,
                                        StartLobbyLoggerModel startLobbyLoggerModel,
                                        JoinLobbyLoggerModel joinLobbyLoggerModel,
+                                       AddMainPlayerLoggerModel addMainPlayerLoggerModel,
                                        ChatViewModel chatViewModel,
                                        HomeViewModel homeViewModel,
                                        HostChooseNameViewModel hostChooseNameViewModel,
@@ -57,7 +59,7 @@ public class MessageLoggerUseCaseFactory {
         InitializePlayersController initializePlayersController = createInitializePlayersUseCase(addPlayerController);
         HostEnterChooseNameController hostEnterChooseNameController = createHostEnterChooseNameUseCase(hostChooseNameViewModel, viewManagerModel);
         JoinEnterChooseNameController joinEnterChooseNameController = createJoinEnterChooseNameUseCase(joinChooseNameViewModel, homeViewModel, viewManagerModel);
-        return new MessageLogger(sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, initializePlayersController, receiveMessageController, hostEnterChooseNameController, joinEnterChooseNameController);
+        return new MessageLogger(sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, initializePlayersController, receiveMessageController, hostEnterChooseNameController, joinEnterChooseNameController);
     }
 
     private static ReceiveMessageController createReceiveMessageUseCase(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject,

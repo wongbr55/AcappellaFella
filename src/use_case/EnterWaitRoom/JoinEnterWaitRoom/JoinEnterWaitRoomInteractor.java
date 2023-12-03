@@ -9,7 +9,11 @@ public class JoinEnterWaitRoomInteractor implements JoinEnterWaitRoomInputBounda
 
     @Override
     public void execute(JoinEnterWaitRoomInputData joinEnterWaitRoomInputData) {
-        JoinEnterWaitRoomOutputData outputData = new JoinEnterWaitRoomOutputData(joinEnterWaitRoomInputData.getLobbyID());
-        joinEnterWaitRoomPresenter.prepareSuccessView(outputData);
+        if (joinEnterWaitRoomInputData.getNameError() == null) {
+            JoinEnterWaitRoomOutputData outputData = new JoinEnterWaitRoomOutputData(joinEnterWaitRoomInputData.getLobbyID());
+            joinEnterWaitRoomPresenter.prepareSuccessView(outputData);
+        } else {
+            joinEnterWaitRoomPresenter.prepareFailView(joinEnterWaitRoomInputData.getNameError());
+        }
     }
 }

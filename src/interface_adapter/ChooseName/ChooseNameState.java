@@ -2,6 +2,7 @@ package interface_adapter.ChooseName;
 
 public class ChooseNameState {
     private String name;
+    private String nameError;
     private String lobbyID;
 
     public String getName() {
@@ -10,6 +11,14 @@ public class ChooseNameState {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNameError() {
+        return nameError;
+    }
+
+    public void setNameError(String nameError) {
+        this.nameError = nameError;
     }
 
     public String getLobbyID() {

@@ -2,6 +2,7 @@ package app;
 
 import data_access.*;
 import entity.Player;
+import interface_adapter.AddMainPlayer.AddMainPlayerLoggerModel;
 import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.ChooseName.HostChooseNameViewModel;
@@ -49,6 +50,7 @@ public class Main {
         SendMessageLoggerModel sendMessageLoggerModel = new SendMessageLoggerModel();
         StartLobbyLoggerModel startLobbyLoggerModel = new StartLobbyLoggerModel();
         JoinLobbyLoggerModel joinLobbyLoggerModel = new JoinLobbyLoggerModel();
+        AddMainPlayerLoggerModel addMainPlayerLoggerModel = new AddMainPlayerLoggerModel();
 
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
@@ -73,10 +75,9 @@ public class Main {
 
         // Lone controllers and interactors to be placed in other views/items/etc.
         UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, scoreboardViewModel);
-        AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, scoreboardViewModel, updateScoreInteractor);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, scoreboardViewModel, updateScoreInteractor);
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
@@ -86,8 +87,8 @@ public class Main {
         EndScreenView endScreenView = EndScreenViewFactory.createView(endScreenViewModel);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
         HomeView homeView = HomeUseCaseFactory.create(homeViewModel, startLobbyLoggerModel, joinLobbyLoggerModel);
-        JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(joinChooseNameViewModel);
-        HostChooseNameView hostChooseNameView = ChooseNameViewFactory.createHostView(hostChooseNameViewModel, hostWaitRoomViewModel, viewManagerModel);
+        JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(hostWaitRoomViewModel, joinWaitRoomViewModel, hostChooseNameViewModel, joinChooseNameViewModel, scoreboardViewModel, viewManagerModel, addMainPlayerLoggerModel, sendMessageLoggerModel, playerDAO, scoreboardDAO, gameStateDAO, gameStateDAO);
+        HostChooseNameView hostChooseNameView = ChooseNameViewFactory.createHostView(hostWaitRoomViewModel, joinWaitRoomViewModel, hostChooseNameViewModel, joinChooseNameViewModel, scoreboardViewModel, viewManagerModel, addMainPlayerLoggerModel, sendMessageLoggerModel, playerDAO, scoreboardDAO, gameStateDAO, gameStateDAO);
         JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(joinWaitRoomViewModel);
         HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(hostWaitRoomViewModel);
 

@@ -1,5 +1,7 @@
 package logger;
 
+import interface_adapter.AddMainPlayer.AddMainPlayerLoggerModel;
+import interface_adapter.AddMainPlayer.AddMainPlayerState;
 import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNameController;
 import interface_adapter.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameController;
 import interface_adapter.InitializePlayers.InitializePlayersController;
@@ -40,6 +42,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private SendMessageLoggerModel sendMessageLoggerModel;
     private StartLobbyLoggerModel startLobbyLoggerModel;
     private JoinLobbyLoggerModel joinLobbyLoggerModel;
+    private AddMainPlayerLoggerModel addMainPlayerLoggerModel;
     private ReceiveMessageController receiveMessageController;
     private InitializePlayersController initializePlayersController;
     private HostEnterChooseNameController hostEnterChooseNameController;
@@ -48,13 +51,14 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private Guild guild;
     private TextChannel mainChannel;
 
-    private MessageLogger(ReceiveMessageController receiveMessageController, HostEnterChooseNameController hostEnterChooseNameController) {
+    private MessageLogger(ReceiveMessageController receiveMessageController) {
         this.receiveMessageController = receiveMessageController;
     }
 
     public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel,
                          StartLobbyLoggerModel startLobbyLoggerModel,
                          JoinLobbyLoggerModel joinLobbyLoggerModel,
+                         AddMainPlayerLoggerModel addMainPlayerLoggerModel,
                          InitializePlayersController initializePlayersController,
                          ReceiveMessageController receiveMessageController,
                          HostEnterChooseNameController hostEnterChooseNameController,
@@ -65,6 +69,8 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         startLobbyLoggerModel.addPropertyChangeListener(this);
         this.joinLobbyLoggerModel = joinLobbyLoggerModel;
         joinLobbyLoggerModel.addPropertyChangeListener(this);
+        this.addMainPlayerLoggerModel = addMainPlayerLoggerModel;
+        addMainPlayerLoggerModel.addPropertyChangeListener(this);
 
         this.initializePlayersController = initializePlayersController;
         this.hostEnterChooseNameController = hostEnterChooseNameController;
@@ -75,7 +81,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             // and only enable the provided set of intents. All other intents are disabled, so you won't receive events for those.
             this.jda = JDABuilder.createLight(TOKEN, intents)
                     // On this builder, you are adding all your event listeners and session configuration
-                    .addEventListeners(new MessageLogger(receiveMessageController, hostEnterChooseNameController))
+                    .addEventListeners(new MessageLogger(receiveMessageController))
                     // Once you're done configuring your jda instance, call build to start and login the bot.
                     .build();
             // Here you can now start using the jda instance before its fully loaded,
@@ -165,6 +171,14 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
                 initializePlayersController.execute(playerNamesList);
             } else {
                 joinEnterChooseNameController.execute("");
+            }
+        } else if (evt.getNewValue() instanceof AddMainPlayerState state) {
+            String topic = getChannelTopic(mainChannel);
+            // for some reason an empty topic is null, not the empty string
+            if (topic == null) {
+               setChannelTopic(mainChannel, state.getPlayerName());
+            } else {
+                setChannelTopic(mainChannel, topic + "\n" + state.getPlayerName());
             }
         }
     }

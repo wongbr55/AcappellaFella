@@ -10,8 +10,8 @@ public class JoinEnterWaitRoomController {
         this.joinEnterWaitRoomInteractor = joinEnterWaitRoomInteractor;
     }
 
-    public void execute(String lobbyID) {
-        JoinEnterWaitRoomInputData inputData = new JoinEnterWaitRoomInputData(lobbyID);
+    public void execute(String lobbyID, String nameError) {
+        JoinEnterWaitRoomInputData inputData = new JoinEnterWaitRoomInputData(lobbyID, nameError);
         joinEnterWaitRoomInteractor.execute(inputData);
     }
 }
