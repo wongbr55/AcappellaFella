@@ -54,8 +54,8 @@ public class MessageLoggerUseCaseFactory {
                                        AddPlayerPlayerDataAccessInterface addPlayerPlayerDataAccessInterface,
                                        ScoreboardViewModel scoreboardViewModel,
                                        UpdateScoreInputBoundary updateScoreInputBoundary) {
-        ReceiveMessageController receiveMessageController = createReceiveMessageUseCase(messageHistoryDataAccessObject, playerDataAccessObject, chatViewModel, gameStateDataAccessObject, roundStataDataAccessObject, updateScoreInputBoundary);
         AddPlayerController addPlayerController = createAddPlayerUseCase(addPlayerGameStateDataAccessInterface, addPlayerScoreboardDataAccessInterface, addPlayerPlayerDataAccessInterface, scoreboardViewModel);
+        ReceiveMessageController receiveMessageController = createReceiveMessageUseCase(messageHistoryDataAccessObject, playerDataAccessObject, chatViewModel, addPlayerController, gameStateDataAccessObject, roundStataDataAccessObject, updateScoreInputBoundary);
         InitializePlayersController initializePlayersController = createInitializePlayersUseCase(addPlayerController);
         HostEnterChooseNameController hostEnterChooseNameController = createHostEnterChooseNameUseCase(hostChooseNameViewModel, viewManagerModel);
         JoinEnterChooseNameController joinEnterChooseNameController = createJoinEnterChooseNameUseCase(joinChooseNameViewModel, homeViewModel, viewManagerModel);
@@ -65,11 +65,12 @@ public class MessageLoggerUseCaseFactory {
     private static ReceiveMessageController createReceiveMessageUseCase(ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject,
                                                                         ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
                                                                         ChatViewModel chatViewModel,
+                                                                        AddPlayerController addPlayerController,
                                                                         ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject,
                                                                         ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject,
                                                                         UpdateScoreInputBoundary updateScoreInputBoundary) {
         ReceiveMessageOutputBoundary receiveMessageOutputBoundary = new ReceiveMessagePresenter(chatViewModel);
-        ReceiveMessageInputBoundary receiveMessageInputBoundary = new ReceiveMessageInteractor(gameStateDataAccessObject, roundStataDataAccessObject, messageHistoryDataAccessObject, playerDataAccessObject, receiveMessageOutputBoundary, updateScoreInputBoundary);
+        ReceiveMessageInputBoundary receiveMessageInputBoundary = new ReceiveMessageInteractor(gameStateDataAccessObject, roundStataDataAccessObject, messageHistoryDataAccessObject, playerDataAccessObject, addPlayerController, receiveMessageOutputBoundary, updateScoreInputBoundary);
         return new ReceiveMessageController(receiveMessageInputBoundary);
     }
 

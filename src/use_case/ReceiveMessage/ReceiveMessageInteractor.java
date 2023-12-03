@@ -2,6 +2,7 @@ package use_case.ReceiveMessage;
 
 import entity.*;
 
+import interface_adapter.AddPlayer.AddPlayerController;
 import use_case.UpdateScore.UpdateScoreInputBoundary;
 import use_case.UpdateScore.UpdateScoreInputData;
 
@@ -13,17 +14,18 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject;
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
+    final AddPlayerController addPlayerController;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
     final UpdateScoreInputBoundary updateScoreInputBoundary;
 
     public ReceiveMessageInteractor(ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject, ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject, ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
-                                    ReceiveMessageOutputBoundary receiveMessagePresenter, UpdateScoreInputBoundary updateScoreInputBoundary) {
+                                    AddPlayerController addPlayerController, ReceiveMessageOutputBoundary receiveMessagePresenter, UpdateScoreInputBoundary updateScoreInputBoundary) {
         this.gameStateDataAccessObject = gameStateDataAccessObject;
         this.roundStataDataAccessObject = roundStataDataAccessObject;
         this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
         this.playerDataAccessObject = playerDataAccessObject;
+        this.addPlayerController = addPlayerController;
         this.receiveMessagePresenter = receiveMessagePresenter;
-//        this.checkGuessInteractor = checkGuessInteractor;
         this.updateScoreInputBoundary = updateScoreInputBoundary;
     }
 
@@ -42,6 +44,10 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         String guessedPatternString = "(.+?) has guessed the answer!";
         Pattern guessedPattern = Pattern.compile(guessedPatternString);
         Matcher guessedMatcher = guessedPattern.matcher(content);
+
+        String addPlayerPatternString = "(.+?) has joined.";
+        Pattern addPlayerPattern = Pattern.compile(addPlayerPatternString);
+        Matcher addPlayerMatcher = addPlayerPattern.matcher(content);
 
         String singingPatternString = "(.+?) has chose a song! Start guessing!";
         Pattern singingPattern = Pattern.compile(singingPatternString);
@@ -63,6 +69,11 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             roundState.setGuessStatusByPlayer(player, true);
         } else if (type == Message.MessageType.SYSTEM && singingMatcher.matches()) {
             roundState.setSingerState(RoundState.SingerState.SINGING);
+        } else if (type == Message.MessageType.SYSTEM && addPlayerMatcher.matches()) {
+            // as long as it isn't yourself
+            if (!gameState.getMainPlayer().getName().equals(addPlayerMatcher.group(1))) {
+                addPlayerController.execute(addPlayerMatcher.group(1));
+            }
         } else if (type == Message.MessageType.INVIS_SYSTEM && newSongMatcher.matches()) {
             String songTitle = newSongMatcher.group(1);
             String songArtist = newSongMatcher.group(2);
