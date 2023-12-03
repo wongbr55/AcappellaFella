@@ -121,8 +121,8 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         }
     }
 
-    private Message sendMessage(String content) {
-        return mainChannel.sendMessage(content).complete();
+    private void sendMessage(String content) {
+        mainChannel.sendMessage(content).complete();
     }
 
     private String createChannel(String name) {
