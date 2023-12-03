@@ -1,6 +1,10 @@
 package logger;
 
 import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNameController;
+import interface_adapter.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameController;
+import interface_adapter.JoinLobby.JoinLobbyController;
+import interface_adapter.JoinLobby.JoinLobbyLoggerModel;
+import interface_adapter.JoinLobby.JoinLobbyState;
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessageState;
@@ -32,25 +36,33 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     );
     private SendMessageLoggerModel sendMessageLoggerModel;
     private StartLobbyLoggerModel startLobbyLoggerModel;
+    private JoinLobbyLoggerModel joinLobbyLoggerModel;
     private ReceiveMessageController receiveMessageController;
     private HostEnterChooseNameController hostEnterChooseNameController;
+    private JoinEnterChooseNameController joinEnterChooseNameController;
     private JDA jda;
     private Guild guild;
     private TextChannel mainChannel;
 
     private MessageLogger(ReceiveMessageController receiveMessageController, HostEnterChooseNameController hostEnterChooseNameController) {
         this.receiveMessageController = receiveMessageController;
-        this.hostEnterChooseNameController = hostEnterChooseNameController;
     }
 
-    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, StartLobbyLoggerModel startLobbyLoggerModel, ReceiveMessageController receiveMessageController, HostEnterChooseNameController hostEnterChooseNameController) {
+    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel,
+                         StartLobbyLoggerModel startLobbyLoggerModel,
+                         JoinLobbyLoggerModel joinLobbyLoggerModel,
+                         ReceiveMessageController receiveMessageController,
+                         HostEnterChooseNameController hostEnterChooseNameController,
+                         JoinEnterChooseNameController joinEnterChooseNameController) {
         this.sendMessageLoggerModel = sendMessageLoggerModel;
         sendMessageLoggerModel.addPropertyChangeListener(this);
         this.startLobbyLoggerModel = startLobbyLoggerModel;
         startLobbyLoggerModel.addPropertyChangeListener(this);
+        this.joinLobbyLoggerModel = joinLobbyLoggerModel;
+        joinLobbyLoggerModel.addPropertyChangeListener(this);
 
-        this.receiveMessageController = receiveMessageController;
         this.hostEnterChooseNameController = hostEnterChooseNameController;
+        this.joinEnterChooseNameController = joinEnterChooseNameController;
 
         try {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
@@ -124,6 +136,9 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             String lobbyID = createChannel();
             setMainChannel(lobbyID);
             hostEnterChooseNameController.execute(lobbyID);
+        } else if (evt.getNewValue() instanceof JoinLobbyState state) {
+            System.out.println(state.getLobbyID());
+            joinEnterChooseNameController.execute();
         }
     }
 }

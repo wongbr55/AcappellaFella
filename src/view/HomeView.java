@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.Home.HomeViewModel;
 import interface_adapter.Home.HomeViewState;
+import interface_adapter.JoinLobby.JoinLobbyController;
 import interface_adapter.StartLobby.StartLobbyController;
 
 import javax.swing.*;
@@ -17,13 +18,15 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
     public final String viewName = "home";
     private final HomeViewModel homeViewModel;
     private final StartLobbyController startLobbyController;
+    private final JoinLobbyController joinLobbyController;
     final JTextField idInputField = new JTextField(15);
     private final JButton create;
     private final JButton join;
 
-    public HomeView(HomeViewModel homeViewModel, StartLobbyController startLobbyController) {
+    public HomeView(HomeViewModel homeViewModel, StartLobbyController startLobbyController, JoinLobbyController joinLobbyController) {
         this.homeViewModel = homeViewModel;
         this.startLobbyController = startLobbyController;
+        this.joinLobbyController = joinLobbyController;
         homeViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(HomeViewModel.TITLE_LABEL);
@@ -48,7 +51,8 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         join.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(join)) {
-                    // todo call JoinLobbyController
+                    HomeViewState currentState = homeViewModel.getState();
+                    joinLobbyController.execute(currentState.getLobbyID());
                 }
             }
         });

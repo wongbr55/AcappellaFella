@@ -10,7 +10,7 @@ public class JoinEnterChooseNameController {
         this.joinEnterChooseNameInteractor = joinEnterChooseNameInteractor;
     }
 
-    void execute() {
+    public void execute() {
         JoinEnterChooseNameInputData inputData = new JoinEnterChooseNameInputData();
         joinEnterChooseNameInteractor.execute(inputData);
     }

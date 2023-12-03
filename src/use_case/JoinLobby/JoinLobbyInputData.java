@@ -1,11 +1,13 @@
 package use_case.JoinLobby;
 
 public class JoinLobbyInputData {
-    final private String name;
+    final private String lobbyID;
 
-    public JoinLobbyInputData(String name){
-        this.name = name;
+    public JoinLobbyInputData(String lobbyID) {
+        this.lobbyID = lobbyID;
     }
 
-    String getName(){return name;}
+    public String getLobbyID() {
+        return lobbyID;
+    }
 }

@@ -8,6 +8,7 @@ import interface_adapter.ChooseName.HostChooseNameViewModel;
 import interface_adapter.ChooseName.JoinChooseNameViewModel;
 import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.Home.HomeViewModel;
+import interface_adapter.JoinLobby.JoinLobbyLoggerModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.RunGame.RunGameController;
 import interface_adapter.Scoreboard.ScoreboardViewModel;
@@ -47,6 +48,7 @@ public class Main {
         // Message logger model
         SendMessageLoggerModel sendMessageLoggerModel = new SendMessageLoggerModel();
         StartLobbyLoggerModel startLobbyLoggerModel = new StartLobbyLoggerModel();
+        JoinLobbyLoggerModel joinLobbyLoggerModel = new JoinLobbyLoggerModel();
 
         // View Models
         SingerChooseViewModel singerChooseViewModel = new SingerChooseViewModel();
@@ -74,7 +76,7 @@ public class Main {
         AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, chatViewModel, hostChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, chatViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
 
         // todo remove later
         messageLogger.setMainChannel("1168619453492236424");
@@ -101,7 +103,7 @@ public class Main {
         ChatView chatView = ChatUseCaseFactory.create(gameStateDAO, chatViewModel, sendMessageLoggerModel, playerGuessViewModel, gameStateDAO, roundStateDAO);
         EndScreenView endScreenView = EndScreenViewFactory.createView(endScreenViewModel);
         PlayerGuessView playerGuessView = PlayerGuessViewBuilder.createView(scoreboardView, chatView, playerGuessViewModel);
-        HomeView homeView = HomeUseCaseFactory.create(homeViewModel, startLobbyLoggerModel);
+        HomeView homeView = HomeUseCaseFactory.create(homeViewModel, startLobbyLoggerModel, joinLobbyLoggerModel);
         JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(joinChooseNameViewModel);
         HostChooseNameView hostChooseNameView = ChooseNameViewFactory.createHostView(hostChooseNameViewModel, hostWaitRoomViewModel, viewManagerModel);
         JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(joinWaitRoomViewModel);
