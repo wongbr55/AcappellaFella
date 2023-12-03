@@ -16,6 +16,9 @@ public class JoinEnterWaitRoomPresenter implements JoinEnterWaitRoomOutputBounda
 
     @Override
     public void prepareSuccessView(JoinEnterWaitRoomOutputData joinEnterWaitRoomOutputData) {
-
+        joinWaitRoomViewModel.getState().setLobbyID(joinEnterWaitRoomOutputData.getLobbyID());
+        joinWaitRoomViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView(joinWaitRoomViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }
