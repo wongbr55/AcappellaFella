@@ -1,13 +1,13 @@
 package interface_adapter.Home;
 
 public class HomeViewState {
-    private String lobbyID = "";
+    private String lobbyIDError = "";
 
-    public String getLobbyID() {
-        return lobbyID;
+    public String getLobbyIDError() {
+        return lobbyIDError;
     }
 
-    public void setLobbyID(String lobbyID) {
-        this.lobbyID = lobbyID;
+    public void setLobbyIDError(String lobbyIDError) {
+        this.lobbyIDError = lobbyIDError;
     }
 }

@@ -76,10 +76,7 @@ public class Main {
         AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, chatViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
-
-        // todo remove later
-        messageLogger.setMainChannel("1168619453492236424");
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
 
         // todo remove later
         Player brandon = new Player();

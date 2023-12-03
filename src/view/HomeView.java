@@ -3,6 +3,7 @@ package view;
 import interface_adapter.Home.HomeViewModel;
 import interface_adapter.Home.HomeViewState;
 import interface_adapter.JoinLobby.JoinLobbyController;
+import interface_adapter.SendMessage.SendMessageState;
 import interface_adapter.StartLobby.StartLobbyController;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         JLabel title = new JLabel(HomeViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        LabelTextPanel idInfo = new LabelTextPanel(new JLabel("Enter Game ID"), idInputField);
+        LabelTextPanel idInfo = new LabelTextPanel(new JLabel("Enter lobby ID"), idInputField);
 
         create = new JButton(HomeViewModel.CREATE_BUTTON);
         create.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -51,25 +52,8 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
         join.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(join)) {
-                    HomeViewState currentState = homeViewModel.getState();
-                    joinLobbyController.execute(currentState.getLobbyID());
+                    joinLobbyController.execute(idInputField.getText());
                 }
-            }
-        });
-        idInputField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                HomeViewState currentState = homeViewModel.getState();
-                currentState.setLobbyID(idInputField.getText() + e.getKeyChar());
-                homeViewModel.setState(currentState);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
             }
         });
 
@@ -94,6 +78,10 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if (evt.getNewValue() instanceof HomeViewState state) {
+            if (!state.getLobbyIDError().isEmpty()) {
+                JOptionPane.showMessageDialog(this, state.getLobbyIDError());
+            }
+        }
     }
 }

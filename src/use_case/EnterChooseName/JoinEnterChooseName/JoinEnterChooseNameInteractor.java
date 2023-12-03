@@ -9,7 +9,11 @@ public class JoinEnterChooseNameInteractor implements JoinEnterChooseNameInputBo
 
     @Override
     public void execute(JoinEnterChooseNameInputData joinEnterChooseNameInputData) {
-        JoinEnterChooseNameOutputData outputData = new JoinEnterChooseNameOutputData();
-        joinEnterChooseNamePresenter.prepareSuccessView(outputData);
+        if (!joinEnterChooseNameInputData.getLobbyID().isEmpty()) {
+            JoinEnterChooseNameOutputData outputData = new JoinEnterChooseNameOutputData(joinEnterChooseNameInputData.getLobbyID());
+            joinEnterChooseNamePresenter.prepareSuccessView(outputData);
+        } else {
+            joinEnterChooseNamePresenter.prepareFailView("LobbyID does not exist");
+        }
     }
 }

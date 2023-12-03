@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.EnumSet;
+import java.util.Objects;
 
 public class MessageLogger extends ListenerAdapter implements PropertyChangeListener {
     final private String TOKEN = System.getenv("DISCORD_TOKEN");
@@ -137,8 +138,23 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             setMainChannel(lobbyID);
             hostEnterChooseNameController.execute(lobbyID);
         } else if (evt.getNewValue() instanceof JoinLobbyState state) {
-            System.out.println(state.getLobbyID());
-            joinEnterChooseNameController.execute();
+            boolean channelExists = false;
+
+            try {
+                setMainChannel(state.getLobbyID());
+            } catch (Exception e) {
+                // do nothing
+            }
+
+            if (mainChannel != null) {
+                channelExists = true;
+            }
+
+            if (channelExists) {
+                joinEnterChooseNameController.execute(state.getLobbyID());
+            } else {
+                joinEnterChooseNameController.execute("");
+            }
         }
     }
 }

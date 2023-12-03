@@ -8,6 +8,7 @@ import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseName
 import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNamePresenter;
 import interface_adapter.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameController;
 import interface_adapter.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNamePresenter;
+import interface_adapter.Home.HomeViewModel;
 import interface_adapter.JoinLobby.JoinLobbyLoggerModel;
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.ReceiveMessage.ReceiveMessagePresenter;
@@ -19,7 +20,6 @@ import use_case.EnterChooseName.HostEnterChooseName.HostEnterChooseNameInputBoun
 import use_case.EnterChooseName.HostEnterChooseName.HostEnterChooseNameInteractor;
 import use_case.EnterChooseName.HostEnterChooseName.HostEnterChooseNameOutputBoundary;
 import use_case.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameInputBoundary;
-import use_case.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameInputData;
 import use_case.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameInteractor;
 import use_case.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameOutputBoundary;
 import use_case.ReceiveMessage.*;
@@ -35,6 +35,7 @@ public class MessageLoggerUseCaseFactory {
                                        StartLobbyLoggerModel startLobbyLoggerModel,
                                        JoinLobbyLoggerModel joinLobbyLoggerModel,
                                        ChatViewModel chatViewModel,
+                                       HomeViewModel homeViewModel,
                                        HostChooseNameViewModel hostChooseNameViewModel,
                                        JoinChooseNameViewModel joinChooseNameViewModel,
                                        ViewManagerModel viewManagerModel,
@@ -43,7 +44,7 @@ public class MessageLoggerUseCaseFactory {
                                        UpdateScoreInputBoundary updateScoreInputBoundary) {
         ReceiveMessageController receiveMessageController = createMessageLoggerUseCase(messageHistoryDataAccessObject, playerDataAccessObject, chatViewModel, gameStateDataAccessObject, roundStataDataAccessObject, updateScoreInputBoundary);
         HostEnterChooseNameController hostEnterChooseNameController = createHostEnterChooseNameUseCase(hostChooseNameViewModel, viewManagerModel);
-        JoinEnterChooseNameController joinEnterChooseNameController = createJoinEnterChooseNameUseCase(joinChooseNameViewModel, viewManagerModel);
+        JoinEnterChooseNameController joinEnterChooseNameController = createJoinEnterChooseNameUseCase(joinChooseNameViewModel, homeViewModel, viewManagerModel);
         return new MessageLogger(sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, receiveMessageController, hostEnterChooseNameController, joinEnterChooseNameController);
     }
 
@@ -64,8 +65,8 @@ public class MessageLoggerUseCaseFactory {
         return new HostEnterChooseNameController(hostEnterChooseNameInputBoundary);
     }
 
-    private static JoinEnterChooseNameController createJoinEnterChooseNameUseCase(JoinChooseNameViewModel joinChooseNameViewModel, ViewManagerModel viewManagerModel) {
-        JoinEnterChooseNameOutputBoundary joinEnterChooseNameOutputBoundary = new JoinEnterChooseNamePresenter(joinChooseNameViewModel, viewManagerModel);
+    private static JoinEnterChooseNameController createJoinEnterChooseNameUseCase(JoinChooseNameViewModel joinChooseNameViewModel, HomeViewModel homeViewModel, ViewManagerModel viewManagerModel) {
+        JoinEnterChooseNameOutputBoundary joinEnterChooseNameOutputBoundary = new JoinEnterChooseNamePresenter(joinChooseNameViewModel, homeViewModel, viewManagerModel);
         JoinEnterChooseNameInputBoundary joinEnterChooseNameInputBoundary = new JoinEnterChooseNameInteractor(joinEnterChooseNameOutputBoundary);
         return new JoinEnterChooseNameController(joinEnterChooseNameInputBoundary);
     }
