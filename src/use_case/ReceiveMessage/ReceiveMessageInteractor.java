@@ -92,7 +92,15 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         } else if (type == Message.MessageType.INVIS_SYSTEM && startGameMatcher.matches()) {
             int numberOfRounds = Integer.parseInt(startGameMatcher.group(1));
             int roundLength = Integer.parseInt(startGameMatcher.group(2));
-            runGameController.execute(numberOfRounds, roundLength);
+
+            // no idea what threads do, so this is basically completely uncontrolled
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    runGameController.execute(numberOfRounds, roundLength);
+                }
+            });
+            thread.start();
         }
 
         // don't show the message if the player hasn't guessed it yet, and it comes from a player who has guessed it

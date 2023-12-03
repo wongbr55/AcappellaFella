@@ -12,7 +12,7 @@ import java.util.List;
 
 public class InMemoryRoundStateDataAccessObject implements CheckGuessRoundStateDataAccessInterface, SingerChooseRoundStateDataAccessInterface, ReceiveMessageRoundStateDataAccessInterface, UpdateScoreRoundStateDataAccessInterface, RunGameRoundStateDataAccessInterface {
 
-    private final List<RoundState> rounds = new ArrayList<>();
+    private static final List<RoundState> rounds = new ArrayList<>();
 
     public RoundState getCurrentRoundState() {
         if (rounds.isEmpty()) {
