@@ -62,7 +62,7 @@ public abstract class ChooseNameView extends JPanel implements ActionListener, P
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof ChooseNameState state) {
             if (state.getNameError() != null) {
-                JOptionPane.showMessageDialog(this, "Error:" + state.getNameError());
+                JOptionPane.showMessageDialog(this, "Error: " + state.getNameError());
             }
         }
     }

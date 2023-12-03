@@ -40,8 +40,16 @@ public class AddMainPlayerInteractor implements AddMainPlayerInputBoundary {
     }
 
     public void execute(AddMainPlayerInputData addMainPlayerInputData){
+        // check if name is empty
+        if (addMainPlayerInputData.getMainPlayerName() == null) {
+            if (addMainPlayerInputData.isHost()) {
+                hostEnterWaitRoomController.execute(addMainPlayerInputData.getLobbyID(), "Empty name");
+            } else {
+                joinEnterWaitRoomController.execute(addMainPlayerInputData.getLobbyID(), "Empty name");
+            }
+        }
         // check if there already is a player with the same name
-        if (!playerDAO.existsByName(addMainPlayerInputData.getMainPlayerName())) {
+        else if (!playerDAO.existsByName(addMainPlayerInputData.getMainPlayerName())) {
             Player mainPlayer = new Player(addMainPlayerInputData.getMainPlayerName());
             playerDAO.save(mainPlayer);
             scoreboardDAO.getScoreboard().addPlayer(mainPlayer);
