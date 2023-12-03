@@ -49,6 +49,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private JoinEnterChooseNameController joinEnterChooseNameController;
     private JDA jda;
     private Guild guild;
+    private TextChannel playerLists;
     private TextChannel mainChannel;
 
     private MessageLogger(ReceiveMessageController receiveMessageController) {
@@ -98,11 +99,12 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             // If you want to access the cache, you can use awaitReady() to block the main thread until the jda instance is fully loaded
             jda.awaitReady();
 
-            // Get main guild
-            guild = this.jda.getGuildById(GUILD_ID);
-
             // Now we can access the fully loaded cache and show some statistics or do other cache dependent things
             System.out.println("Guilds: " + jda.getGuildCache().size());
+
+            // Get main guild
+            guild = this.jda.getGuildById(GUILD_ID);
+            playerLists = guild.getTextChannelById("1180784527291985952");
         } catch (InterruptedException e) {
             // Thrown if the awaitReady() call is interrupted
             e.printStackTrace();
@@ -114,17 +116,17 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         MessageChannelUnion channel = event.getChannel();
         Message message = event.getMessage();
 
-        if (channel.getId().equals(channel.getId())) {
+        if (mainChannel != null && channel.getId().equals(mainChannel.getId())) {
             receiveMessageController.execute(message.getContentRaw());
         }
     }
 
-    private void sendMessage(String content) {
-        mainChannel.sendMessage(content).queue();
+    private Message sendMessage(String content) {
+        return mainChannel.sendMessage(content).complete();
     }
 
-    private String createChannel() {
-        TextChannel textChannel = guild.createTextChannel("lobby").complete();
+    private String createChannel(String name) {
+        TextChannel textChannel = guild.createTextChannel(name).complete();
         return textChannel.getId();
     }
 
@@ -132,21 +134,16 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         mainChannel = guild.getTextChannelById(id);
     }
 
-    private String getChannelTopic(TextChannel channel) {
-        return channel.getTopic();
-    }
-
-    private void setChannelTopic(TextChannel channel, String topic) {
-        channel.getManager().setTopic(topic).complete();
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof SendMessageState state) {
             sendMessage(state.getLastMessage());
         } else if (evt.getNewValue() instanceof StartLobbyState state) {
-            String lobbyID = createChannel();
+            Message playerList = playerLists.sendMessage(":D").complete();
+            String lobbyID = createChannel(playerList.getId());
             setMainChannel(lobbyID);
+            playerLists.editMessageById(mainChannel.getName(), "lobby id: " + lobbyID).complete();
+
             hostEnterChooseNameController.execute(lobbyID);
         } else if (evt.getNewValue() instanceof JoinLobbyState state) {
             boolean channelExists = false;
@@ -161,25 +158,21 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
                 channelExists = true;
             }
 
-            if (channelExists) {
-                joinEnterChooseNameController.execute(state.getLobbyID());
-
-                String topic = getChannelTopic(mainChannel);
-                String[] playerNamesArray = topic.split("\\r?\\n");
-                List<String> playerNamesList = new ArrayList<>(Arrays.asList(playerNamesArray));
-
-                initializePlayersController.execute(playerNamesList);
-            } else {
+            if (!channelExists) {
                 joinEnterChooseNameController.execute("");
+                return;
             }
+
+            joinEnterChooseNameController.execute(state.getLobbyID());
+
+            String playerList = playerLists.retrieveMessageById(mainChannel.getName()).complete().getContentRaw();
+            String[] playerNamesArray = playerList.split("\\r?\\n");
+            List<String> playerNamesList = new ArrayList<>(Arrays.asList(playerNamesArray)).subList(1, playerNamesArray.length);
+
+            initializePlayersController.execute(playerNamesList);
         } else if (evt.getNewValue() instanceof AddMainPlayerState state) {
-            String topic = getChannelTopic(mainChannel);
-            // for some reason an empty topic is null, not the empty string
-            if (topic == null) {
-               setChannelTopic(mainChannel, state.getPlayerName());
-            } else {
-                setChannelTopic(mainChannel, topic + "\n" + state.getPlayerName());
-            }
+            String playerList = playerLists.retrieveMessageById(mainChannel.getName()).complete().getContentRaw();
+            playerLists.editMessageById(mainChannel.getName(), playerList + "\n" + state.getPlayerName()).complete();
         }
     }
 }
