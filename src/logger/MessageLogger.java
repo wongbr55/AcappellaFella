@@ -2,7 +2,7 @@ package logger;
 
 import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNameController;
 import interface_adapter.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameController;
-import interface_adapter.JoinLobby.JoinLobbyController;
+import interface_adapter.InitializePlayers.InitializePlayersController;
 import interface_adapter.JoinLobby.JoinLobbyLoggerModel;
 import interface_adapter.JoinLobby.JoinLobbyState;
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
@@ -23,8 +23,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.Objects;
+import java.util.List;
 
 public class MessageLogger extends ListenerAdapter implements PropertyChangeListener {
     final private String TOKEN = System.getenv("DISCORD_TOKEN");
@@ -39,6 +41,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private StartLobbyLoggerModel startLobbyLoggerModel;
     private JoinLobbyLoggerModel joinLobbyLoggerModel;
     private ReceiveMessageController receiveMessageController;
+    private InitializePlayersController initializePlayersController;
     private HostEnterChooseNameController hostEnterChooseNameController;
     private JoinEnterChooseNameController joinEnterChooseNameController;
     private JDA jda;
@@ -52,6 +55,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel,
                          StartLobbyLoggerModel startLobbyLoggerModel,
                          JoinLobbyLoggerModel joinLobbyLoggerModel,
+                         InitializePlayersController initializePlayersController,
                          ReceiveMessageController receiveMessageController,
                          HostEnterChooseNameController hostEnterChooseNameController,
                          JoinEnterChooseNameController joinEnterChooseNameController) {
@@ -62,6 +66,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         this.joinLobbyLoggerModel = joinLobbyLoggerModel;
         joinLobbyLoggerModel.addPropertyChangeListener(this);
 
+        this.initializePlayersController = initializePlayersController;
         this.hostEnterChooseNameController = hostEnterChooseNameController;
         this.joinEnterChooseNameController = joinEnterChooseNameController;
 
@@ -152,6 +157,12 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
 
             if (channelExists) {
                 joinEnterChooseNameController.execute(state.getLobbyID());
+
+                String topic = getChannelTopic(mainChannel);
+                String[] playerNamesArray = topic.split("\\r?\\n");
+                List<String> playerNamesList = new ArrayList<>(Arrays.asList(playerNamesArray));
+
+                initializePlayersController.execute(playerNamesList);
             } else {
                 joinEnterChooseNameController.execute("");
             }

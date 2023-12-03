@@ -25,7 +25,7 @@ public class AddPlayerInteractor implements AddPlayerInputBoundary{
 
     @Override
     public void execute(AddPlayerInputData addPlayerInputData) {
-        Player newPlayer = addPlayerInputData.getPlayer();
+        Player newPlayer = new Player(addPlayerInputData.getPlayerName());
         playerDAO.save(newPlayer);
         gameStateDAO.getGameState().addPlayer(newPlayer);
         scoreboardDAO.getScoreboard().addPlayer(newPlayer);

@@ -76,22 +76,7 @@ public class Main {
         AddPlayerController addPlayerController = AddPlayerUseCaseFactory.create(scoreboardDAO, playerDAO, gameStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
-
-        // todo remove later
-        Player brandon = new Player();
-        brandon.setName("Brandon");
-        addPlayerController.execute(brandon);
-
-        Player mark = new Player();
-        mark.setName("Mark");
-        addPlayerController.execute(mark);
-
-        Player eric = new Player();
-        eric.setName("eric");
-        addPlayerController.execute(eric);
-
-        gameStateDAO.getGameState().setMainPlayer(brandon);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, scoreboardViewModel, updateScoreInteractor);
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
