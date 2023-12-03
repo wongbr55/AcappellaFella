@@ -2,7 +2,7 @@ package use_case.JoinLobby;
 
 import entity.Player;
 
-public class JoinLobbyInteractor implements JoinLobbyOutputBoundary {
+public class JoinLobbyInteractor implements JoinLobbyInputBoundary {
     final JoinLobbyDataAccessInterface joinLobbyDataAccessInterface;
     final JoinLobbyOutputBoundary joinLobbyOutputBoundary;
 
@@ -14,7 +14,7 @@ public class JoinLobbyInteractor implements JoinLobbyOutputBoundary {
     public void execute(JoinLobbyInputData joinLobbyInputData){
         if (joinLobbyDataAccessInterface.existsByName(joinLobbyInputData.getName())){
             joinLobbyOutputBoundary.prepareFailView("Name already in use");
-        }else {
+        } else {
             Player player = new Player();
             player.setName(joinLobbyInputData.getName());
             joinLobbyDataAccessInterface.save(player);
@@ -22,15 +22,5 @@ public class JoinLobbyInteractor implements JoinLobbyOutputBoundary {
             JoinLobbyOutputData joinLobbyOutputData = new JoinLobbyOutputData(player.getName());
             joinLobbyOutputBoundary.prepareSuccessView(joinLobbyOutputData);
         }
-    }
-
-    @Override
-    public void prepareSuccessView(JoinLobbyOutputData joinLobbyOutputData) {
-
-    }
-
-    @Override
-    public void prepareFailView(String error) {
-
     }
 }

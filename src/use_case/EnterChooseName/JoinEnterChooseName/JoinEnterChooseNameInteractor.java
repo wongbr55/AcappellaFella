@@ -9,6 +9,7 @@ public class JoinEnterChooseNameInteractor implements JoinEnterChooseNameInputBo
 
     @Override
     public void execute(JoinEnterChooseNameInputData joinEnterChooseNameInputData) {
-
+        JoinEnterChooseNameOutputData outputData = new JoinEnterChooseNameOutputData();
+        joinEnterChooseNamePresenter.prepareSuccessView(outputData);
     }
 }

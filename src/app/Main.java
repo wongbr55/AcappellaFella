@@ -77,7 +77,7 @@ public class Main {
         MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, chatViewModel, hostChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, updateScoreInteractor);
 
         // todo remove later
-        messageLogger.setChannel("1168619453492236424");
+        messageLogger.setMainChannel("1168619453492236424");
 
         // todo remove later
         Player brandon = new Player();

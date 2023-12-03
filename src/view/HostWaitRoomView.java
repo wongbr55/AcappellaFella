@@ -117,7 +117,8 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        WaitRoomState state = ((HostWaitRoomViewModel) evt.getSource()).getState();
-        lobbyID.setText("Lobby ID: " + state.getLobbyID());
+        if (evt.getNewValue() instanceof WaitRoomState state) {
+            lobbyID.setText("Lobby ID: " + state.getLobbyID());
+        }
     }
 }

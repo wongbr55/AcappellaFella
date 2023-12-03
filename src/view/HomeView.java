@@ -40,7 +40,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
                 if (evt.getSource().equals(create)) {
                     startLobbyController.execute();
 
-                    // todo switch views here
+                    // view is switched in MessageLogger
                 }
             }
         });

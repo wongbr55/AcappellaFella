@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.EnumSet;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MessageLogger extends ListenerAdapter implements PropertyChangeListener {
     final private String TOKEN = System.getenv("DISCORD_TOKEN");
@@ -37,7 +36,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private HostEnterChooseNameController hostEnterChooseNameController;
     private JDA jda;
     private Guild guild;
-    private TextChannel channel;
+    private TextChannel mainChannel;
 
     private MessageLogger(ReceiveMessageController receiveMessageController, HostEnterChooseNameController hostEnterChooseNameController) {
         this.receiveMessageController = receiveMessageController;
@@ -97,16 +96,24 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     }
 
     private void sendMessage(String content) {
-        channel.sendMessage(content).queue();
+        mainChannel.sendMessage(content).queue();
     }
 
-    public String createChannel() {
+    private String createChannel() {
         TextChannel textChannel = guild.createTextChannel("lobby").complete();
         return textChannel.getId();
     }
 
-    public void setChannel(String id) {
-        channel = guild.getTextChannelById(id);
+    public void setMainChannel(String id) {
+        mainChannel = guild.getTextChannelById(id);
+    }
+
+    private String getChannelTopic(TextChannel channel) {
+        return channel.getTopic();
+    }
+
+    private void setChannelTopic(TextChannel channel, String topic) {
+        channel.getManager().setTopic(topic).complete();
     }
 
     @Override
@@ -115,7 +122,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             sendMessage(state.getLastMessage());
         } else if (evt.getNewValue() instanceof StartLobbyState state) {
             String lobbyID = createChannel();
-            setChannel(lobbyID);
+            setMainChannel(lobbyID);
             hostEnterChooseNameController.execute(lobbyID);
         }
     }
