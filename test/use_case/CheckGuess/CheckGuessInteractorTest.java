@@ -3,6 +3,7 @@ package use_case.CheckGuess;
 import data_access.InMemoryGameStateDataAccessObject;
 import data_access.InMemoryRoundStateDataAccessObject;
 import entity.Player;
+import entity.RoundState;
 import entity.Song;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,13 +46,23 @@ public class CheckGuessInteractorTest {
 
         assertEquals(false, roundStateDAO.getCurrentRoundState().getGuessStatusByPlayer(gameStateDAO.getMainPlayer()));
 
+        // set song and roundstatus to singing
+        roundStateDAO.getCurrentRoundState().setSingerState(RoundState.SingerState.SINGING);
+        roundStateDAO.getCurrentRoundState().setSong(new Song("Charlie Puth", "How Long"));
+
         CheckGuessInputData correctGuess = new CheckGuessInputData("ATTENTION");
         checkGuessInteractor.execute(correctGuess);
 
-        roundStateDAO.getCurrentRoundState().setGuessStatusByPlayer(gameStateDAO.getMainPlayer(), true);
+//        assertEquals(false, roundStateDAO.getCurrentRoundState().getGuessStatusByPlayer(gameStateDAO.getMainPlayer()));
 
         CheckGuessInputData guessGuess = new CheckGuessInputData("How long");
         checkGuessInteractor.execute(guessGuess);
+
+        roundStateDAO.getCurrentRoundState().setGuessStatusByPlayer(gameStateDAO.getMainPlayer(), true);
+
+        CheckGuessInputData guessedGuess = new CheckGuessInputData("How long");
+        checkGuessInteractor.execute(guessedGuess);
+
 
     }
 }
