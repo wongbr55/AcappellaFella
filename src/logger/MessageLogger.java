@@ -50,7 +50,7 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     private JDA jda;
     private Guild guild;
     private TextChannel playerLists;
-    private TextChannel mainChannel;
+    private static TextChannel mainChannel;
 
     private MessageLogger(ReceiveMessageController receiveMessageController) {
         this.receiveMessageController = receiveMessageController;
@@ -115,7 +115,6 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         MessageChannelUnion channel = event.getChannel();
         Message message = event.getMessage();
-
         if (mainChannel != null && channel.getId().equals(mainChannel.getId())) {
             receiveMessageController.execute(message.getContentRaw());
         }
@@ -125,13 +124,8 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
         mainChannel.sendMessage(content).complete();
     }
 
-    private String createChannel(String name) {
-        TextChannel textChannel = guild.createTextChannel(name).complete();
-        return textChannel.getId();
-    }
-
-    public void setMainChannel(String id) {
-        mainChannel = guild.getTextChannelById(id);
+    private TextChannel createChannel(String name) {
+        return guild.createTextChannel(name).complete();
     }
 
     @Override
@@ -140,16 +134,15 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             sendMessage(state.getLastMessage());
         } else if (evt.getNewValue() instanceof StartLobbyState state) {
             Message playerList = playerLists.sendMessage(":D").complete();
-            String lobbyID = createChannel(playerList.getId());
-            setMainChannel(lobbyID);
-            playerLists.editMessageById(mainChannel.getName(), "lobby id: " + lobbyID).complete();
+            mainChannel = createChannel(playerList.getId());
+            playerLists.editMessageById(mainChannel.getName(), "lobby id: " + mainChannel.getId()).complete();
 
-            hostEnterChooseNameController.execute(lobbyID);
+            hostEnterChooseNameController.execute(mainChannel.getId());
         } else if (evt.getNewValue() instanceof JoinLobbyState state) {
             boolean channelExists = false;
 
             try {
-                setMainChannel(state.getLobbyID());
+                mainChannel = guild.getTextChannelById(state.getLobbyID());
             } catch (Exception e) {
                 // do nothing
             }
@@ -168,7 +161,6 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             String playerList = playerLists.retrieveMessageById(mainChannel.getName()).complete().getContentRaw();
             String[] playerNamesArray = playerList.split("\\r?\\n");
             List<String> playerNamesList = new ArrayList<>(Arrays.asList(playerNamesArray)).subList(1, playerNamesArray.length);
-
             initializePlayersController.execute(playerNamesList);
         } else if (evt.getNewValue() instanceof AddMainPlayerState state) {
             String playerList = playerLists.retrieveMessageById(mainChannel.getName()).complete().getContentRaw();

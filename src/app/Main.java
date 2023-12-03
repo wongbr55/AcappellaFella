@@ -77,7 +77,7 @@ public class Main {
         UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, scoreboardViewModel, updateScoreInteractor);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, scoreboardViewModel, updateScoreInteractor);
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
@@ -90,7 +90,7 @@ public class Main {
         JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(hostWaitRoomViewModel, joinWaitRoomViewModel, hostChooseNameViewModel, joinChooseNameViewModel, scoreboardViewModel, viewManagerModel, addMainPlayerLoggerModel, sendMessageLoggerModel, playerDAO, scoreboardDAO, gameStateDAO, gameStateDAO);
         HostChooseNameView hostChooseNameView = ChooseNameViewFactory.createHostView(hostWaitRoomViewModel, joinWaitRoomViewModel, hostChooseNameViewModel, joinChooseNameViewModel, scoreboardViewModel, viewManagerModel, addMainPlayerLoggerModel, sendMessageLoggerModel, playerDAO, scoreboardDAO, gameStateDAO, gameStateDAO);
         JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(joinWaitRoomViewModel);
-        HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(hostWaitRoomViewModel);
+        HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(hostWaitRoomViewModel, sendMessageLoggerModel, gameStateDAO);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);
@@ -104,8 +104,6 @@ public class Main {
 
         viewManagerModel.setActiveView(homeView.viewName);
         viewManagerModel.firePropertyChanged();
-
-        RunGameController runGameController = RunGameUseCaseFactory.createRunGameUseCase(gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel);
 
         application.pack();
         application.setVisible(true);

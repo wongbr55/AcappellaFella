@@ -1,6 +1,6 @@
 package view;
 
-import interface_adapter.WaitRoom.HostWaitRoomViewModel;
+import interface_adapter.StartGame.StartGameController;
 import interface_adapter.WaitRoom.WaitRoomState;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
 
@@ -21,10 +21,13 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
     private final JSlider roundLengthSlider;
     private final JButton startGame;
     private final JButton loadPlaylist;
+    private final StartGameController startGameController;
 
-    public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel) {
+    public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel, StartGameController startGameController) {
         this.waitRoomViewModel = waitRoomViewModel;
         this.waitRoomViewModel.addPropertyChangeListener(this);
+
+        this.startGameController = startGameController;
 
         lobbyID = new JLabel("Lobby ID:");
 
@@ -57,7 +60,7 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
                 if (evt.getSource().equals(startGame)) {
                     WaitRoomState currentState = waitRoomViewModel.getState();
 
-                    // todo add StartGameController
+                    startGameController.execute(currentState.getNumberOfRounds(), currentState.getRoundLength());
                 }
             }
         });

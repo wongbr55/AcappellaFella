@@ -3,6 +3,7 @@ package use_case.ReceiveMessage;
 import entity.*;
 
 import interface_adapter.AddPlayer.AddPlayerController;
+import interface_adapter.RunGame.RunGameController;
 import use_case.UpdateScore.UpdateScoreInputBoundary;
 import use_case.UpdateScore.UpdateScoreInputData;
 
@@ -15,16 +16,18 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
     final AddPlayerController addPlayerController;
+    final RunGameController runGameController;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
     final UpdateScoreInputBoundary updateScoreInputBoundary;
 
     public ReceiveMessageInteractor(ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject, ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject, ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
-                                    AddPlayerController addPlayerController, ReceiveMessageOutputBoundary receiveMessagePresenter, UpdateScoreInputBoundary updateScoreInputBoundary) {
+                                    AddPlayerController addPlayerController, RunGameController runGameController, ReceiveMessageOutputBoundary receiveMessagePresenter, UpdateScoreInputBoundary updateScoreInputBoundary) {
         this.gameStateDataAccessObject = gameStateDataAccessObject;
         this.roundStataDataAccessObject = roundStataDataAccessObject;
         this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
         this.playerDataAccessObject = playerDataAccessObject;
         this.addPlayerController = addPlayerController;
+        this.runGameController = runGameController;
         this.receiveMessagePresenter = receiveMessagePresenter;
         this.updateScoreInputBoundary = updateScoreInputBoundary;
     }
@@ -57,6 +60,10 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         Pattern newSongPattern = Pattern.compile(newSongPatternString);
         Matcher newSongMatcher = newSongPattern.matcher(content);
 
+        String startGamePatternString = "GAME STARTED\n(.+?)\n(.+?)";
+        Pattern startGamePattern = Pattern.compile(startGamePatternString);
+        Matcher startGameMatcher = startGamePattern.matcher(content);
+
         // if it matches
         if (type == Message.MessageType.SYSTEM && guessedMatcher.matches()) {
             String playerName = guessedMatcher.group(1);
@@ -82,6 +89,10 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
             roundState.setSong(song1);
         } else if (type == Message.MessageType.INVIS_SYSTEM && content.equals("ROUND DONE")) {
             roundState.setSingerState(RoundState.SingerState.DONE);
+        } else if (type == Message.MessageType.INVIS_SYSTEM && startGameMatcher.matches()) {
+            int numberOfRounds = Integer.parseInt(startGameMatcher.group(1));
+            int roundLength = Integer.parseInt(startGameMatcher.group(2));
+            runGameController.execute(numberOfRounds, roundLength);
         }
 
         // don't show the message if the player hasn't guessed it yet, and it comes from a player who has guessed it

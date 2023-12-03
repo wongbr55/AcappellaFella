@@ -47,10 +47,12 @@ public class AddMainPlayerInteractor implements AddMainPlayerInputBoundary {
             } else {
                 joinEnterWaitRoomController.execute(addMainPlayerInputData.getLobbyID(), "Empty name");
             }
+            return;
         }
+        String name = addMainPlayerInputData.getMainPlayerName().strip();
         // check if there already is a player with the same name
-        else if (!playerDAO.existsByName(addMainPlayerInputData.getMainPlayerName())) {
-            Player mainPlayer = new Player(addMainPlayerInputData.getMainPlayerName());
+        if (!playerDAO.existsByName(name)) {
+            Player mainPlayer = new Player(name);
             playerDAO.save(mainPlayer);
             scoreboardDAO.getScoreboard().addPlayer(mainPlayer);
             gameStateDAO.getGameState().addPlayer(mainPlayer);
@@ -61,7 +63,7 @@ public class AddMainPlayerInteractor implements AddMainPlayerInputBoundary {
             this.scoreboardViewModel.firePropertyChanged();
 
             // send a message to let other joined clients know that a new player has joined the lobby
-            String content = addMainPlayerInputData.getMainPlayerName() + " has joined.";
+            String content = name + " has joined.";
 
             SendMessageInputData sendMessageInputData = new SendMessageInputData(content, null, Message.MessageType.SYSTEM);
             this.sendMessageInputBoundary.execute(sendMessageInputData);
