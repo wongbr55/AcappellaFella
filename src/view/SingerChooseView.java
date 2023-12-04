@@ -80,6 +80,15 @@ public class SingerChooseView extends JPanel implements ActionListener, Property
         this.add(buttons);
     }
 
+    public JButton getSong1(){
+        return this.song1;
+    }
+    public JButton getSong2(){
+        return this.song2;
+    }
+    public JButton getSong3(){
+        return this.song3;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
 
