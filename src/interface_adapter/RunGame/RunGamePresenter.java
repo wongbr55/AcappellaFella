@@ -71,6 +71,10 @@ public class RunGamePresenter implements RunGameOutputBoundary {
 
     @Override
     public void prepareEndView(RunGameEndScreenOutputData runGameEndScreenOutputData) {
+        endScreenViewModel.getState().setFirstPlace(runGameEndScreenOutputData.getFirstName(), runGameEndScreenOutputData.getFirstScore());
+        endScreenViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView(endScreenViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
 
     }
 }
