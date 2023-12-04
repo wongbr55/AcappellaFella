@@ -86,7 +86,7 @@ public class APIDataAccessObject implements LoadPlaylistDataAccessInterface {
     @Override
     public Playlist getPlaylist() {
         Integer minTrackNumber = 0;
-        Integer maxTrackNumber = 149;
+        Integer maxTrackNumber = 49;
         Integer numSongs = 3;
 
         // array to store three songs
