@@ -10,10 +10,12 @@ import static org.junit.Assert.*;
 
 public class APIDataAccessObjectTest {
 
+    APIDataAccessObject loadPlaylistDAO;
+
 
     @Before
     public void setUp() {
-        // Instance of APIDataAccessObject not required since methods are static
+        loadPlaylistDAO = new APIDataAccessObject();
     }
 
     @Test
@@ -41,7 +43,9 @@ public class APIDataAccessObjectTest {
 
     @Test
     public void getPlaylist() {
-        // todo
-
+        Playlist playlist = loadPlaylistDAO.getPlaylist();
+        assertNotNull(playlist.getSongOne().toString());
+        assertNotNull(playlist.getSongTwo().toString());
+        assertNotNull(playlist.getSongThree().toString());
     }
 }
