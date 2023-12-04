@@ -1,6 +1,8 @@
 package interface_adapter.RunGame;
 
+import app.EndScreenViewFactory;
 import entity.Song;
+import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SingerChoose.SingerChoosePresenter;
 import interface_adapter.SingerChoose.SingerChooseState;
@@ -14,15 +16,17 @@ public class RunGamePresenter implements RunGameOutputBoundary {
     private final SingerSingViewModel singerSingViewModel;
     private final PlayerGuessViewModel playerGuessViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final EndScreenViewModel endScreenViewModel;
 
     public RunGamePresenter(SingerChooseViewModel singerChooseViewModel,
                             SingerSingViewModel singerSingViewModel,
                             PlayerGuessViewModel playerGuessViewModel,
-                            ViewManagerModel viewManagerModel) {
+                            ViewManagerModel viewManagerModel, EndScreenViewModel endScreenViewModel) {
         this.playerGuessViewModel = playerGuessViewModel;
         this.singerChooseViewModel = singerChooseViewModel;
         this.singerSingViewModel = singerSingViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.endScreenViewModel = endScreenViewModel;
     }
 
     @Override
@@ -63,5 +67,10 @@ public class RunGamePresenter implements RunGameOutputBoundary {
     public void updateGuessTimer(RunGameUpdateTimerOutputData runGameUpdateTimerOutputData) {
         playerGuessViewModel.getState().setTime(String.valueOf(runGameUpdateTimerOutputData.getTime()));
         playerGuessViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareEndView(RunGameEndScreenOutputData runGameEndScreenOutputData) {
+
     }
 }

@@ -15,13 +15,15 @@ public class RunGameInteractor implements RunGameInputBoundary {
     private final RunGamePlayerDataAccessInterface playerDataAccessObject;
     private final RunGameOutputBoundary runGamePresenter;
     private final SendMessageInputBoundary sendMessageInputBoundary;
+    private final RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface;
 
-    public RunGameInteractor(RunGameGameStateDataAccessInterface runGameGameStateDataAccessInterface, RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface, RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface, RunGameOutputBoundary runGamePresenter, SendMessageInputBoundary sendMessageInputBoundary) {
+    public RunGameInteractor(RunGameGameStateDataAccessInterface runGameGameStateDataAccessInterface, RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface, RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface, RunGameOutputBoundary runGamePresenter, SendMessageInputBoundary sendMessageInputBoundary, RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
         this.gameStateDataAccessObject = runGameGameStateDataAccessInterface;
         this.roundStateDataAccessObject = runGameRoundStateDataAccessInterface;
         this.playerDataAccessObject = runGamePlayerDataAccessInterface;
         this.runGamePresenter = runGamePresenter;
         this.sendMessageInputBoundary = sendMessageInputBoundary;
+        this.runGameScoreboardDataAccessInterface = runGameScoreboardDataAccessInterface;
     }
 
     @Override
@@ -176,6 +178,8 @@ public class RunGameInteractor implements RunGameInputBoundary {
             }
         }
 
-        // todo need a end screen view here
+
+        RunGameEndScreenOutputData runGameEndScreenOutputData = new RunGameEndScreenOutputData();
+        runGamePresenter.prepareEndView(runGameEndScreenOutputData);
     }
 }
