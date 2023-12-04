@@ -11,6 +11,8 @@ import use_case.LoadPlaylist.LoadPlaylistDataAccessInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -86,7 +88,7 @@ public class APIDataAccessObject implements LoadPlaylistDataAccessInterface {
     @Override
     public Playlist getPlaylist() {
         Integer minTrackNumber = 0;
-        Integer maxTrackNumber = 149;
+        Integer maxTrackNumber = 49;
         Integer numSongs = 3;
 
         // array to store three songs
@@ -97,11 +99,18 @@ public class APIDataAccessObject implements LoadPlaylistDataAccessInterface {
 
         // main program
         JSONObject playlistData = requestPlaylistData(accessToken, "37i9dQZF1DX5Ejj0EkURtP");
-        for (Integer i = 0; i < numSongs; i++) {
+
+        Set<Integer> generatedTrackNumbers = new HashSet<>();
+
+        while (threeSongs.size() < numSongs) {
             Integer randomTrackNumber = ThreadLocalRandom.current().nextInt(minTrackNumber, maxTrackNumber + 1);
-            System.out.println(randomTrackNumber);
-            threeSongs.add(getSong(playlistData, randomTrackNumber));
+            if (!generatedTrackNumbers.contains(randomTrackNumber)) {
+                generatedTrackNumbers.add(randomTrackNumber);
+                System.out.println(randomTrackNumber);
+                threeSongs.add(getSong(playlistData, randomTrackNumber));
+            }
         }
+
         playlist.setSongOne(threeSongs.get(0));
         playlist.setSongTwo(threeSongs.get(1));
         playlist.setSongThree(threeSongs.get(2));
