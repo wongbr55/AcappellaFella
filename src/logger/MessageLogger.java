@@ -1,8 +1,17 @@
 package logger;
 
+import interface_adapter.AddMainPlayer.AddMainPlayerLoggerModel;
+import interface_adapter.AddMainPlayer.AddMainPlayerState;
+import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNameController;
+import interface_adapter.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameController;
+import interface_adapter.InitializePlayers.InitializePlayersController;
+import interface_adapter.JoinLobby.JoinLobbyLoggerModel;
+import interface_adapter.JoinLobby.JoinLobbyState;
 import interface_adapter.ReceiveMessage.ReceiveMessageController;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessageState;
+import interface_adapter.StartLobby.StartLobbyLoggerModel;
+import interface_adapter.StartLobby.StartLobbyState;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -16,8 +25,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.List;
 
 public class MessageLogger extends ListenerAdapter implements PropertyChangeListener {
     final private String TOKEN = System.getenv("DISCORD_TOKEN");
@@ -29,18 +40,42 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             GatewayIntent.MESSAGE_CONTENT
     );
     private SendMessageLoggerModel sendMessageLoggerModel;
+    private StartLobbyLoggerModel startLobbyLoggerModel;
+    private JoinLobbyLoggerModel joinLobbyLoggerModel;
+    private AddMainPlayerLoggerModel addMainPlayerLoggerModel;
     private ReceiveMessageController receiveMessageController;
+    private InitializePlayersController initializePlayersController;
+    private HostEnterChooseNameController hostEnterChooseNameController;
+    private JoinEnterChooseNameController joinEnterChooseNameController;
     private JDA jda;
     private Guild guild;
-    private TextChannel channel;
+    private TextChannel playerLists;
+    private static TextChannel mainChannel;
 
     private MessageLogger(ReceiveMessageController receiveMessageController) {
         this.receiveMessageController = receiveMessageController;
     }
 
-    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel, ReceiveMessageController receiveMessageController) {
+    public MessageLogger(SendMessageLoggerModel sendMessageLoggerModel,
+                         StartLobbyLoggerModel startLobbyLoggerModel,
+                         JoinLobbyLoggerModel joinLobbyLoggerModel,
+                         AddMainPlayerLoggerModel addMainPlayerLoggerModel,
+                         InitializePlayersController initializePlayersController,
+                         ReceiveMessageController receiveMessageController,
+                         HostEnterChooseNameController hostEnterChooseNameController,
+                         JoinEnterChooseNameController joinEnterChooseNameController) {
         this.sendMessageLoggerModel = sendMessageLoggerModel;
         sendMessageLoggerModel.addPropertyChangeListener(this);
+        this.startLobbyLoggerModel = startLobbyLoggerModel;
+        startLobbyLoggerModel.addPropertyChangeListener(this);
+        this.joinLobbyLoggerModel = joinLobbyLoggerModel;
+        joinLobbyLoggerModel.addPropertyChangeListener(this);
+        this.addMainPlayerLoggerModel = addMainPlayerLoggerModel;
+        addMainPlayerLoggerModel.addPropertyChangeListener(this);
+
+        this.initializePlayersController = initializePlayersController;
+        this.hostEnterChooseNameController = hostEnterChooseNameController;
+        this.joinEnterChooseNameController = joinEnterChooseNameController;
 
         try {
             // By using createLight(token, intents), we use a minimalistic cache profile (lower ram usage)
@@ -50,7 +85,6 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
                     .addEventListeners(new MessageLogger(receiveMessageController))
                     // Once you're done configuring your jda instance, call build to start and login the bot.
                     .build();
-
             // Here you can now start using the jda instance before its fully loaded,
             // this can be useful for stuff like creating background services or similar.
 
@@ -65,11 +99,12 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
             // If you want to access the cache, you can use awaitReady() to block the main thread until the jda instance is fully loaded
             jda.awaitReady();
 
-            // Get main guild
-            guild = this.jda.getGuildById(GUILD_ID);
-
             // Now we can access the fully loaded cache and show some statistics or do other cache dependent things
             System.out.println("Guilds: " + jda.getGuildCache().size());
+
+            // Get main guild
+            guild = this.jda.getGuildById(GUILD_ID);
+            playerLists = guild.getTextChannelById("1180784527291985952");
         } catch (InterruptedException e) {
             // Thrown if the awaitReady() call is interrupted
             e.printStackTrace();
@@ -80,34 +115,56 @@ public class MessageLogger extends ListenerAdapter implements PropertyChangeList
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         MessageChannelUnion channel = event.getChannel();
         Message message = event.getMessage();
-
-        if (channel.getId().equals(channel.getId())) {
-            // System.out.println(message.getContentRaw());
+        if (mainChannel != null && channel.getId().equals(mainChannel.getId())) {
             receiveMessageController.execute(message.getContentRaw());
         }
     }
 
     private void sendMessage(String content) {
-        channel.sendMessage(content).queue();
+        mainChannel.sendMessage(content).complete();
     }
 
-    public String createChannel(String name) {
-        // literally no idea what this does lol
-        AtomicReference<String> res = new AtomicReference<>("");
-        guild.createTextChannel(name).queue(channel -> {
-            res.set(channel.getId());
-        });
-        return res.get();
-    }
-
-    public void setChannel(String id) {
-        channel = guild.getTextChannelById(id);
+    private TextChannel createChannel(String name) {
+        return guild.createTextChannel(name).complete();
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof SendMessageState state) {
             sendMessage(state.getLastMessage());
+        } else if (evt.getNewValue() instanceof StartLobbyState state) {
+            Message playerList = playerLists.sendMessage(":D").complete();
+            mainChannel = createChannel(playerList.getId());
+            playerLists.editMessageById(mainChannel.getName(), "lobby id: " + mainChannel.getId()).complete();
+
+            hostEnterChooseNameController.execute(mainChannel.getId());
+        } else if (evt.getNewValue() instanceof JoinLobbyState state) {
+            boolean channelExists = false;
+
+            try {
+                mainChannel = guild.getTextChannelById(state.getLobbyID());
+            } catch (Exception e) {
+                // do nothing
+            }
+
+            if (mainChannel != null) {
+                channelExists = true;
+            }
+
+            if (!channelExists) {
+                joinEnterChooseNameController.execute("");
+                return;
+            }
+
+            joinEnterChooseNameController.execute(state.getLobbyID());
+
+            String playerList = playerLists.retrieveMessageById(mainChannel.getName()).complete().getContentRaw();
+            String[] playerNamesArray = playerList.split("\\r?\\n");
+            List<String> playerNamesList = new ArrayList<>(Arrays.asList(playerNamesArray)).subList(1, playerNamesArray.length);
+            initializePlayersController.execute(playerNamesList);
+        } else if (evt.getNewValue() instanceof AddMainPlayerState state) {
+            String playerList = playerLists.retrieveMessageById(mainChannel.getName()).complete().getContentRaw();
+            playerLists.editMessageById(mainChannel.getName(), playerList + "\n" + state.getPlayerName()).complete();
         }
     }
 }

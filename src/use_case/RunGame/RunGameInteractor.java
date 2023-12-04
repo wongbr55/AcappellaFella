@@ -112,6 +112,10 @@ public class RunGameInteractor implements RunGameInputBoundary {
                             e.printStackTrace();
                         }
 
+                        if (roundState.getTotalCorrectGuesses() == playerList.size() - 1) {
+                            roundState.setSingerState(RoundState.SingerState.DONE);
+                        }
+
                         runGamePresenter.updateSingerSingTimer(new RunGameUpdateTimerOutputData((int)((timeLimit - (System.currentTimeMillis() - startTime)) / 1000)));
                     }
 

@@ -1,16 +1,14 @@
 package use_case.AddPlayer;
 
-import entity.Player;
-
 public class AddPlayerInputData {
 
-    private final Player player;
+    private final String playerName;
 
-    public AddPlayerInputData(Player player){
-        this.player = player;
+    public AddPlayerInputData(String playerName) {
+        this.playerName = playerName;
     }
 
-    public Player getPlayer() {
-        return player;
+    public String getPlayerName() {
+        return playerName;
     }
 }

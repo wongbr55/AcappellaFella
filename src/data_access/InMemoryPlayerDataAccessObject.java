@@ -1,6 +1,7 @@
 package data_access;
 
 import entity.Player;
+import use_case.AddMainPlayer.AddMainPlayerPlayerDataAccessInterface;
 import use_case.AddPlayer.AddPlayerPlayerDataAccessInterface;
 import use_case.ReceiveMessage.ReceiveMessagePlayerDataAccessInterface;
 import use_case.RunGame.RunGamePlayerDataAccessInterface;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryPlayerDataAccessObject implements ReceiveMessagePlayerDataAccessInterface, AddPlayerPlayerDataAccessInterface, RunGamePlayerDataAccessInterface {
+public class InMemoryPlayerDataAccessObject implements ReceiveMessagePlayerDataAccessInterface, AddPlayerPlayerDataAccessInterface, RunGamePlayerDataAccessInterface, AddMainPlayerPlayerDataAccessInterface {
 
 
     private final Map<String, Player> players = new HashMap<>();
