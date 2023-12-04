@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,4 +30,11 @@ public class Scoreboard {
         return scoreboard.size();
     }
 
+    public String getFirstPlaceName(){
+        return Collections.max(scoreboard.entrySet(), Map.Entry.comparingByValue()).getKey().getName();
+    }
+
+    public Integer getFirstPlaceScore(){
+        return Collections.max(scoreboard.entrySet(), Map.Entry.comparingByValue()).getValue();
+    }
 }

@@ -1,8 +1,12 @@
 package use_case.RunGame;
 
+import entity.Player;
 import entity.Scoreboard;
 
 public interface RunGameScoreboardDataAccessInterface {
 
-    Scoreboard getScoreboard();
+    String getFirstPlaceName();
+
+    Integer getFirstPlaceScore();
+
 }

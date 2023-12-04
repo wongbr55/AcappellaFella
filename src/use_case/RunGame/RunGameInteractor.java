@@ -178,8 +178,10 @@ public class RunGameInteractor implements RunGameInputBoundary {
             }
         }
 
+        String firstPlaceName = this.runGameScoreboardDataAccessInterface.getFirstPlaceName();
+        Integer firstPlaceScore = this.runGameScoreboardDataAccessInterface.getFirstPlaceScore();
 
-        RunGameEndScreenOutputData runGameEndScreenOutputData = new RunGameEndScreenOutputData();
+        RunGameEndScreenOutputData runGameEndScreenOutputData = new RunGameEndScreenOutputData(firstPlaceName, firstPlaceScore);
         runGamePresenter.prepareEndView(runGameEndScreenOutputData);
     }
 }
