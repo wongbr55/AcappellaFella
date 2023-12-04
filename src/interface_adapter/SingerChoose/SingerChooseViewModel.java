@@ -24,7 +24,7 @@ public class SingerChooseViewModel extends ViewModel {
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-    support.addPropertyChangeListener(listener);
+        support.addPropertyChangeListener(listener);
     }
 
     public SingerChooseState getState() {
