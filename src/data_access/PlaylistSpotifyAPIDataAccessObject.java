@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import use_case.ReceiveMessage.ReceiveMessagePlaylistDataAccessInterface;
 import use_case.RunGame.RunGamePlaylistDataAccessInterface;
-import use_case.loadPlaylist.LoadPlaylistPlaylistDataAccessInterface;
+import use_case.LoadPlaylist.LoadPlaylistPlaylistDataAccessInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package interface_adapter.LoadPlaylist;
 
-import use_case.loadPlaylist.LoadPlaylistInputBoundary;
-import use_case.loadPlaylist.LoadPlaylistInputData;
+import use_case.LoadPlaylist.LoadPlaylistInputBoundary;
+import use_case.LoadPlaylist.LoadPlaylistInputData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

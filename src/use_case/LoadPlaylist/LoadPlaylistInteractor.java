@@ -1,4 +1,4 @@
-package use_case.loadPlaylist;
+package use_case.LoadPlaylist;
 
 public class LoadPlaylistInteractor implements LoadPlaylistInputBoundary {
     private final LoadPlaylistPlaylistDataAccessInterface loadPlaylistPlaylistDataAccessObject;

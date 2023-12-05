@@ -1,8 +1,8 @@
 package interface_adapter.LoadPlaylist;
 
 import interface_adapter.WaitRoom.HostWaitRoomViewModel;
-import use_case.loadPlaylist.LoadPlaylistOutputBoundary;
-import use_case.loadPlaylist.LoadPlaylistOutputData;
+import use_case.LoadPlaylist.LoadPlaylistOutputBoundary;
+import use_case.LoadPlaylist.LoadPlaylistOutputData;
 
 public class LoadPlaylistPresenter implements LoadPlaylistOutputBoundary {
     private final HostWaitRoomViewModel hostWaitRoomViewModel;

@@ -6,17 +6,16 @@ import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SendMessage.SendMessagePresenter;
 import interface_adapter.StartGame.StartGameController;
 import interface_adapter.WaitRoom.HostWaitRoomViewModel;
-import interface_adapter.WaitRoom.WaitRoomViewModel;
 import use_case.SendMessage.SendMessageInputBoundary;
 import use_case.SendMessage.SendMessageInteractor;
 import use_case.SendMessage.SendMessageMainPlayerDataAccessInterface;
 import use_case.SendMessage.SendMessageOutputBoundary;
 import use_case.StartGame.StartGameInputBoundary;
 import use_case.StartGame.StartGameInteractor;
-import use_case.loadPlaylist.LoadPlaylistInputBoundary;
-import use_case.loadPlaylist.LoadPlaylistInteractor;
-import use_case.loadPlaylist.LoadPlaylistOutputBoundary;
-import use_case.loadPlaylist.LoadPlaylistPlaylistDataAccessInterface;
+import use_case.LoadPlaylist.LoadPlaylistInputBoundary;
+import use_case.LoadPlaylist.LoadPlaylistInteractor;
+import use_case.LoadPlaylist.LoadPlaylistOutputBoundary;
+import use_case.LoadPlaylist.LoadPlaylistPlaylistDataAccessInterface;
 import view.HostWaitRoomView;
 
 public class HostWaitRoomUseCaseFactory {
