@@ -10,11 +10,9 @@ public class LoadPlaylistInteractor implements LoadPlaylistInputBoundary {
         this.loadPlaylistDataAccessObject = loadPlaylistDataAccessObject;
     }
 
-
     @Override
     public Playlist execute() {
         Playlist playlist = loadPlaylistDataAccessObject.getPlaylist();
         return playlist;
-
     }
 }
