@@ -45,7 +45,7 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
         numberOfRoundsSlider.setPaintTicks(true);
         numberOfRoundsSlider.setPaintLabels(true);
         numberOfRoundsSlider.setSnapToTicks(true);
-        numberOfRoundsSlider.setLabelTable(numberOfRoundsSlider.createStandardLabels(5));
+        numberOfRoundsSlider.setLabelTable(numberOfRoundsSlider.createStandardLabels(4));
 
         roundLengthSlider = new JSlider(JSlider.HORIZONTAL, 15, 120, 60);
         roundLengthSlider.setMajorTickSpacing(15);
