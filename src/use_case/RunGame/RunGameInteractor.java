@@ -14,16 +14,18 @@ public class RunGameInteractor implements RunGameInputBoundary {
     private final RunGameRoundStateDataAccessInterface roundStateDataAccessObject;
     private final RunGamePlayerDataAccessInterface playerDataAccessObject;
     private final RunGamePlaylistDataAccessInterface playlistDataAccessObject;
+    private final RunGameScoreboardDataAccessInterface scoreboardDataAccessObject;
     private final RunGameOutputBoundary runGamePresenter;
     private final SendMessageInputBoundary sendMessageInputBoundary;
 
-    public RunGameInteractor(RunGameGameStateDataAccessInterface runGameGameStateDataAccessInterface, RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface, RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface, RunGamePlaylistDataAccessInterface playlistDataAccessObject, RunGameOutputBoundary runGamePresenter, SendMessageInputBoundary sendMessageInputBoundary, RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
+    public RunGameInteractor(RunGameGameStateDataAccessInterface runGameGameStateDataAccessInterface, RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface, RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface, RunGamePlaylistDataAccessInterface playlistDataAccessObject, RunGameOutputBoundary runGamePresenter, SendMessageInputBoundary sendMessageInputBoundary, RunGameScoreboardDataAccessInterface scoreboardDataAccessObject) {
         this.gameStateDataAccessObject = runGameGameStateDataAccessInterface;
         this.roundStateDataAccessObject = runGameRoundStateDataAccessInterface;
         this.playerDataAccessObject = runGamePlayerDataAccessInterface;
         this.playlistDataAccessObject = playlistDataAccessObject;
         this.runGamePresenter = runGamePresenter;
         this.sendMessageInputBoundary = sendMessageInputBoundary;
+        this.scoreboardDataAccessObject = scoreboardDataAccessObject;
     }
 
     @Override
@@ -174,8 +176,8 @@ public class RunGameInteractor implements RunGameInputBoundary {
             }
         }
 
-        String firstPlaceName = this.runGameScoreboardDataAccessInterface.getFirstPlaceName();
-        Integer firstPlaceScore = this.runGameScoreboardDataAccessInterface.getFirstPlaceScore();
+        String firstPlaceName = this.scoreboardDataAccessObject.getFirstPlaceName();
+        Integer firstPlaceScore = this.scoreboardDataAccessObject.getFirstPlaceScore();
 
         RunGameEndScreenOutputData runGameEndScreenOutputData = new RunGameEndScreenOutputData(firstPlaceName, firstPlaceScore);
         runGamePresenter.prepareEndView(runGameEndScreenOutputData);

@@ -1,6 +1,5 @@
 package app;
 
-import data_access.InMemoryScoreboardScoreboardDataAccessObject;
 import interface_adapter.AddMainPlayer.AddMainPlayerLoggerModel;
 import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
@@ -146,7 +145,7 @@ public class MessageLoggerUseCaseFactory {
                                                           SendMessageLoggerModel sendMessageLoggerModel,
                                                           ViewManagerModel viewManagerModel,
                                                           EndScreenViewModel endScreenViewModel,
-                                                          RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
+                                                          RunGameScoreboardDataAccessInterface scoreboardDataAccessObject) {
         SendMessageInputBoundary sendMessageInteractor = createSendMessageInteractor(mainPlayerDataAccessObject, sendMessageLoggerModel);
 
         RunGameOutputBoundary runGamePresenter = new RunGamePresenter(singerChooseViewModel, singerSingViewModel, playerGuessViewModel, viewManagerModel, endScreenViewModel);
@@ -156,7 +155,7 @@ public class MessageLoggerUseCaseFactory {
                 runGamePlayerDataAccessInterface,
                 playlistDataAccessObject,
                 runGamePresenter,
-                sendMessageInteractor, runGameScoreboardDataAccessInterface);
+                sendMessageInteractor, scoreboardDataAccessObject);
         return new RunGameController(runGameInputBoundary);
     }
 
