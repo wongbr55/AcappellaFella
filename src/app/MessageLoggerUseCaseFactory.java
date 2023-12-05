@@ -1,11 +1,13 @@
 package app;
 
+import data_access.InMemoryScoreboardScoreboardDataAccessObject;
 import interface_adapter.AddMainPlayer.AddMainPlayerLoggerModel;
 import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.ChooseName.ChooseNameViewModel;
 import interface_adapter.ChooseName.HostChooseNameViewModel;
 import interface_adapter.ChooseName.JoinChooseNameViewModel;
+import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNameController;
 import interface_adapter.EnterChooseName.HostEnterChooseName.HostEnterChooseNamePresenter;
 import interface_adapter.EnterChooseName.JoinEnterChooseName.JoinEnterChooseNameController;
@@ -71,9 +73,11 @@ public class MessageLoggerUseCaseFactory {
                                        RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface,
                                        SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject,
                                        ScoreboardViewModel scoreboardViewModel,
-                                       UpdateScoreInputBoundary updateScoreInputBoundary) {
+                                       UpdateScoreInputBoundary updateScoreInputBoundary,
+                                       EndScreenViewModel endScreenViewModel,
+                                       RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
         AddPlayerController addPlayerController = createAddPlayerUseCase(addPlayerGameStateDataAccessInterface, addPlayerScoreboardDataAccessInterface, addPlayerPlayerDataAccessInterface, scoreboardViewModel);
-        ReceiveMessageController receiveMessageController = createReceiveMessageUseCase(messageHistoryDataAccessObject, playerDataAccessObject, chatViewModel, addPlayerController, gameStateDataAccessObject, roundStataDataAccessObject, updateScoreInputBoundary, runGameGameStateDataAccessInterface, runGameRoundStateDataAccessInterface, runGamePlayerDataAccessInterface, mainPlayerDataAccessObject, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel);
+        ReceiveMessageController receiveMessageController = createReceiveMessageUseCase(messageHistoryDataAccessObject, playerDataAccessObject, chatViewModel, addPlayerController, gameStateDataAccessObject, roundStataDataAccessObject, updateScoreInputBoundary, runGameGameStateDataAccessInterface, runGameRoundStateDataAccessInterface, runGamePlayerDataAccessInterface, mainPlayerDataAccessObject, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel, endScreenViewModel, runGameScoreboardDataAccessInterface);
         InitializePlayersController initializePlayersController = createInitializePlayersUseCase(addPlayerController);
         HostEnterChooseNameController hostEnterChooseNameController = createHostEnterChooseNameUseCase(hostChooseNameViewModel, viewManagerModel);
         JoinEnterChooseNameController joinEnterChooseNameController = createJoinEnterChooseNameUseCase(joinChooseNameViewModel, homeViewModel, viewManagerModel);
@@ -95,9 +99,11 @@ public class MessageLoggerUseCaseFactory {
                                                                         SingerChooseViewModel singerChooseViewModel,
                                                                         SingerSingViewModel singerSingViewModel,
                                                                         SendMessageLoggerModel sendMessageLoggerModel,
-                                                                        ViewManagerModel viewManagerModel) {
+                                                                        ViewManagerModel viewManagerModel,
+                                                                        EndScreenViewModel endScreenViewModel,
+                                                                        RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
         ReceiveMessageOutputBoundary receiveMessageOutputBoundary = new ReceiveMessagePresenter(chatViewModel);
-        RunGameController runGameController = createRunGameUseCase(runGameGameStateDataAccessInterface, runGameRoundStateDataAccessInterface, runGamePlayerDataAccessInterface, mainPlayerDataAccessObject, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel);
+        RunGameController runGameController = createRunGameUseCase(runGameGameStateDataAccessInterface, runGameRoundStateDataAccessInterface, runGamePlayerDataAccessInterface, mainPlayerDataAccessObject, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, sendMessageLoggerModel, viewManagerModel, endScreenViewModel, runGameScoreboardDataAccessInterface);
         ReceiveMessageInputBoundary receiveMessageInputBoundary = new ReceiveMessageInteractor(gameStateDataAccessObject, roundStataDataAccessObject, messageHistoryDataAccessObject, playerDataAccessObject, addPlayerController, runGameController, receiveMessageOutputBoundary, updateScoreInputBoundary);
         return new ReceiveMessageController(receiveMessageInputBoundary);
     }
@@ -127,23 +133,25 @@ public class MessageLoggerUseCaseFactory {
         return new JoinEnterChooseNameController(joinEnterChooseNameInputBoundary);
     }
     private static RunGameController createRunGameUseCase(RunGameGameStateDataAccessInterface runGameGameStateDataAccessInterface,
-                                                         RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface,
-                                                         RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface,
-                                                         SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject,
-                                                         PlayerGuessViewModel playerGuessViewModel,
-                                                         SingerChooseViewModel singerChooseViewModel,
-                                                         SingerSingViewModel singerSingViewModel,
-                                                         SendMessageLoggerModel sendMessageLoggerModel,
-                                                         ViewManagerModel viewManagerModel) {
+                                                          RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface,
+                                                          RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface,
+                                                          SendMessageMainPlayerDataAccessInterface mainPlayerDataAccessObject,
+                                                          PlayerGuessViewModel playerGuessViewModel,
+                                                          SingerChooseViewModel singerChooseViewModel,
+                                                          SingerSingViewModel singerSingViewModel,
+                                                          SendMessageLoggerModel sendMessageLoggerModel,
+                                                          ViewManagerModel viewManagerModel,
+                                                          EndScreenViewModel endScreenViewModel,
+                                                          RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
         SendMessageInputBoundary sendMessageInteractor = createSendMessageInteractor(mainPlayerDataAccessObject, sendMessageLoggerModel);
 
-        RunGameOutputBoundary runGamePresenter = new RunGamePresenter(singerChooseViewModel, singerSingViewModel, playerGuessViewModel, viewManagerModel);
+        RunGameOutputBoundary runGamePresenter = new RunGamePresenter(singerChooseViewModel, singerSingViewModel, playerGuessViewModel, viewManagerModel, endScreenViewModel);
 
         RunGameInputBoundary runGameInputBoundary = new RunGameInteractor(runGameGameStateDataAccessInterface,
                 runGameRoundStateDataAccessInterface,
                 runGamePlayerDataAccessInterface,
                 runGamePresenter,
-                sendMessageInteractor);
+                sendMessageInteractor, runGameScoreboardDataAccessInterface);
         return new RunGameController(runGameInputBoundary);
     }
 
