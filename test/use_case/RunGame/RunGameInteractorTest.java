@@ -73,6 +73,8 @@ public class RunGameInteractorTest {
         gameStateDAO.addPlayer(player);
         gameStateDAO.getGameState().setMainPlayer(player);
 
+        scoreboardDAO.addPlayer(player);
+
         runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, playerDAO, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
     }
 

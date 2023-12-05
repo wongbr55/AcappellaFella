@@ -28,13 +28,11 @@ public class AddPlayerInteractorTest {
 
     @Test
     public void execute() {
-        Player player = new Player();
-        player.setName("Ralph Lauren");
-        AddPlayerInputData addPlayerInputData = new AddPlayerInputData(player.getName());
+        AddPlayerInputData addPlayerInputData = new AddPlayerInputData("Ralph Lauren");
 
         addPlayerInteractor.execute(addPlayerInputData);
-        assertTrue(this.playerDAO.getPlayerList().contains(player));
-        assertEquals(0, (int) this.scoreboardDAO.getScoreboard().getPlayerScore(player));
-        assertTrue(this.scoreboardViewModel.getState().getScoreboard().containsKey(player.getName()));
+        assertEquals("Ralph Lauren", this.playerDAO.getPlayerList().get(0).getName());
+        assertEquals(0, (int) this.scoreboardDAO.getScoreboard().getPlayerScore(this.playerDAO.getPlayerList().get(0)));
+        assertTrue(this.scoreboardViewModel.getState().getScoreboard().containsKey(this.playerDAO.getPlayerList().get(0).getName()));
     }
 }
