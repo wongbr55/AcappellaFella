@@ -1,6 +1,7 @@
 package interface_adapter.RunGame;
 
 import entity.Song;
+import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
 import interface_adapter.SingerChoose.SingerChooseState;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
@@ -23,6 +24,7 @@ public class RunGamePresenterTest {
     SingerSingViewModel singerSingViewModel;
     PlayerGuessViewModel playerGuessViewModel;
     ViewManagerModel viewManagerModel;
+    EndScreenViewModel endScreenViewModel;
 
     @Before
     public void setUp() {
@@ -30,8 +32,9 @@ public class RunGamePresenterTest {
         singerSingViewModel = new SingerSingViewModel();
         playerGuessViewModel = new PlayerGuessViewModel();
         viewManagerModel = new ViewManagerModel();
+        endScreenViewModel = new EndScreenViewModel();
 
-        runGamePresenter = new RunGamePresenter(singerChooseViewModel, singerSingViewModel, playerGuessViewModel, viewManagerModel);
+        runGamePresenter = new RunGamePresenter(singerChooseViewModel, singerSingViewModel, playerGuessViewModel, viewManagerModel, endScreenViewModel);
     }
 
     @Test

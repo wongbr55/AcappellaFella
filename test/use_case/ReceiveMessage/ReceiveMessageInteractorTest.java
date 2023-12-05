@@ -8,8 +8,14 @@ import entity.Message;
 import entity.MessageHistory;
 import entity.Player;
 import entity.Song;
+import interface_adapter.AddPlayer.AddPlayerController;
+import interface_adapter.RunGame.RunGameController;
 import org.junit.Before;
 import org.junit.Test;
+import use_case.AddPlayer.AddPlayerInputBoundary;
+import use_case.AddPlayer.AddPlayerInputData;
+import use_case.RunGame.RunGameInputBoundary;
+import use_case.RunGame.RunGameInputData;
 import use_case.UpdateScore.UpdateScoreInputBoundary;
 import use_case.UpdateScore.UpdateScoreInputData;
 
@@ -49,9 +55,23 @@ public class ReceiveMessageInteractorTest {
 
             }
         };
+        AddPlayerInputBoundary addPlayerInputBoundary = new AddPlayerInputBoundary() {
+            @Override
+            public void execute(AddPlayerInputData addPlayerInputData) {
+
+            }
+        };
+        AddPlayerController addPlayerController = new AddPlayerController(addPlayerInputBoundary);
+        RunGameInputBoundary runGameInputBoundary = new RunGameInputBoundary() {
+            @Override
+            public void execute(RunGameInputData runGameInputData) {
+
+            }
+        };
+        RunGameController runGameController = new RunGameController(runGameInputBoundary);
 
         this.receiveMessageInteractor = new ReceiveMessageInteractor(gameStateDataAccessObject, roundStataDataAccessObject, messageHistoryDataAccessObject,
-                playerDataAccessObject, receiveMessagePresenter, updateScoreInputBoundary);
+                playerDataAccessObject, addPlayerController, runGameController, receiveMessagePresenter, updateScoreInputBoundary);
     }
 
     @Test

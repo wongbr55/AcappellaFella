@@ -30,7 +30,7 @@ public class AddPlayerInteractorTest {
     public void execute() {
         Player player = new Player();
         player.setName("Ralph Lauren");
-        AddPlayerInputData addPlayerInputData = new AddPlayerInputData(player);
+        AddPlayerInputData addPlayerInputData = new AddPlayerInputData(player.getName());
 
         addPlayerInteractor.execute(addPlayerInputData);
         assertTrue(this.playerDAO.getPlayerList().contains(player));

@@ -3,6 +3,7 @@ package use_case.RunGame;
 import data_access.InMemoryGameStateDataAccessObject;
 import data_access.InMemoryPlayerDataAccessObject;
 import data_access.InMemoryRoundStateDataAccessObject;
+import data_access.InMemoryScoreboardScoreboardDataAccessObject;
 import entity.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,8 @@ public class RunGameInteractorTest {
         InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
         InMemoryRoundStateDataAccessObject roundStateDAO = new InMemoryRoundStateDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
+        InMemoryScoreboardScoreboardDataAccessObject scoreboardDAO = new InMemoryScoreboardScoreboardDataAccessObject();
+
 
         RunGameOutputBoundary runGameOutputBoundary = new RunGameOutputBoundary() {
             @Override
@@ -50,6 +53,11 @@ public class RunGameInteractorTest {
             public void updateGuessTimer(RunGameUpdateTimerOutputData runGameUpdateTimerOutputData) {
 
             }
+
+            @Override
+            public void prepareEndView(RunGameEndScreenOutputData runGameEndScreenOutputData) {
+
+            }
         };
 
         SendMessageInputBoundary sendMessageInputBoundary = new SendMessageInputBoundary() {
@@ -65,7 +73,7 @@ public class RunGameInteractorTest {
         gameStateDAO.addPlayer(player);
         gameStateDAO.getGameState().setMainPlayer(player);
 
-        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, playerDAO, runGameOutputBoundary, sendMessageInputBoundary);
+        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, playerDAO, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
     }
 
     @Test
