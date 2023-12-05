@@ -13,17 +13,17 @@ public class RunGameInteractor implements RunGameInputBoundary {
     private final RunGameGameStateDataAccessInterface gameStateDataAccessObject;
     private final RunGameRoundStateDataAccessInterface roundStateDataAccessObject;
     private final RunGamePlayerDataAccessInterface playerDataAccessObject;
+    private final RunGamePlaylistDataAccessInterface playlistDataAccessObject;
     private final RunGameOutputBoundary runGamePresenter;
     private final SendMessageInputBoundary sendMessageInputBoundary;
-    private final RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface;
 
-    public RunGameInteractor(RunGameGameStateDataAccessInterface runGameGameStateDataAccessInterface, RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface, RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface, RunGameOutputBoundary runGamePresenter, SendMessageInputBoundary sendMessageInputBoundary, RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
+    public RunGameInteractor(RunGameGameStateDataAccessInterface runGameGameStateDataAccessInterface, RunGameRoundStateDataAccessInterface runGameRoundStateDataAccessInterface, RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface, RunGamePlaylistDataAccessInterface playlistDataAccessObject, RunGameOutputBoundary runGamePresenter, SendMessageInputBoundary sendMessageInputBoundary, RunGameScoreboardDataAccessInterface runGameScoreboardDataAccessInterface) {
         this.gameStateDataAccessObject = runGameGameStateDataAccessInterface;
         this.roundStateDataAccessObject = runGameRoundStateDataAccessInterface;
         this.playerDataAccessObject = runGamePlayerDataAccessInterface;
+        this.playlistDataAccessObject = playlistDataAccessObject;
         this.runGamePresenter = runGamePresenter;
         this.sendMessageInputBoundary = sendMessageInputBoundary;
-        this.runGameScoreboardDataAccessInterface = runGameScoreboardDataAccessInterface;
     }
 
     @Override
@@ -54,15 +54,12 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     RoundState roundState = roundStateDataAccessObject.getCurrentRoundState();
 
                     // PART 1: singer choose
-                    // randomly choose 3 songs from somewhere
-                    // todo below are placeholder songs, but we need someway to choose
+                    // randomly choose 3 songs
                     SingerChooseState singerChooseState = new SingerChooseState();
-                    Song song1 = new Song("Queen", "Don't Stop Me now");
-                    Song song2 = new Song("Queen", "Bohemian Rhapsody");
-                    Song song3 = new Song("Queen", "Another One Bites The Dust");
-                    singerChooseState.setSong1Name(song1.toString());
-                    singerChooseState.setSong2Name(song2.toString());
-                    singerChooseState.setSong3Name(song3.toString());
+                    List<Song> songs = playlistDataAccessObject.getThreeSongs();
+                    singerChooseState.setSong1Name(songs.get(0).toString());
+                    singerChooseState.setSong2Name(songs.get(1).toString());
+                    singerChooseState.setSong3Name(songs.get(2).toString());
 
                     // update the view
                     runGamePresenter.prepareSingerChooseView(new RunGameSingerChooseOutputData(singerChooseState));
@@ -83,8 +80,7 @@ public class RunGameInteractor implements RunGameInputBoundary {
                     // if the singer hasn't chosen a song and the time is up, choose one randomly
                     if (roundState.getSingerState() == RoundState.SingerState.CHOOSING) {
                         Random random = new Random();
-                        Song[] songs = {song1, song2, song3};
-                        roundState.setSong(songs[random.nextInt(3)]);
+                        roundState.setSong(songs.get(random.nextInt(3)));
                     }
 
                     // update the singerState

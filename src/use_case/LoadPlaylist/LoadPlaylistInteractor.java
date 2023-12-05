@@ -1,18 +1,26 @@
 package use_case.LoadPlaylist;
 
-import entity.Playlist;
-
 public class LoadPlaylistInteractor implements LoadPlaylistInputBoundary {
+    private final LoadPlaylistPlaylistDataAccessInterface loadPlaylistPlaylistDataAccessObject;
+    private final LoadPlaylistOutputBoundary loadPlaylistPresenter;
 
-    private final LoadPlaylistDataAccessInterface loadPlaylistDataAccessObject;
-
-    public LoadPlaylistInteractor(LoadPlaylistDataAccessInterface loadPlaylistDataAccessObject) {
-        this.loadPlaylistDataAccessObject = loadPlaylistDataAccessObject;
+    public LoadPlaylistInteractor(LoadPlaylistPlaylistDataAccessInterface loadPlaylistPlaylistDataAccessObject, LoadPlaylistOutputBoundary loadPlaylistPresenter) {
+        this.loadPlaylistPlaylistDataAccessObject = loadPlaylistPlaylistDataAccessObject;
+        this.loadPlaylistPresenter = loadPlaylistPresenter;
     }
 
     @Override
-    public Playlist execute() {
-        Playlist playlist = loadPlaylistDataAccessObject.getPlaylist();
-        return playlist;
+    public void execute(LoadPlaylistInputData loadPlaylistInputData) {
+        if (loadPlaylistInputData.getPlaylistError() != null) {
+            loadPlaylistPresenter.prepareFailView(loadPlaylistInputData.getPlaylistError());
+            return;
+        }
+
+        boolean result = loadPlaylistPlaylistDataAccessObject.loadPlaylist(loadPlaylistInputData.getPlaylistID());
+        if (result) {
+            loadPlaylistPresenter.prepareSuccessView(new LoadPlaylistOutputData());
+        } else {
+            loadPlaylistPresenter.prepareFailView("Playlist id not found");
+        }
     }
 }
