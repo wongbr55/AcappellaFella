@@ -74,7 +74,7 @@ public class Main {
         UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, playlistDAO, scoreboardViewModel, updateScoreInteractor);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, playlistDAO, playlistDAO, scoreboardViewModel, updateScoreInteractor);
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);

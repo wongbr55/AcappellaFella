@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import use_case.ReceiveMessage.ReceiveMessagePlaylistDataAccessInterface;
+import use_case.RunGame.RunGamePlaylistDataAccessInterface;
 import use_case.loadPlaylist.LoadPlaylistPlaylistDataAccessInterface;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class PlaylistSpotifyAPIDataAccessObject implements LoadPlaylistPlaylistDataAccessInterface, ReceiveMessagePlaylistDataAccessInterface {
+public class PlaylistSpotifyAPIDataAccessObject implements LoadPlaylistPlaylistDataAccessInterface, ReceiveMessagePlaylistDataAccessInterface, RunGamePlaylistDataAccessInterface {
     private static final String CLIENT_ID = System.getenv("CLIENT_ID");
     private static final String CLIENT_SECRET = System.getenv("CLIENT_SECRET");
     private static final String accessToken = requestAccessToken();
@@ -67,6 +68,7 @@ public class PlaylistSpotifyAPIDataAccessObject implements LoadPlaylistPlaylistD
         return true;
     }
 
+    @Override
     public List<Song> getThreeSongs() {
         Collections.shuffle(playlist);
         return playlist.subList(0, 3);
