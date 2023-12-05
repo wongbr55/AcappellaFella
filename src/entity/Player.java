@@ -7,6 +7,8 @@ public class Player implements Comparable<Player> {
         this.name = name;
     }
 
+    public Player(){}
+
     public String getName() {
         return name;
     }

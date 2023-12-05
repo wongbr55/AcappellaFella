@@ -7,4 +7,5 @@ public interface RunGameOutputBoundary {
     void updateSingerChooseTimer(RunGameUpdateTimerOutputData runGameUpdateTimerOutputData);
     void updateSingerSingTimer(RunGameUpdateTimerOutputData runGameUpdateTimerOutputData);
     void updateGuessTimer(RunGameUpdateTimerOutputData runGameUpdateTimerOutputData);
+    void prepareEndView(RunGameEndScreenOutputData runGameEndScreenOutputData);
 }
