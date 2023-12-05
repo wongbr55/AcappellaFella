@@ -31,5 +31,8 @@ public class HostEnterWaitRoomInteractorTest {
         HostEnterWaitRoomInputData hostEnterWaitRoomInputData = new HostEnterWaitRoomInputData("123", "Brandon");
         hostEnterWaitRoomInteractor.execute(hostEnterWaitRoomInputData);
 
+        HostEnterWaitRoomInputData hostEnterWaitRoomInputData1 = new HostEnterWaitRoomInputData("123", null);
+        hostEnterWaitRoomInteractor.execute(hostEnterWaitRoomInputData1);
+
     }
 }

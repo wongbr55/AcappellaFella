@@ -28,5 +28,8 @@ public class JoinEnterWaitRoomInteractorTest {
     public void execute() {
         JoinEnterWaitRoomInputData joinEnterWaitRoomInputData = new JoinEnterWaitRoomInputData("123", "Hello");
         joinEnterWaitRoomInteractor.execute(joinEnterWaitRoomInputData);
+
+        JoinEnterWaitRoomInputData joinEnterWaitRoomInputData1 = new JoinEnterWaitRoomInputData("123", null);
+        joinEnterWaitRoomInteractor.execute(joinEnterWaitRoomInputData1);
     }
 }
