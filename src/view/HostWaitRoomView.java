@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.LoadPlaylist.LoadPlaylistController;
 import interface_adapter.StartGame.StartGameController;
 import interface_adapter.WaitRoom.WaitRoomState;
 import interface_adapter.WaitRoom.WaitRoomViewModel;
@@ -22,9 +23,11 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
     private final JButton startGame;
     private final JButton loadPlaylist;
     private final StartGameController startGameController;
+    private final LoadPlaylistController loadPlaylistController;
 
-    public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel, StartGameController startGameController) {
+    public HostWaitRoomView(WaitRoomViewModel waitRoomViewModel, StartGameController startGameController, LoadPlaylistController loadPlaylistController) {
         this.waitRoomViewModel = waitRoomViewModel;
+        this.loadPlaylistController = loadPlaylistController;
         this.waitRoomViewModel.addPropertyChangeListener(this);
 
         this.startGameController = startGameController;
@@ -55,13 +58,20 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
 
         loadPlaylist = new JButton(WaitRoomViewModel.LOAD_PLAYLIST_BUTTON_LABEL);
 
+        JComponent parent = this;
+
         startGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(startGame)) {
                     WaitRoomState currentState = waitRoomViewModel.getState();
-
-                    startGameController.execute(currentState.getNumberOfRounds(), currentState.getRoundLength());
-                }
+                    currentState.setPlaylistLink(playlistInputField.getText());
+                    waitRoomViewModel.setState(currentState);
+                    if (currentState.isPlaylistLoaded()) {
+                        startGameController.execute(currentState.getNumberOfRounds(), currentState.getRoundLength(), currentState.getPlaylistLink());
+                    } else {
+                        JOptionPane.showMessageDialog(parent, "Load playlist first.");
+                    }
+                    }
             }
         });
 
@@ -72,7 +82,7 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
                     currentState.setPlaylistLink(playlistInputField.getText());
                     waitRoomViewModel.setState(currentState);
 
-                    // todo add load playlist controller
+                    HostWaitRoomView.this.loadPlaylistController.execute(currentState.getPlaylistLink());
                 }
             }
         });
@@ -122,6 +132,11 @@ public class HostWaitRoomView extends JPanel implements ActionListener, Property
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof WaitRoomState state) {
             lobbyID.setText("Lobby ID: " + state.getLobbyID());
+            if (state.isPlaylistLoaded() && state.getPlaylistError() == null) {
+                JOptionPane.showMessageDialog(this, "Successfully loaded playlist.");
+            } else if (state.getPlaylistError() != null) {
+                JOptionPane.showMessageDialog(this, "Error: " + state.getPlaylistError());
+            }
         }
     }
 }

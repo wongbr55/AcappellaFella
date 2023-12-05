@@ -1,9 +1,7 @@
 package app;
 
 import data_access.*;
-import entity.Player;
 import interface_adapter.AddMainPlayer.AddMainPlayerLoggerModel;
-import interface_adapter.AddPlayer.AddPlayerController;
 import interface_adapter.Chat.ChatViewModel;
 import interface_adapter.ChooseName.HostChooseNameViewModel;
 import interface_adapter.ChooseName.JoinChooseNameViewModel;
@@ -11,7 +9,6 @@ import interface_adapter.EndScreen.EndScreenViewModel;
 import interface_adapter.Home.HomeViewModel;
 import interface_adapter.JoinLobby.JoinLobbyLoggerModel;
 import interface_adapter.PlayerGuess.PlayerGuessViewModel;
-import interface_adapter.RunGame.RunGameController;
 import interface_adapter.Scoreboard.ScoreboardViewModel;
 import interface_adapter.SendMessage.SendMessageLoggerModel;
 import interface_adapter.SingerChoose.SingerChooseViewModel;
@@ -65,19 +62,19 @@ public class Main {
         ScoreboardViewModel scoreboardViewModel = new ScoreboardViewModel();
         EndScreenViewModel endScreenViewModel = new EndScreenViewModel();
 
-
         // DAOs
         InMemoryGameStateDataAccessObject gameStateDAO = new InMemoryGameStateDataAccessObject();
         InMemoryRoundStateDataAccessObject roundStateDAO = new InMemoryRoundStateDataAccessObject();
         InMemoryMessageHistoryDataAccessObject messageHistoryDAO = new InMemoryMessageHistoryDataAccessObject();
         InMemoryPlayerDataAccessObject playerDAO = new InMemoryPlayerDataAccessObject();
         InMemoryScoreboardScoreboardDataAccessObject scoreboardDAO = new InMemoryScoreboardScoreboardDataAccessObject();
+        PlaylistSpotifyAPIDataAccessObject playlistDAO = new PlaylistSpotifyAPIDataAccessObject();
 
         // Lone controllers and interactors to be placed in other views/items/etc.
         UpdateScoreInteractor updateScoreInteractor = UpdateScoreUseCaseFactory.create(scoreboardDAO, roundStateDAO, scoreboardViewModel);
 
         // Message logger
-        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, scoreboardViewModel, updateScoreInteractor);
+        MessageLogger messageLogger = MessageLoggerUseCaseFactory.create(messageHistoryDAO, playerDAO, sendMessageLoggerModel, startLobbyLoggerModel, joinLobbyLoggerModel, addMainPlayerLoggerModel, playerGuessViewModel, singerChooseViewModel, singerSingViewModel, chatViewModel, homeViewModel, hostChooseNameViewModel, joinChooseNameViewModel, viewManagerModel, gameStateDAO, roundStateDAO, gameStateDAO, scoreboardDAO, playerDAO, gameStateDAO, roundStateDAO, playerDAO, gameStateDAO, playlistDAO, scoreboardViewModel, updateScoreInteractor);
 
         // Views
         SingerChooseView singerChooseView = SingerChooseUseCaseFactory.create(viewManagerModel, singerChooseViewModel, roundStateDAO, singerSingViewModel);
@@ -90,7 +87,7 @@ public class Main {
         JoinChooseNameView joinChooseNameView = ChooseNameViewFactory.createJoinView(hostWaitRoomViewModel, joinWaitRoomViewModel, hostChooseNameViewModel, joinChooseNameViewModel, scoreboardViewModel, viewManagerModel, addMainPlayerLoggerModel, sendMessageLoggerModel, playerDAO, scoreboardDAO, gameStateDAO, gameStateDAO);
         HostChooseNameView hostChooseNameView = ChooseNameViewFactory.createHostView(hostWaitRoomViewModel, joinWaitRoomViewModel, hostChooseNameViewModel, joinChooseNameViewModel, scoreboardViewModel, viewManagerModel, addMainPlayerLoggerModel, sendMessageLoggerModel, playerDAO, scoreboardDAO, gameStateDAO, gameStateDAO);
         JoinWaitRoomView joinWaitRoomView = JoinWaitRoomUseCaseFactory.create(joinWaitRoomViewModel);
-        HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(hostWaitRoomViewModel, sendMessageLoggerModel, gameStateDAO);
+        HostWaitRoomView hostWaitRoomView = HostWaitRoomUseCaseFactory.create(hostWaitRoomViewModel, sendMessageLoggerModel, gameStateDAO, playlistDAO);
 
         views.add(singerChooseView, singerChooseView.viewName);
         views.add(singerSingView, singerSingView.viewName);

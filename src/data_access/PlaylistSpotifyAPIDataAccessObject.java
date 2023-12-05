@@ -7,6 +7,8 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import use_case.ReceiveMessage.ReceiveMessagePlaylistDataAccessInterface;
+import use_case.loadPlaylist.LoadPlaylistPlaylistDataAccessInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class PlaylistSpotifyAPIDataAccessObject {
+public class PlaylistSpotifyAPIDataAccessObject implements LoadPlaylistPlaylistDataAccessInterface, ReceiveMessagePlaylistDataAccessInterface {
     private static final String CLIENT_ID = System.getenv("CLIENT_ID");
     private static final String CLIENT_SECRET = System.getenv("CLIENT_SECRET");
     private static final String accessToken = requestAccessToken();
@@ -48,8 +50,12 @@ public class PlaylistSpotifyAPIDataAccessObject {
         }
     }
 
-    public void loadPlayList(String playlistId) {
+    @Override
+    public boolean loadPlaylist(String playlistId) {
         JSONObject playlistData = requestPlaylistData("37i9dQZF1DX5Ejj0EkURtP");
+        if (playlistData.has("error")) {
+            return false;
+        }
         JSONArray jsonSongs = playlistData.getJSONArray("items");
         playlist.clear();
         for (int i = 0; i < jsonSongs.length(); i++) {
@@ -58,6 +64,7 @@ public class PlaylistSpotifyAPIDataAccessObject {
                     jsonSong.getJSONObject("track").getString("name"));
             playlist.add(song);
         }
+        return true;
     }
 
     public List<Song> getThreeSongs() {
