@@ -53,7 +53,7 @@ public class PlaylistSpotifyAPIDataAccessObject implements LoadPlaylistPlaylistD
 
     @Override
     public boolean loadPlaylist(String playlistId) {
-        JSONObject playlistData = requestPlaylistData("37i9dQZF1DX5Ejj0EkURtP");
+        JSONObject playlistData = requestPlaylistData(playlistId);
         if (playlistData.has("error")) {
             return false;
         }
