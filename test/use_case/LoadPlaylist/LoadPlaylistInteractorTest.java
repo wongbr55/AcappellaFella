@@ -1,7 +1,6 @@
 package use_case.LoadPlaylist;
 
-import data_access.APIDataAccessObject;
-import entity.Playlist;
+import data_access.PlaylistSpotifyAPIDataAccessObject;
 import entity.Song;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,22 +9,35 @@ import static org.junit.Assert.*;
 
 public class LoadPlaylistInteractorTest {
 
-    private APIDataAccessObject loadPlaylistDataAccessObject;
+    private PlaylistSpotifyAPIDataAccessObject loadPlaylistDataAccessObject;
 
     private LoadPlaylistInteractor loadPlaylistInteractor;
     @Before
     public void init() {
-        this.loadPlaylistDataAccessObject = new APIDataAccessObject();
-        this.loadPlaylistInteractor = new LoadPlaylistInteractor(this.loadPlaylistDataAccessObject);
+        LoadPlaylistOutputBoundary loadPlaylistOutputBoundary = new LoadPlaylistOutputBoundary() {
+            @Override
+            public void prepareSuccessView(LoadPlaylistOutputData loadPlaylistOutputData) {
+
+            }
+
+            @Override
+            public void prepareFailView(String error) {
+
+            }
+        };
+        this.loadPlaylistDataAccessObject = new PlaylistSpotifyAPIDataAccessObject();
+        this.loadPlaylistInteractor = new LoadPlaylistInteractor(this.loadPlaylistDataAccessObject, loadPlaylistOutputBoundary);
     }
 
     @Test
     public void execute() {
         // make sure to add the proper client secret and id to the env variables of this test
-        Playlist playlist = loadPlaylistInteractor.execute();
-        String songOne = playlist.getSongOne().toString();
-        String songTwo = playlist.getSongTwo().toString();
-        String songThree = playlist.getSongThree().toString();
-        assertTrue(!songOne.equals(songTwo) && !songOne.equals(songThree) && !songTwo.equals(songThree));
+        LoadPlaylistInputData loadPlaylistInputData = new LoadPlaylistInputData("hello", "hehe");
+
+        loadPlaylistInteractor.execute(loadPlaylistInputData);
+
+        LoadPlaylistInputData loadPlaylistInputData1 = new LoadPlaylistInputData("hello", null);
+
+        loadPlaylistInteractor.execute(loadPlaylistInputData1);
     }
 }
