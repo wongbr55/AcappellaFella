@@ -14,17 +14,19 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
     final ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject;
     final ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject;
     final ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject;
+    final ReceiveMessagePlaylistDataAccessInterface receiveMessagePlaylistDataAccessObject;
     final ReceiveMessagePlayerDataAccessInterface playerDataAccessObject;
     final AddPlayerController addPlayerController;
     final RunGameController runGameController;
     final ReceiveMessageOutputBoundary receiveMessagePresenter;
     final UpdateScoreInputBoundary updateScoreInputBoundary;
 
-    public ReceiveMessageInteractor(ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject, ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject, ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
+    public ReceiveMessageInteractor(ReceiveMessageGameStateDataAccessInterface gameStateDataAccessObject, ReceiveMessageRoundStateDataAccessInterface roundStataDataAccessObject, ReceiveMessageMessageHistoryDataAccessInterface messageHistoryDataAccessObject, ReceiveMessagePlaylistDataAccessInterface receiveMessagePlaylistDataAccessObject, ReceiveMessagePlayerDataAccessInterface playerDataAccessObject,
                                     AddPlayerController addPlayerController, RunGameController runGameController, ReceiveMessageOutputBoundary receiveMessagePresenter, UpdateScoreInputBoundary updateScoreInputBoundary) {
         this.gameStateDataAccessObject = gameStateDataAccessObject;
         this.roundStataDataAccessObject = roundStataDataAccessObject;
         this.messageHistoryDataAccessObject = messageHistoryDataAccessObject;
+        this.receiveMessagePlaylistDataAccessObject = receiveMessagePlaylistDataAccessObject;
         this.playerDataAccessObject = playerDataAccessObject;
         this.addPlayerController = addPlayerController;
         this.runGameController = runGameController;
@@ -60,7 +62,7 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         Pattern newSongPattern = Pattern.compile(newSongPatternString);
         Matcher newSongMatcher = newSongPattern.matcher(content);
 
-        String startGamePatternString = "GAME STARTED\n(.+?)\n(.+?)";
+        String startGamePatternString = "GAME STARTED\n(.+?)\n(.+?)\n(.+?)";
         Pattern startGamePattern = Pattern.compile(startGamePatternString);
         Matcher startGameMatcher = startGamePattern.matcher(content);
 
@@ -90,6 +92,8 @@ public class ReceiveMessageInteractor implements ReceiveMessageInputBoundary {
         } else if (type == Message.MessageType.INVIS_SYSTEM && content.equals("ROUND DONE")) {
             roundState.setSingerState(RoundState.SingerState.DONE);
         } else if (type == Message.MessageType.INVIS_SYSTEM && startGameMatcher.matches()) {
+            receiveMessagePlaylistDataAccessObject.loadPlaylist(startGameMatcher.group(3));
+
             int numberOfRounds = Integer.parseInt(startGameMatcher.group(1));
             int roundLength = Integer.parseInt(startGameMatcher.group(2));
 
