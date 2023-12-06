@@ -1,14 +1,16 @@
 package use_case.RunGame;
 
-import data_access.InMemoryGameStateDataAccessObject;
-import data_access.InMemoryPlayerDataAccessObject;
-import data_access.InMemoryRoundStateDataAccessObject;
-import data_access.InMemoryScoreboardScoreboardDataAccessObject;
+import data_access.*;
 import entity.Player;
+import entity.Song;
 import org.junit.Before;
 import org.junit.Test;
 import use_case.SendMessage.SendMessageInputBoundary;
 import use_case.SendMessage.SendMessageInputData;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -68,14 +70,35 @@ public class RunGameInteractorTest {
         };
         Player player = new Player();
 
-        playerDAO.save(player);
+        RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface = new RunGamePlayerDataAccessInterface() {
+            @Override
+            public List<Player> getPlayerList() {
+
+                ArrayList<Player> players = new ArrayList<Player>();
+                players.add(new Player());
+
+                return players;
+            }
+        };
 
         gameStateDAO.addPlayer(player);
         gameStateDAO.getGameState().setMainPlayer(player);
 
         scoreboardDAO.addPlayer(player);
 
-        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, playerDAO, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
+        RunGamePlaylistDataAccessInterface runGamePlaylistDataAccessInterface = new RunGamePlaylistDataAccessInterface() {
+            @Override
+            public List<Song> getThreeSongs() {
+                ArrayList<Song> songs = new ArrayList<>();
+                songs.add(new Song("Charlie Puth", "Attention"));
+                songs.add(new Song("Charlie Puth", "Attention"));
+                songs.add(new Song("Charlie Puth", "Attention"));
+
+                return songs;
+            }
+        };
+
+        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, runGamePlayerDataAccessInterface, runGamePlaylistDataAccessInterface, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
     }
 
     @Test

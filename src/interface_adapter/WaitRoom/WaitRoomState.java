@@ -3,6 +3,8 @@ package interface_adapter.WaitRoom;
 public class WaitRoomState {
     private String lobbyID = "";
     private String playlistLink = "";
+    private boolean playlistLoaded = false;
+    private String playlistError;
     private int numberOfRounds = 3;
     private int roundLength = 30;
 
@@ -36,5 +38,21 @@ public class WaitRoomState {
 
     public void setLobbyID(String lobbyID) {
         this.lobbyID = lobbyID;
+    }
+
+    public boolean isPlaylistLoaded() {
+        return playlistLoaded;
+    }
+
+    public void setPlaylistLoaded(boolean playlistLoaded) {
+        this.playlistLoaded = playlistLoaded;
+    }
+
+    public String getPlaylistError() {
+        return playlistError;
+    }
+
+    public void setPlaylistError(String playlistError) {
+        this.playlistError = playlistError;
     }
 }
