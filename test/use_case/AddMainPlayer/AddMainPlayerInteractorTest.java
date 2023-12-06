@@ -84,5 +84,8 @@ public class AddMainPlayerInteractorTest {
         AddMainPlayerInputData addMainPlayerInputData2 = new AddMainPlayerInputData("Mark", "123", false);
         addMainPlayerInteractor.execute(addMainPlayerInputData2);
 
+        AddMainPlayerInputData addMainPlayerInputData3 = new AddMainPlayerInputData(null, "123", false);
+        addMainPlayerInteractor.execute(addMainPlayerInputData3);
+
     }
 }
