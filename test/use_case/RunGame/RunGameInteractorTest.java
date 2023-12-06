@@ -1,9 +1,6 @@
 package use_case.RunGame;
 
-import data_access.InMemoryGameStateDataAccessObject;
-import data_access.InMemoryPlayerDataAccessObject;
-import data_access.InMemoryRoundStateDataAccessObject;
-import data_access.InMemoryScoreboardScoreboardDataAccessObject;
+import data_access.*;
 import entity.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +72,9 @@ public class RunGameInteractorTest {
 
         scoreboardDAO.addPlayer(player);
 
-        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, playerDAO, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
+        PlaylistSpotifyAPIDataAccessObject playlistSpotifyAPIDataAccessObject = new PlaylistSpotifyAPIDataAccessObject();
+
+        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, playerDAO, playlistSpotifyAPIDataAccessObject, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
     }
 
     @Test

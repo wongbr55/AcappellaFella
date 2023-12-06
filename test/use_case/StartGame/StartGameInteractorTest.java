@@ -27,7 +27,7 @@ public class StartGameInteractorTest {
     @Test
     public void execute() {
 
-        StartGameInputData startGameInputData = new StartGameInputData(12, 2);
+        StartGameInputData startGameInputData = new StartGameInputData(12, 2, "123");
         startGameInteractor.execute(startGameInputData);
 
     }

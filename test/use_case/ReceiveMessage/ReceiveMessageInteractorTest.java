@@ -1,9 +1,6 @@
 package use_case.ReceiveMessage;
 
-import data_access.InMemoryGameStateDataAccessObject;
-import data_access.InMemoryMessageHistoryDataAccessObject;
-import data_access.InMemoryPlayerDataAccessObject;
-import data_access.InMemoryRoundStateDataAccessObject;
+import data_access.*;
 import entity.Message;
 import entity.MessageHistory;
 import entity.Player;
@@ -70,8 +67,10 @@ public class ReceiveMessageInteractorTest {
         };
         RunGameController runGameController = new RunGameController(runGameInputBoundary);
 
+        PlaylistSpotifyAPIDataAccessObject playlistSpotifyAPIDataAccessObject = new PlaylistSpotifyAPIDataAccessObject();
+
         this.receiveMessageInteractor = new ReceiveMessageInteractor(gameStateDataAccessObject, roundStataDataAccessObject, messageHistoryDataAccessObject,
-                playerDataAccessObject, addPlayerController, runGameController, receiveMessagePresenter, updateScoreInputBoundary);
+                playlistSpotifyAPIDataAccessObject, playerDataAccessObject, addPlayerController, runGameController, receiveMessagePresenter, updateScoreInputBoundary);
     }
 
     @Test
