@@ -112,11 +112,16 @@ public class ChatView extends JPanel implements ActionListener, PropertyChangeLi
         this.add(chat);
     }
 
+    public JButton getSend(){
+        return this.send;
+    }
+    public JTextField getMessageInputField(){
+        return this.messageInputField;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof ChatState state) {

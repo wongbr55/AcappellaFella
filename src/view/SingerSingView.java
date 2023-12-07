@@ -35,6 +35,9 @@ public class SingerSingView extends JPanel implements ActionListener, PropertyCh
         this.add(timer);
         this.add(scoreboardView);
     }
+    public JLabel getSong(){
+        return this.song;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
