@@ -70,35 +70,26 @@ public class RunGameInteractorTest {
         };
         Player player = new Player();
 
-        RunGamePlayerDataAccessInterface runGamePlayerDataAccessInterface = new RunGamePlayerDataAccessInterface() {
-            @Override
-            public List<Player> getPlayerList() {
-
-                ArrayList<Player> players = new ArrayList<Player>();
-                players.add(new Player());
-
-                return players;
-            }
-        };
-
         gameStateDAO.addPlayer(player);
         gameStateDAO.getGameState().setMainPlayer(player);
 
         scoreboardDAO.addPlayer(player);
+
+        playerDAO.save(player);
 
         RunGamePlaylistDataAccessInterface runGamePlaylistDataAccessInterface = new RunGamePlaylistDataAccessInterface() {
             @Override
             public List<Song> getThreeSongs() {
                 ArrayList<Song> songs = new ArrayList<>();
                 songs.add(new Song("Charlie Puth", "Attention"));
-                songs.add(new Song("Charlie Puth", "Attention"));
-                songs.add(new Song("Charlie Puth", "Attention"));
+                songs.add(new Song("Harry Styles", "Watermelon Sugar"));
+                songs.add(new Song("Maroon 5", "Maps"));
 
                 return songs;
             }
         };
 
-        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, runGamePlayerDataAccessInterface, runGamePlaylistDataAccessInterface, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
+        runGameInteractor = new RunGameInteractor(gameStateDAO, roundStateDAO, playerDAO, runGamePlaylistDataAccessInterface, runGameOutputBoundary, sendMessageInputBoundary, scoreboardDAO);
     }
 
     @Test
