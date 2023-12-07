@@ -78,6 +78,8 @@ public class ReceiveMessageInteractorTest {
         this.roundStataDataAccessObject.addRound();
         this.roundStataDataAccessObject.getCurrentRoundState().setSong(new Song("All Time Low", "Weightless"));
 
+        gameStateDataAccessObject.getGameState().setMainPlayer(new Player("Brandon"));
+
         ReceiveMessageInputData receiveMessageInputData1 = new ReceiveMessageInputData("Brandon", "Hello", "ALL");
         this.receiveMessageInteractor.execute(receiveMessageInputData1);
 
@@ -102,6 +104,18 @@ public class ReceiveMessageInteractorTest {
 
         assertEquals("yolo", message3.getContent());
         assertEquals(Message.MessageType.GUESSED, message3.getType());
+
+        ReceiveMessageInputData receiveMessageInputData4 = new ReceiveMessageInputData("", "mark has joined.", "SYSTEM");
+        this.receiveMessageInteractor.execute(receiveMessageInputData4);
+
+        ReceiveMessageInputData receiveMessageInputData5 = new ReceiveMessageInputData("", "Song: Hello by Adelle", "INVIS_SYSTEM");
+        this.receiveMessageInteractor.execute(receiveMessageInputData5);
+
+        ReceiveMessageInputData receiveMessageInputData6 = new ReceiveMessageInputData("", "ROUND DONE", "INVIS_SYSTEM");
+        this.receiveMessageInteractor.execute(receiveMessageInputData6);
+
+        ReceiveMessageInputData receiveMessageInputData7 = new ReceiveMessageInputData("", "GAME STARTED\n1\n1\n2", "INVIS_SYSTEM");
+        this.receiveMessageInteractor.execute(receiveMessageInputData7);
 
     }
 }
